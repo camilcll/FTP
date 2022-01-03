@@ -6,6 +6,7 @@
 package simulationjava.controller;
 
 import java.util.Random;
+import org.json.simple.JSONObject;
 import simulationjava.model.Capteur;
 import simulationjava.model.Coord;
 import simulationjava.model.Feu;
@@ -15,9 +16,6 @@ import simulationjava.model.Feu;
  * @author Sami
  */
 public class Controller {
-
-    public Controller() {
-    }
     
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
@@ -38,9 +36,13 @@ public class Controller {
     public static void CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
         Coord positionFeu = feu.getPosition();
         int xFeu = positionFeu.getX();
-        int yFeu = positionFeu.getY();
+        int yFeu = positionFeu.getY();  
         int intensiteFeu = feu.getIntensite();
         int range = (int) Math.ceil(intensiteFeu / 2);
+        
+        JSONObject jsonCapteur = new JSONObject();
+        
+        int i = 1;
         
         for(Capteur capteur : tabCapteur){
             int temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
@@ -64,7 +66,16 @@ public class Controller {
                     capteur.setIntensite(8);
                 }
             }
+            JSONObject jsonObjetCapteur = new JSONObject();
+            jsonObjetCapteur.put("x", capteur.getPosition().getX());
+            jsonObjetCapteur.put("y", capteur.getPosition().getY());
+            jsonObjetCapteur.put("intensite", capteur.getIntensite());
+            jsonCapteur.put("Capteur" + capteur.getId(), jsonObjetCapteur);
+            i++;
+            
+            
         }
+        System.out.println(jsonCapteur.toString());
        
     } 
     
@@ -77,5 +88,4 @@ public class Controller {
            return d2-d1;
         }
     }
-    
 }
