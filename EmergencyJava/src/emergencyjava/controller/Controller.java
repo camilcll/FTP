@@ -70,31 +70,34 @@ public class Controller {
     public static void checkCapteur(String data){
         
         ObjectMapper mapper = new ObjectMapper();
-        int i = 0;  
         Capteur[] tabCapteurActif;
         tabCapteurActif = new Capteur[60];
+        int i = 0;
+        
+        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0}]";
         
         try {
-            List<Capteur> listCar = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
-            System.out.println(listCar.toString());
-            /*for(Capteur capteur : tabCapteur){
+            List<Capteur> listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
+            System.out.println(listCapteur.toString());
+            for(Capteur capteur : listCapteur){
                 if (capteur.getIntensite() != 0){
                     tabCapteurActif[i] = capteur;
+                    i++;
                 }
-            }*/
+            }
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
-        for(Capteur capteur : tabCapteurActif){
-            System.out.println(capteur.toString());
-        }
+        creerFeu(tabCapteurActif);
+        
         
     }
     
-    /*public static void creerFeu(Capteur[] capteur){
+    public static void creerFeu(Capteur[] capteur){
         
-    }*/
+        
+    }
     
 }
