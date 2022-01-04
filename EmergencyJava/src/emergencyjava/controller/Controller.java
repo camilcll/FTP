@@ -5,10 +5,26 @@
  */
 package emergencyjava.controller;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author Sami
  */
 public class Controller {
+    
+    public void askData(){
+        
+        Timer timer = new Timer();
+        
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                System.out.println("Ask to receive data");
+            }
+            
+        }, 5000, 10000);
+    }
     
 }

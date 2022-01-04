@@ -5,7 +5,10 @@
  */
 package simulationjava.controller;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import org.json.simple.JSONObject;
 import simulationjava.model.Capteur;
 import simulationjava.model.Coord;
@@ -86,6 +89,7 @@ public class Controller {
         }
         
         System.out.println(jsonCapteur.toString());
+        sendData(jsonCapteur.toString());
        
     } 
     
@@ -97,5 +101,18 @@ public class Controller {
         }else{
            return d2-d1;
         }
+    }
+    
+    public static void sendData(String data){
+        
+        Timer timer = new Timer();
+        
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                System.out.println("send data");
+            }
+            
+        }, 5000, 10000);
     }
 }

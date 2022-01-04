@@ -69,4 +69,5 @@ public class Capteur {
         return "Capteur "+ getId() + " placé en " + getPosition() + " -> intensité : " + getIntensite();
     }
     
+    
 }
