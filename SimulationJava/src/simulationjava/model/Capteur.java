@@ -31,7 +31,7 @@ public class Capteur {
         return position;
     }
 
-    public int getRange() {
+    public static int getRange() {
         return range;
     }
 

@@ -5,6 +5,8 @@
  */
 package emergencyjava;
 
+import emergencyjava.controller.Controller;
+
 /**
  *
  * @author Sami
@@ -15,7 +17,7 @@ public class EmergencyJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Controller.askData();
     }
     
 }

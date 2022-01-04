@@ -17,8 +17,12 @@ public class Capteur {
     private static int range = 5;// max = 5
     private int intensite;// entre 1 et 10
     
-    public Capteur(Coord position, int intensite) {
-        this.id = count++;
+    public Capteur(){
+        super();
+    }
+    
+    public Capteur(int id, Coord position, int intensite) {
+        this.id = id;
         this.position = position;
         this.intensite = intensite;
     }
@@ -31,7 +35,7 @@ public class Capteur {
         return position;
     }
 
-    public int getRange() {
+    public static int getRange() {
         return range;
     }
 

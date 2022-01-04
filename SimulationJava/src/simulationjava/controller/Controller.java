@@ -5,6 +5,8 @@
  */
 package simulationjava.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -52,19 +54,21 @@ public class Controller {
         int range = (int) Math.ceil((double)intensiteFeu / 2);
         
         JSONObject jsonCapteur = new JSONObject();
-        
-        /*for(int i = 1;i<=60;i++){
-            Capteur capteur = Capteur.getCapteurById(tabCapteur, i);
-            
-            JSONObject jsonObjetCapteur = new JSONObject();
-            jsonObjetCapteur.put("x", capteur.getPosition().getX());
-            jsonObjetCapteur.put("y", capteur.getPosition().getY());
-            jsonObjetCapteur.put("intensite", capteur.getIntensite());
-            jsonCapteur.put("Capteur" + capteur.getId(), jsonObjetCapteur);
-            
-        }*/
+        ObjectMapper mapper = new ObjectMapper();
+        int i = 0;
+        String capteurJson = "";
+        String[] listeCapteurJson;
+        listeCapteurJson = new String[60];
         
         for(Capteur capteur : tabCapteur){
+            try {
+                listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
+                System.out.println(listeCapteurJson[i]);
+                i++;
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             int temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
             if (temp <= 0 ){
                 System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
@@ -89,16 +93,9 @@ public class Controller {
                 }
             }
             
-            JSONObject jsonObjetCapteur = new JSONObject();
-            jsonObjetCapteur.put("x", capteur.getPosition().getX());
-            jsonObjetCapteur.put("y", capteur.getPosition().getY());
-            jsonObjetCapteur.put("intensite", capteur.getIntensite());
-            jsonCapteur.put("Capteur" + capteur.getId(), jsonObjetCapteur);
-            
         }
         
-        System.out.println(jsonCapteur.toString());
-        //sendData(jsonCapteur.toString());
+        System.out.println(Arrays.toString(listeCapteurJson));
        
     } 
     

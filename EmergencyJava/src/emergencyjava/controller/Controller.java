@@ -6,6 +6,7 @@
 package emergencyjava.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emergencyjava.model.Capteur;
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -24,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class Controller {
     
-    /*public void askData(){
+    public static void askData(){
         
         Timer timer = new Timer();
         
@@ -32,7 +34,8 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://localhost:3002/RestWebserviceDemo/rest/json/product/dynamicData?size=5");
+                    System.out.println("debut requete");
+                    URL url = new URL("http://localhost:5000/API/feu");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -42,7 +45,9 @@ public class Controller {
                                 + conn.getResponseCode());
                     }
                     InputStreamReader in = new InputStreamReader(conn.getInputStream());
+                    System.out.println(in);
                     BufferedReader br = new BufferedReader(in);
+                    System.out.println(br);
                     String output;
                     
                     while ((output = br.readLine()) != null) {
@@ -60,30 +65,36 @@ public class Controller {
             }
             
         }, 5000, 10000);
-    }*/
+    }
     
     public static void checkCapteur(String data){
         
         ObjectMapper mapper = new ObjectMapper();
+        int i = 0;  
+        Capteur[] tabCapteurActif;
+        tabCapteurActif = new Capteur[60];
         
         try {
-            int i = 0;
-            Capteur[] tabCapteurActif;
-            tabCapteurActif = new Capteur[60];
-            Capteur[] tabCapteur = mapper.readValue(data, Capteur[].class);
-            
-            for(Capteur capteur : tabCapteur){
-                System.out.println(capteur.toString());
+            List<Capteur> listCar = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
+            System.out.println(listCar.toString());
+            /*for(Capteur capteur : tabCapteur){
                 if (capteur.getIntensite() != 0){
                     tabCapteurActif[i] = capteur;
-                    i++;
                 }
-            }
+            }*/
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        } 
+        
+        for(Capteur capteur : tabCapteurActif){
+            System.out.println(capteur.toString());
+        }
         
     }
+    
+    /*public static void creerFeu(Capteur[] capteur){
+        
+    }*/
     
 }
