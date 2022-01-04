@@ -32,7 +32,6 @@ public class SimulationJava {
             for(int k = 1; k<=10; k++){
                 y = y + 10;
                 Capteur capteur = new Capteur(new Coord(y,x), 0);
-                System.out.println(capteur.toString());
                 tabCapteur[z] = capteur;
                 z++;
             } 
