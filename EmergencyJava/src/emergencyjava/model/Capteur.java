@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simulationjava.model;
+package emergencyjava.model;
 
 /**
  *
@@ -61,13 +61,10 @@ public class Capteur {
                 return capteur;
             }
         }
-        System.out.println("Le capteur n'existe pas frero");
         return null;
     }
     
     public String toString() {
         return "Capteur "+ getId() + " placé en " + getPosition() + " -> intensité : " + getIntensite();
     }
-    
-    
 }

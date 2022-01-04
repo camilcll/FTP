@@ -5,7 +5,11 @@
  */
 package simulationjava.controller;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import org.json.simple.JSONObject;
 import simulationjava.model.Capteur;
 import simulationjava.model.Coord;
 import simulationjava.model.Feu;
@@ -15,9 +19,6 @@ import simulationjava.model.Feu;
  * @author Sami
  */
 public class Controller {
-
-    public Controller() {
-    }
     
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
@@ -38,9 +39,23 @@ public class Controller {
     public static void CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
         Coord positionFeu = feu.getPosition();
         int xFeu = positionFeu.getX();
-        int yFeu = positionFeu.getY();
+        int yFeu = positionFeu.getY();  
         int intensiteFeu = feu.getIntensite();
-        int range = (int) Math.ceil(intensiteFeu / 2);
+        //int range = (int) Math.ceil(intensiteFeu / 2);
+        int range = (int) Math.ceil((double)intensiteFeu / 2);
+        
+        JSONObject jsonCapteur = new JSONObject();
+        
+        /*for(int i = 1;i<=60;i++){
+            Capteur capteur = Capteur.getCapteurById(tabCapteur, i);
+            
+            JSONObject jsonObjetCapteur = new JSONObject();
+            jsonObjetCapteur.put("x", capteur.getPosition().getX());
+            jsonObjetCapteur.put("y", capteur.getPosition().getY());
+            jsonObjetCapteur.put("intensite", capteur.getIntensite());
+            jsonCapteur.put("Capteur" + capteur.getId(), jsonObjetCapteur);
+            
+        }*/
         
         for(Capteur capteur : tabCapteur){
             int temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
@@ -64,7 +79,17 @@ public class Controller {
                     capteur.setIntensite(8);
                 }
             }
+            
+            JSONObject jsonObjetCapteur = new JSONObject();
+            jsonObjetCapteur.put("x", capteur.getPosition().getX());
+            jsonObjetCapteur.put("y", capteur.getPosition().getY());
+            jsonObjetCapteur.put("intensite", capteur.getIntensite());
+            jsonCapteur.put("Capteur" + capteur.getId(), jsonObjetCapteur);
+            
         }
+        
+        System.out.println(jsonCapteur.toString());
+        sendData(jsonCapteur.toString());
        
     } 
     
@@ -78,4 +103,16 @@ public class Controller {
         }
     }
     
+    public static void sendData(String data){
+        
+        Timer timer = new Timer();
+        
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                System.out.println("send data");
+            }
+            
+        }, 5000, 10000);
+    }
 }
