@@ -91,8 +91,6 @@ public class Controller {
         } 
         
         creerFeu(tabCapteurActif);
-        
-        
     }
     
     public static void creerFeu(Capteur[] capteur){
