@@ -32,6 +32,53 @@ paths:
                   type: "string"
                 intensite:
                   type: "integer"
+    post:
+      operationId: "feu.create"
+      tags:
+        - "Feu"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of feu"
+      parameters:
+        - name: feu
+          in: body
+          description: Feu to create
+          required: True
+          schema:
+            type: object
+            properties:
+              idfeu:
+                type: integer
+                description: First name of person to create
+              position:
+                type: string
+                description: Last name of person to create
+              intensite:
+                type: integer
+                description: Last name of person to create
+      responses:
+        201:
+          description: "Successful read people list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                idfeu:
+                  type: "integer"
+                position:
+                  type: "string"
+                intensite:
+                  type: "integer"
+    delete:
+      operationId: feu.delete
+      tags:
+        - Feu
+      summary: Delete a feu from the feu list
+      description: Delete a feu
+      responses:
+        200:
+          description: Successfully deleted a feu
+
+    
   /capteur:
     get:
       operationId: "capteur.read_all"
