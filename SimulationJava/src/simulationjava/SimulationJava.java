@@ -23,6 +23,7 @@ public class SimulationJava {
         
         Capteur[] tabCapteur;
         tabCapteur = new Capteur[60];
+        Capteur temp = null;
         int z = 0;
         int x = -5;
         int y = -5;
@@ -32,10 +33,13 @@ public class SimulationJava {
             for(int k = 1; k<=10; k++){
                 y = y + 10;
                 Capteur capteur = new Capteur(new Coord(y,x), 0);
+                temp = capteur;
                 tabCapteur[z] = capteur;
                 z++;
             } 
         }
+        
+        Capteur.estVoisinDe(tabCapteur, temp);
         
         GenereFeu(tabCapteur);
         

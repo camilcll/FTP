@@ -5,6 +5,8 @@
  */
 package emergencyjava.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sami
@@ -66,6 +68,19 @@ public class Capteur {
             }
         }
         return null;
+    }
+    
+    public static ArrayList<Capteur> estVoisinDe(Capteur[] Listecapteurs, Capteur capteurRecherche){
+        ArrayList Voisins;
+        Voisins = new ArrayList<Capteur>();
+        for(Capteur capteur : Listecapteurs){
+            if ((capteur.getPosition().getX() <= capteurRecherche.getPosition().getX() + 5) && (capteur.getPosition().getX() >= capteurRecherche.getPosition().getX() - 5)
+                    && (capteur.getPosition().getY() <= capteurRecherche.getPosition().getY() + 5) && (capteur.getPosition().getY() >= capteurRecherche.getPosition().getY() - 5)){
+                Voisins.add(capteur);
+            }
+        }
+        System.out.println(Voisins.toString());
+        return Voisins;
     }
     
     public String toString() {
