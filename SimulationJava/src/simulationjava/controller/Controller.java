@@ -42,6 +42,8 @@ public class Controller {
         
         Feu feu = new Feu(position, intensite);
         System.out.println(feu.toString());
+        sauvegarderFeu(feu);
+       
         CapteurDetecteFeu(feu, tabCapteur);
         
     }
@@ -63,7 +65,6 @@ public class Controller {
         for(Capteur capteur : tabCapteur){
             try {
                 listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
-                System.out.println(listeCapteurJson[i]);
                 i++;
             } catch (JsonProcessingException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,7 +110,45 @@ public class Controller {
         }
     }
     
-    /*public static void sendData(String data){
+    public static void sauvegarderFeu(Feu feu) {
+        class OneShotTask implements Runnable {
+            Feu str;
+            OneShotTask(Feu feu) { str = feu; }
+            public void run() {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("https://reqbin.com/echo/post/json");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("send data");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(feu));
+        t.start();
+    }
+    
+    
+    public static void envoyerCapteur(String data){
         
         Timer timer = new Timer();
         
@@ -119,7 +158,7 @@ public class Controller {
                 try {
                     URL url = new URL("https://reqbin.com/echo/post/json");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setRequestMethod("POST");
+                    conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setRequestProperty("Content-Type", "application/json");
@@ -143,5 +182,5 @@ public class Controller {
             }
             
         }, 5000, 10000);
-    }*/
+    }
 }

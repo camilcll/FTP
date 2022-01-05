@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import static java.util.Collections.list;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,8 +56,9 @@ public class Controller {
                     
                     while ((output = br.readLine()) != null) {
                         System.out.println(output);
-                        checkCapteur(output);
                     }
+                    
+                    checkCapteur(output);
                     
                     System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
                     conn.disconnect();
@@ -70,30 +75,34 @@ public class Controller {
     public static void checkCapteur(String data){
         
         ObjectMapper mapper = new ObjectMapper();
-        Capteur[] tabCapteurActif;
-        tabCapteurActif = new Capteur[60];
+        
+        ArrayList tabCapteurActif;
+        tabCapteurActif = new ArrayList<Capteur>();
         int i = 0;
         
-        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0}]";
+        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":1}],{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0}]]";
         
         try {
             List<Capteur> listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
-            System.out.println(listCapteur.toString());
+            //System.out.println(listCapteur.toString());
             for(Capteur capteur : listCapteur){
                 if (capteur.getIntensite() != 0){
-                    tabCapteurActif[i] = capteur;
+                    System.out.println("Capteur Actif");
+                    tabCapteurActif.add(capteur);
+                    System.out.println(tabCapteurActif.toString());
+                    System.out.println(i);
                     i++;
                 }
             }
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         
         creerFeu(tabCapteurActif);
     }
     
-    public static void creerFeu(Capteur[] capteur){
+    public static void creerFeu(ArrayList list){
         
         
     }
