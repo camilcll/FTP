@@ -13,11 +13,11 @@ def read_all():
     :return:        json string of list of people
     """
 
-    print("BD:",db.engine)
+    #print("BD:",db.engine)
 
     # Create the list of people from our data
     feux = Feu.query \
-        .order_by(Feu.idfeu) \
+        .order_by(Feu.id) \
         .all()
 
     # Serialize the data for the response
@@ -32,12 +32,12 @@ def create(feu):
     :param person:  person to create in people structure
     :return:        201 on success, 409 on person exists
     """
-    id = feu.get("idfeu")
+    id = feu.get("id")
 
     print(id)
 
     existing_feu = (
-        Feu.query.filter(Feu.idfeu == id)
+        Feu.query.filter(Feu.id == id)
         .one_or_none()
     )
 

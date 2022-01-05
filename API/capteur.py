@@ -15,7 +15,7 @@ def read_all():
 
     # Create the list of people from our data
     capteurs = Capteur.query \
-        .order_by(Capteur.idcapteur) \
+        .order_by(Capteur.id) \
         .all()
 
     # Serialize the data for the response
@@ -30,12 +30,12 @@ def create(capteur):
     :param person:  person to create in people structure
     :return:        201 on success, 409 on person exists
     """
-    id = capteur.get("idcapteur")
+    id = capteur.get("id")
 
     print(id)
 
     existing_capteur = (
-        Capteur.query.filter(Capteur.idcapteur == id)
+        Capteur.query.filter(Capteur.id == id)
         .one_or_none()
     )
 

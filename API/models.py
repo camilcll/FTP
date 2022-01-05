@@ -1,9 +1,10 @@
 from config import db, ma
+from sqlalchemy.dialects.postgresql import JSON
 
 class Feu(db.Model):
     __tablename__ = 'feu'
-    idfeu = db.Column(db.Integer, primary_key=True)
-    position = db.Column(db.String(10))
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(JSON)
     intensite = db.Column(db.Integer)
 
 class FeuSchema(ma.SQLAlchemyAutoSchema):
@@ -13,8 +14,8 @@ class FeuSchema(ma.SQLAlchemyAutoSchema):
 
 class Capteur(db.Model):
     __tablename__ = 'capteur'
-    idcapteur = db.Column(db.Integer, primary_key=True)
-    position = db.Column(db.String(10))
+    id = db.Column(db.Integer, primary_key=True)
+    position = db.Column(JSON)
     range = db.Column(db.Integer)
     intensite = db.Column(db.Integer)
 
