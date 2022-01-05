@@ -26,10 +26,10 @@ paths:
             type: "array"
             items:
               properties:
-                idFeu:
+                id:
                   type: "integer"
                 position:
-                  type: "string"
+                  type: "object"
                 intensite:
                   type: "integer"
     post:
@@ -46,11 +46,11 @@ paths:
           schema:
             type: object
             properties:
-              idfeu:
+              id:
                 type: integer
                 description: First name of person to create
               position:
-                type: string
+                type: object
                 description: Last name of person to create
               intensite:
                 type: integer
@@ -62,10 +62,10 @@ paths:
             type: "array"
             items:
               properties:
-                idfeu:
+                id:
                   type: "integer"
                 position:
-                  type: "string"
+                  type: "object"
                 intensite:
                   type: "integer"
     delete:
@@ -93,10 +93,10 @@ paths:
             type: "array"
             items:
               properties:
-                idcapteur:
+                id:
                   type: "integer"
                 position:
-                  type: "string"
+                  type: "object"
                 range:
                   type: "integer"
                 intensite:
@@ -115,11 +115,11 @@ paths:
           schema:
             type: object
             properties:
-              idcapteur:
+              id:
                 type: integer
                 description: First name of person to create
               position:
-                type: string
+                type: object
                 description: Last name of person to create
               range:
                 type: integer
@@ -134,10 +134,10 @@ paths:
             type: "array"
             items:
               properties:
-                idcapteur:
+                id:
                   type: "integer"
                 position:
-                  type: "string"
+                  type: "object"
                 range:
                   type: "integer"
                 intensite:
