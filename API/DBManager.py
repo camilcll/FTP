@@ -1,6 +1,6 @@
 from flask import render_template
 import config
-import feu
+
 
 # Create the application instance
 app = config.connex_app

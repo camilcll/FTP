@@ -32,3 +32,66 @@ paths:
                   type: "string"
                 intensite:
                   type: "integer"
+  /capteur:
+    get:
+      operationId: "capteur.read_all"
+      tags:
+        - "Capteur"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      responses:
+        200:
+          description: "Successful read people list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                idcapteur:
+                  type: "integer"
+                position:
+                  type: "string"
+                range:
+                  type: "integer"
+                intensite:
+                  type: "integer"
+    post:
+      operationId: "capteur.create"
+      tags:
+        - "Capteur"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: capteur
+          in: body
+          description: Capteur to create
+          required: True
+          schema:
+            type: object
+            properties:
+              idcapteur:
+                type: integer
+                description: First name of person to create
+              position:
+                type: string
+                description: Last name of person to create
+              range:
+                type: integer
+                description: Last name of person to create
+              intensite:
+                type: integer
+                description: Last name of person to create
+      responses:
+        201:
+          description: "Successful read people list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                idcapteur:
+                  type: "integer"
+                position:
+                  type: "string"
+                range:
+                  type: "integer"
+                intensite:
+                  type: "integer"
