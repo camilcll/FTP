@@ -37,7 +37,7 @@ public class Controller {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                try {
+                /*try {
                     System.out.println("debut requete");
                     URL url = new URL("http://localhost:5000/API/feu");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,7 +66,8 @@ public class Controller {
                 } catch (IOException ex) { 
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Ask to receive data");
+                System.out.println("Ask to receive data");*/
+                checkCapteur("test");
             }
             
         }, 5000, 10000);
@@ -80,17 +81,14 @@ public class Controller {
         tabCapteurActif = new ArrayList<Capteur>();
         int i = 0;
         
-        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":1}],{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0}]]";
+        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":15},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":5},\"intensite\":3},{\"id\":1,\"position\":{\"x\":15,\"y\":15},\"intensite\":8}]";
         
         try {
             List<Capteur> listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
             //System.out.println(listCapteur.toString());
             for(Capteur capteur : listCapteur){
                 if (capteur.getIntensite() != 0){
-                    System.out.println("Capteur Actif");
                     tabCapteurActif.add(capteur);
-                    System.out.println(tabCapteurActif.toString());
-                    System.out.println(i);
                     i++;
                 }
             }
@@ -99,12 +97,27 @@ public class Controller {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        System.out.println("Capteurs Actifs");
+        System.out.println(tabCapteurActif.toString());
+        
         creerFeu(tabCapteurActif);
     }
     
-    public static void creerFeu(ArrayList list){
+    public static void creerFeu(ArrayList<Capteur> listcapteur){
         
+        ArrayList listcapteurvoisin;
+        listcapteurvoisin = new ArrayList<Capteur>();
         
+        for(Capteur capteurActif : listcapteur){
+            if (capteurActif.getIntensite() == 8){
+                for(Capteur capteurVoisin : listcapteur){
+                    if (Capteur.estVoisinDe(listcapteur, capteurActif).contains(capteurVoisin)){
+                        listcapteurvoisin.add(capteurVoisin);
+                        System.out.println("Un voisin est detecte");
+                    }
+                }
+            }
+        }
     }
     
 }

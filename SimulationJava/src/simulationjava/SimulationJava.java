@@ -39,8 +39,6 @@ public class SimulationJava {
             } 
         }
         
-        Capteur.estVoisinDe(tabCapteur, temp);
-        
         GenereFeu(tabCapteur);
         
         for(Capteur capteur : tabCapteur){

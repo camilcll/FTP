@@ -70,12 +70,13 @@ public class Capteur {
         return null;
     }
     
-    public static ArrayList<Capteur> estVoisinDe(Capteur[] Listecapteurs, Capteur capteurRecherche){
+    public static ArrayList<Capteur>  estVoisinDe(ArrayList<Capteur> Listecapteurs, Capteur capteurRecherche){
         ArrayList Voisins;
         Voisins = new ArrayList<Capteur>();
         for(Capteur capteur : Listecapteurs){
-            if ((capteur.getPosition().getX() <= capteurRecherche.getPosition().getX() + 5) && (capteur.getPosition().getX() >= capteurRecherche.getPosition().getX() - 5)
-                    && (capteur.getPosition().getY() <= capteurRecherche.getPosition().getY() + 5) && (capteur.getPosition().getY() >= capteurRecherche.getPosition().getY() - 5)){
+            if ((capteur.getPosition().getX() <= capteurRecherche.getPosition().getX() + 10) && (capteur.getPosition().getX() >= capteurRecherche.getPosition().getX() - 10)
+                    && (capteur.getPosition().getY() <= capteurRecherche.getPosition().getY() + 10) && (capteur.getPosition().getY() >= capteurRecherche.getPosition().getY() - 10)){
+                System.out.println("voisin detecte");
                 Voisins.add(capteur);
             }
         }
