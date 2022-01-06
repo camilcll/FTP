@@ -142,3 +142,52 @@ paths:
                   type: "integer"
                 intensite:
                   type: "integer"
+    put:
+      operationId: capteur.update
+      tags:
+        - Capteur
+      summary: Update a capteur
+      description: Update a capteur
+      parameters:
+        - name: capteurs
+          in: body
+          description: Capteurs to update
+          required: True
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                range:
+                  type: "integer"
+                intensite:
+                  type: "integer"
+      responses:
+        200:
+          description: Successfully updated capteur
+          schema:
+            properties:
+              person_id:
+                type: string
+                description: Id of the person in the database
+              fname:
+                type: string
+                description: First name of the person
+              lname:
+                type: string
+                description: Last name of the person
+              timestamp:
+                type: string
+                description: Creation/Update timestamp of the person record
+    delete:
+      operationId: capteur.delete
+      tags:
+        - Capteur
+      summary: Delete all capteur from the database
+      description: Delete all capteur
+      responses:
+        200:
+          description: Successfully deleted all capteur
