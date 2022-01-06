@@ -9,11 +9,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emergencyjava.model.Capteur;
+import emergencyjava.model.Feu;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,7 +85,7 @@ public class Controller {
         tabCapteurActif = new ArrayList<Capteur>();
         int i = 0;
         
-        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":5,\"y\":15},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":5},\"intensite\":3},{\"id\":1,\"position\":{\"x\":15,\"y\":15},\"intensite\":8}]";
+        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":8},{\"id\":1,\"position\":{\"x\":5,\"y\":15},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":15},\"intensite\":0}]";
         
         try {
             List<Capteur> listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
@@ -111,13 +115,52 @@ public class Controller {
         for(Capteur capteurActif : listcapteur){
             if (capteurActif.getIntensite() == 8){
                 for(Capteur capteurVoisin : listcapteur){
-                    if (Capteur.estVoisinDe(listcapteur, capteurActif).contains(capteurVoisin)){
-                        listcapteurvoisin.add(capteurVoisin);
-                        System.out.println("Un voisin est detecte");
+                    if (!Capteur.estVoisinDe(listcapteur, capteurActif).contains(capteurVoisin)){
+                        System.out.println("le feu est dans la zone du capteur" + capteurActif.getId() + " avec une intensité comprise entre 1 et 4 maximum");
+                        Feu feu = new Feu(capteurActif.getPosition(), 4);
+                        sauvegarderFeu(feu);
                     }
                 }
             }
         }
     }
+    
+    public static void sauvegarderFeu(Feu feu) {
+        class OneShotTask implements Runnable {
+            Feu str;
+            OneShotTask(Feu feu) { str = feu; }
+            public void run() {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://localhost:5000/API/feu");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("send data");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(feu));
+        t.start();
+    }
+    
     
 }

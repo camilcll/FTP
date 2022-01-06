@@ -41,6 +41,7 @@ public class Controller {
         }
         
         Feu feu = new Feu(position, intensite);
+        
         System.out.println(feu.toString());
         sauvegarderFeu(feu);
        

@@ -80,6 +80,7 @@ public class Capteur {
                 Voisins.add(capteur);
             }
         }
+        Voisins.remove(capteurRecherche);
         System.out.println(Voisins.toString());
         return Voisins;
     }
