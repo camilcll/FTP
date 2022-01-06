@@ -13,12 +13,12 @@ public class Feu {
     
     private static int count = 1;
     private int id;
-    private Coord position;
+    private Coord positionCalculee;
     private int intensite;// entre 1 et 10
 
     public Feu(Coord position, int intensite) {
         this.id = count++;
-        this.position = position;
+        this.positionCalculee = position;
         this.intensite = intensite;
     }
 
@@ -30,12 +30,12 @@ public class Feu {
         this.id = id;
     }
 
-    public Coord getPosition() {
-        return position;
+    public Coord getPositionCalculee() {
+        return positionCalculee;
     }
 
-    public void setPosition(Coord position) {
-        this.position = position;
+    public void setPositionCalculee(Coord position) {
+        this.positionCalculee = position;
     }
 
     public int getIntensite() {
@@ -47,7 +47,7 @@ public class Feu {
     }
     
     public String toString() {
-        return "Feu "+ getId() + " placé en " + getPosition() + " -> intensité : " + getIntensite();
+        return "Feu "+ getId() + " placé en " + getPositionCalculee() + " -> intensité : " + getIntensite();
     }
     
 }

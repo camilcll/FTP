@@ -41,6 +41,7 @@ public class Controller {
         }
         
         Feu feu = new Feu(position, intensite);
+        
         System.out.println(feu.toString());
         sauvegarderFeu(feu);
        
@@ -120,7 +121,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("https://reqbin.com/echo/post/json");
+                    URL url = new URL("http://localhost:5000/API/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
