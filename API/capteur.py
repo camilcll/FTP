@@ -73,7 +73,7 @@ def update(capteurs):
     :return:            updated person structure
     """
 
-    data = ""
+    data = []
 
     for capteur in capteurs:
         
@@ -104,7 +104,7 @@ def update(capteurs):
             db.session.commit()
 
             # return updated person in the response
-            data += schema.dump(update_capteur)
+            data.append(schema.dump(update_capteur))
 
     return data, 200
 
