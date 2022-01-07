@@ -44,7 +44,7 @@ public class Controller {
         
         System.out.println(feu.toString());
         
-        sauvegarderFeu(feu);
+        //sauvegarderFeu(feu);
        
         CapteurDetecteFeu(feu, tabCapteur);
         
@@ -71,21 +71,21 @@ public class Controller {
                 System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
                 if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
                     capteur.setIntensite(8);
-                }else if((temp <= 0 ) && (temp > -6)){
+                }else if(temp == 0){
                     capteur.setIntensite(1);
-                }else if((temp < -6) && (temp > -12)){
+                }else if((temp < 0) && (temp > -20)){
                     capteur.setIntensite(2);
-                }else if((temp < -12) && (temp > -18)){
+                }else if((temp <= -20) && (temp > -37)){
                     capteur.setIntensite(3);
-                }else if((temp < -18) && (temp > -24)){
+                }else if((temp <= -37) && (temp > -44)){
                     capteur.setIntensite(4);
-                }else if((temp < -24) && (temp > -30)){
+                }else if((temp <= -44) && (temp > -52)){
                     capteur.setIntensite(5);
-                }else if((temp < -30) && (temp > -36)){
+                }else if((temp <= -52) && (temp > -65)){
                     capteur.setIntensite(6);
-                }else if((temp < -36) && (temp >  -42)){
+                }else if((temp <= -65) && (temp >  -76)){
                     capteur.setIntensite(7);
-                }else if(temp < -42){
+                }else if(temp <= -76){
                     capteur.setIntensite(8);
                 }
                 
@@ -101,8 +101,8 @@ public class Controller {
             
         }
         
-        envoyerCapteur(Arrays.toString(listeCapteurJson));
-        System.out.println(Arrays.toString(listeCapteurJson));
+        //envoyerCapteur(Arrays.toString(listeCapteurJson));
+        //System.out.println(Arrays.toString(listeCapteurJson));
        
     } 
     
@@ -126,7 +126,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://localhost:5000/API/feu");
+                    URL url = new URL("http://localhost:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -162,7 +162,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://localhost:5000/API/capteur");
+                    URL url = new URL("http://localhost:5000/api/simulaition/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
