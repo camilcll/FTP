@@ -38,9 +38,9 @@ public class Controller {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                /*try {
+                try {
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/API/feu");
+                    URL url = new URL("http://localhost:5000/API/capteur");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -67,8 +67,7 @@ public class Controller {
                 } catch (IOException ex) { 
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Ask to receive data");*/
-                checkCapteur("test");
+                System.out.println("Ask to receive data");
             }
             
         }, 5000, 10000);
@@ -82,7 +81,7 @@ public class Controller {
         tabCapteurActif = new ArrayList<Capteur>();
         int i = 0;
         
-        data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":8},{\"id\":1,\"position\":{\"x\":5,\"y\":15},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":15},\"intensite\":0}]";
+        //data = "[{\"id\":1,\"position\":{\"x\":5,\"y\":5},\"intensite\":8},{\"id\":1,\"position\":{\"x\":5,\"y\":15},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":5},\"intensite\":0},{\"id\":1,\"position\":{\"x\":15,\"y\":15},\"intensite\":0}]";
         
         try {
             List<Capteur> listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
@@ -110,14 +109,15 @@ public class Controller {
         listcapteurvoisin = new ArrayList<Capteur>();
         
         for(Capteur capteurActif : listcapteur){
-            if (capteurActif.getIntensite() == 8){
                 for(Capteur capteurVoisin : listcapteur){
                     if (!Capteur.estVoisinDe(listcapteur, capteurActif).contains(capteurVoisin)){
-                        System.out.println("le feu est dans la zone du capteur" + capteurActif.getId() + " avec une intensité comprise entre 1 et 4 maximum");
-                        Feu feu = new Feu(capteurActif.getPosition(), 4);
+                        System.out.println("Pas de voisin actif");
+                        System.out.println("le feu est dans la zone du capteur" + capteurActif.getId() + " avec une intensité comprise entre 1 et 7 maximum");
+                        Feu feu = new Feu(capteurActif.getPosition(), 5);
+                    }else{
+                        
                     }
                 }
-            }
         }
     }
     

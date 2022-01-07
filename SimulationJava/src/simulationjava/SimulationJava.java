@@ -49,12 +49,8 @@ public class SimulationJava {
                 z++;
             } 
         }
-        
+
         GenereFeu(tabCapteur);
-        
-        for(Capteur capteur : tabCapteur){
-            System.out.println(capteur.toString());
-        }
         
         
     }

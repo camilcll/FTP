@@ -70,7 +70,7 @@ public class Capteur {
         return null;
     }
     
-    public static ArrayList<Capteur>  estVoisinDe(ArrayList<Capteur> Listecapteurs, Capteur capteurRecherche){
+    public static ArrayList<Capteur> estVoisinDe(ArrayList<Capteur> Listecapteurs, Capteur capteurRecherche){
         ArrayList Voisins;
         Voisins = new ArrayList<Capteur>();
         for(Capteur capteur : Listecapteurs){

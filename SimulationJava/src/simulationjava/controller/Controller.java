@@ -43,6 +43,7 @@ public class Controller {
         Feu feu = new Feu(position, intensite);
         
         System.out.println(feu.toString());
+        
         sauvegarderFeu(feu);
        
         CapteurDetecteFeu(feu, tabCapteur);
@@ -54,7 +55,7 @@ public class Controller {
         int xFeu = positionFeu.getX();
         int yFeu = positionFeu.getY();  
         int intensiteFeu = feu.getIntensite();
-        int range = (int) Math.ceil((double)intensiteFeu / 2);
+        float range = (float)intensiteFeu / 2;
         
         JSONObject jsonCapteur = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
@@ -64,14 +65,8 @@ public class Controller {
         listeCapteurJson = new String[60];
         
         for(Capteur capteur : tabCapteur){
-            try {
-                listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
-                i++;
-            } catch (JsonProcessingException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
-            int temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
+            float temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
             if (temp <= 0 ){
                 System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
                 if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
@@ -93,17 +88,27 @@ public class Controller {
                 }else if(temp < -42){
                     capteur.setIntensite(8);
                 }
+                
+                System.out.println(capteur.toString());
+            }
+            
+            try {
+                listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
+                i++;
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
         
+        envoyerCapteur(Arrays.toString(listeCapteurJson));
         System.out.println(Arrays.toString(listeCapteurJson));
        
     } 
     
-    public static int checkCercle(int xFeu, int yFeu, int rangeFeu, int x, int y, int range){
-        int d2 = (xFeu-x)*(xFeu-x) + (yFeu-y)*(yFeu-y);
-        int d1 = (rangeFeu + range)*(rangeFeu + range);
+    public static float checkCercle(int xFeu, int yFeu, float rangeFeu, int x, int y, int range){
+        float d2 = (xFeu-x)*(xFeu-x) + (yFeu-y)*(yFeu-y);
+        float d1 = (rangeFeu + range)*(rangeFeu + range);
         if (d2 > d1){
             return d2-d1;
         }else{
@@ -179,9 +184,9 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data");
+                System.out.println("send data to update");
             }
             
-        }, 5000, 10000);
+        }, 5000, 20000);
     }
 }
