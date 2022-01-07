@@ -11,15 +11,17 @@ class FeuSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Feu
         load_instance = True    
+        ordered = True
 
 class Capteur(db.Model):
     __tablename__ = 'capteur'
     id = db.Column(db.Integer, primary_key=True)
     position = db.Column(JSON)
-    range = db.Column(db.Integer)
     intensite = db.Column(db.Integer)
+    range = db.Column(db.Integer)
 
 class CapteurSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Capteur
         load_instance = True  
+        ordered = True
