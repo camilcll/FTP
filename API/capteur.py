@@ -61,3 +61,73 @@ def create(capteur):
             409,
             "Capteur {id} exists already".format(id=id),
         )
+
+
+def update(capteurs):
+    """
+    This function updates an existing person in the people structure
+    Throws an error if a person with the name we want to update to
+    already exists in the database.
+    :param person_id:   Id of the person to update in the people structure
+    :param person:      person to update
+    :return:            updated person structure
+    """
+
+    data = ""
+
+    for capteur in capteurs:
+        
+        id = capteur.get("id")
+
+        # Get the person requested from the db into session
+        update_capteur = Capteur.query.filter(
+            Capteur.id == id
+        ).one_or_none()
+
+        # Are we trying to find a person that does not exist?
+        if update_capteur is None:
+            abort(
+                404,
+                "Capteur not found: {id}".format(id=id),
+            )
+        # Otherwise go ahead and update!
+        else:
+            # turn the passed in person into a db object
+            schema = CapteurSchema()
+            update = schema.load(capteur, session=db.session)
+
+            # Set the id to the person we want to update
+            update.id = update_capteur.id
+
+            # merge the new object into the old and commit it to the db
+            db.session.merge(update)
+            db.session.commit()
+
+            # return updated person in the response
+            data += schema.dump(update_capteur)
+
+    return data, 200
+
+
+def delete():
+    """
+    This function deletes a person from the people structure
+    :param person_id:   Id of the person to delete
+    :return:            200 on successful delete, 404 if not found
+    """
+    # Get the person requested
+    row_delete = Capteur.query.delete()
+
+    # Did we find a person?
+    if row_delete > 0:
+        db.session.commit()
+        return make_response(
+            "Capteur has been deleted", 200
+        )
+
+    # Otherwise, nope, didn't find that person
+    else:
+        abort(
+            409,
+            "Aucun capteurs a supprimer",
+        )
