@@ -15,7 +15,7 @@ app = connex_app.app
 
 # Configure the SQLAlchemy part of the app instance
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://oohjvbog:e4-TzQhGUXFOEwtL9DatnC8e47rKmhOa@hansken.db.elephantsql.com/oohjvbog"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://yuqwfjzp:Ab_PV_PHL2k3CoUpjskerNky1vo1QNkL@ella.db.elephantsql.com/yuqwfjzp"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Create the SQLAlchemy db instance
