@@ -1,5 +1,6 @@
 from config import db, ma
 from sqlalchemy.dialects.postgresql import JSON
+from marshmallow import Schema
 
 class Feu(db.Model):
     __tablename__ = 'feu'
@@ -7,19 +8,22 @@ class Feu(db.Model):
     position = db.Column(JSON)
     intensite = db.Column(db.Integer)
 
-class FeuSchema(ma.SQLAlchemyAutoSchema):
+class FeuSchema(Schema):
     class Meta:
         model = Feu
         load_instance = True    
+        ordered = True
 
 class Capteur(db.Model):
     __tablename__ = 'capteur'
     id = db.Column(db.Integer, primary_key=True)
     position = db.Column(JSON)
-    range = db.Column(db.Integer)
     intensite = db.Column(db.Integer)
+    range = db.Column(db.Integer)
+    
 
-class CapteurSchema(ma.SQLAlchemyAutoSchema):
+class CapteurSchema(Schema):
     class Meta:
         model = Capteur
-        load_instance = True  
+        load_instance = True 
+        ordered = True 
