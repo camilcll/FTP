@@ -36,7 +36,7 @@ public class Coord {
     }
     
     public String toString() {
-        return "["+ getX() + "," + getY() + "]";
+        return "{x:"+ getX() + ",y:" + getY() + "}";
     }
     
 }

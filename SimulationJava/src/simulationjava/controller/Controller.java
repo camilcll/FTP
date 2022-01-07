@@ -157,7 +157,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://reqbin.com/echo/post/json");
+                    URL url = new URL("http://localhost:5000/API/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
