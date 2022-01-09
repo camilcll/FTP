@@ -43,7 +43,8 @@ public class Controller {
         Feu feu = new Feu(position, intensite);
         
         System.out.println(feu.toString());
-        sauvegarderFeu(feu);
+        
+        //sauvegarderFeu(feu);
        
         CapteurDetecteFeu(feu, tabCapteur);
         
@@ -54,7 +55,7 @@ public class Controller {
         int xFeu = positionFeu.getX();
         int yFeu = positionFeu.getY();  
         int intensiteFeu = feu.getIntensite();
-        int range = (int) Math.ceil((double)intensiteFeu / 2);
+        float range = (float)intensiteFeu / 2;
         
         JSONObject jsonCapteur = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
@@ -64,6 +65,33 @@ public class Controller {
         listeCapteurJson = new String[60];
         
         for(Capteur capteur : tabCapteur){
+            
+            float temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
+            if (temp <= 0 ){
+                System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
+                if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
+                    capteur.setIntensite(8);
+                }else if(temp == 0){
+                    capteur.setIntensite(1);
+                }else if((temp < 0) && (temp > -20)){
+                    capteur.setIntensite(2);
+                }else if((temp <= -20) && (temp > -37)){
+                    capteur.setIntensite(3);
+                }else if((temp <= -37) && (temp > -44)){
+                    capteur.setIntensite(4);
+                }else if((temp <= -44) && (temp > -52)){
+                    capteur.setIntensite(5);
+                }else if((temp <= -52) && (temp > -65)){
+                    capteur.setIntensite(6);
+                }else if((temp <= -65) && (temp >  -76)){
+                    capteur.setIntensite(7);
+                }else if(temp <= -76){
+                    capteur.setIntensite(8);
+                }
+                
+                System.out.println(capteur.toString());
+            }
+            
             try {
                 listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
                 i++;
@@ -71,39 +99,16 @@ public class Controller {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            int temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
-            if (temp <= 0 ){
-                System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
-                if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
-                    capteur.setIntensite(8);
-                }else if((temp <= 0 ) && (temp > -6)){
-                    capteur.setIntensite(1);
-                }else if((temp < -6) && (temp > -12)){
-                    capteur.setIntensite(2);
-                }else if((temp < -12) && (temp > -18)){
-                    capteur.setIntensite(3);
-                }else if((temp < -18) && (temp > -24)){
-                    capteur.setIntensite(4);
-                }else if((temp < -24) && (temp > -30)){
-                    capteur.setIntensite(5);
-                }else if((temp < -30) && (temp > -36)){
-                    capteur.setIntensite(6);
-                }else if((temp < -36) && (temp >  -42)){
-                    capteur.setIntensite(7);
-                }else if(temp < -42){
-                    capteur.setIntensite(8);
-                }
-            }
-            
         }
         
-        System.out.println(Arrays.toString(listeCapteurJson));
+        //envoyerCapteur(Arrays.toString(listeCapteurJson));
+        //System.out.println(Arrays.toString(listeCapteurJson));
        
     } 
     
-    public static int checkCercle(int xFeu, int yFeu, int rangeFeu, int x, int y, int range){
-        int d2 = (xFeu-x)*(xFeu-x) + (yFeu-y)*(yFeu-y);
-        int d1 = (rangeFeu + range)*(rangeFeu + range);
+    public static float checkCercle(int xFeu, int yFeu, float rangeFeu, int x, int y, int range){
+        float d2 = (xFeu-x)*(xFeu-x) + (yFeu-y)*(yFeu-y);
+        float d1 = (rangeFeu + range)*(rangeFeu + range);
         if (d2 > d1){
             return d2-d1;
         }else{
@@ -121,7 +126,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://localhost:5000/API/feu");
+                    URL url = new URL("http://localhost:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -157,7 +162,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://localhost:5000/API/capteur");
+                    URL url = new URL("http://localhost:5000/api/simulaition/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
@@ -179,9 +184,9 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data");
+                System.out.println("send data to update");
             }
             
-        }, 5000, 10000);
+        }, 5000, 20000);
     }
 }
