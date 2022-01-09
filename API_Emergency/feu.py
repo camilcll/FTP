@@ -63,6 +63,51 @@ def create(feu):
             409,
             "Feu {id} exists already".format(id=id),
         )
+    
+def update(feux):
+    """
+    This function updates an existing person in the people structure
+    Throws an error if a person with the name we want to update to
+    already exists in the database.
+    :param person_id:   Id of the person to update in the people structure
+    :param person:      person to update
+    :return:            updated person structure
+    """
+
+    data = []
+
+    for feu in feux:
+        
+        id = feu.get("id")
+
+        # Get the person requested from the db into session
+        update_feu = Feu.query.filter(
+            Feu.id == id
+        ).one_or_none()
+
+        # Are we trying to find a person that does not exist?
+        if update_feu is None:
+            abort(
+                404,
+                "Feu not found: {id}".format(id=id),
+            )
+        # Otherwise go ahead and update!
+        else:
+            # turn the passed in person into a db object
+            schema = FeuSchema()
+            update = schema.load(feu, session=db.session)
+
+            # Set the id to the person we want to update
+            update.id = update_feu.id
+
+            # merge the new object into the old and commit it to the db
+            db.session.merge(update)
+            db.session.commit()
+
+            # return updated person in the response
+            data.append(schema.dump(update_feu))
+
+    return data, 200
 
 def delete():
     """

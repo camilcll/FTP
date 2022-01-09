@@ -8,7 +8,7 @@ class Feu(db.Model):
     position = db.Column(JSON)
     intensite = db.Column(db.Integer)
 
-class FeuSchema(Schema):
+class FeuSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Feu
         load_instance = True    
@@ -22,7 +22,7 @@ class Capteur(db.Model):
     range = db.Column(db.Integer)
     
 
-class CapteurSchema(Schema):
+class CapteurSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Capteur
         load_instance = True 

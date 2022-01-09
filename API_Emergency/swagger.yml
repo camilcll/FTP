@@ -17,7 +17,7 @@ paths:
       operationId: "feu.read_all"
       tags:
         - "Feu"
-      summary: "The feu data structure supported by the server application"
+      summary: "Read the list of feu"
       description: "Read the list of feu"
       responses:
         200:
@@ -30,14 +30,19 @@ paths:
                   type: "integer"
                 position:
                   type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 intensite:
                   type: "integer"
     post:
       operationId: "feu.create"
       tags:
         - "Feu"
-      summary: "The people data structure supported by the server application"
-      description: "Read the list of feu"
+      summary: "Create a feu"
+      description: "Create a feu"
       parameters:
         - name: feu
           in: body
@@ -47,17 +52,22 @@ paths:
             type: object
             properties:
               id:
-                type: integer
-                description: First name of person to create
+                type: "integer"
+                description: Identifiant du feu calcule
               position:
-                type: object
-                description: Last name of person to create
+                type: "object"
+                properties: 
+                  x: 
+                    type: "integer"
+                  y:
+                    type: "integer"
+                description: Coord du feu calcule
               intensite:
-                type: integer
-                description: Last name of person to create
+                type: "integer"
+                description: "Intensite du feu calcule"
       responses:
         201:
-          description: "Successful read people list operation"
+          description: "Successful create feu"
           schema:
             type: "array"
             items:
@@ -66,8 +76,58 @@ paths:
                   type: "integer"
                 position:
                   type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 intensite:
                   type: "integer"
+    put:
+      operationId: feu.update
+      tags:
+        - Feu
+      summary: Update all feu
+      description: Update all feu
+      parameters:
+        - name: feux
+          in: body
+          description: Feux to update
+          required: True
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                intensite:
+                  type: "integer"
+      responses:
+        200:
+          description: Successfully updated feu
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                intensite:
+                  type: "integer"
+
     delete:
       operationId: feu.delete
       tags:
@@ -84,11 +144,11 @@ paths:
       operationId: "capteur.read_all"
       tags:
         - "Capteur"
-      summary: "The people data structure supported by the server application"
-      description: "Read the list of people"
+      summary: "Read the list of capteur"
+      description: "Read the list of capteur"
       responses:
         200:
-          description: "Successful read people list operation"
+          description: "Successful read capteur list operation"
           schema:
             type: "array"
             items:
@@ -97,6 +157,11 @@ paths:
                   type: "integer"
                 position:
                   type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 range:
                   type: "integer"
                 intensite:
@@ -105,8 +170,8 @@ paths:
       operationId: "capteur.create"
       tags:
         - "Capteur"
-      summary: "The people data structure supported by the server application"
-      description: "Read the list of people"
+      summary: "Create a capteur"
+      description: "Create a capteur"
       parameters:
         - name: capteur
           in: body
@@ -117,19 +182,24 @@ paths:
             properties:
               id:
                 type: integer
-                description: First name of person to create
+                description: Id of the capteur
               position:
-                type: object
-                description: Last name of person to create
+                type: "object"
+                properties: 
+                  x: 
+                    type: "integer"
+                  y:
+                    type: "integer"
+                description: Coord x and y
               range:
                 type: integer
-                description: Last name of person to create
+                description: range de detection
               intensite:
                 type: integer
-                description: Last name of person to create
+                description: intensite de detection
       responses:
         201:
-          description: "Successful read people list operation"
+          description: "Successful created capteur"
           schema:
             type: "array"
             items:
@@ -138,6 +208,11 @@ paths:
                   type: "integer"
                 position:
                   type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 range:
                   type: "integer"
                 intensite:
@@ -146,8 +221,8 @@ paths:
       operationId: capteur.update
       tags:
         - Capteur
-      summary: Update a capteur
-      description: Update a capteur
+      summary: Update all capteurs
+      description: Update all capteurs
       parameters:
         - name: capteurs
           in: body
@@ -161,6 +236,11 @@ paths:
                   type: "integer"
                 position:
                   type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 range:
                   type: "integer"
                 intensite:
@@ -169,19 +249,22 @@ paths:
         200:
           description: Successfully updated capteur
           schema:
-            properties:
-              person_id:
-                type: string
-                description: Id of the person in the database
-              fname:
-                type: string
-                description: First name of the person
-              lname:
-                type: string
-                description: Last name of the person
-              timestamp:
-                type: string
-                description: Creation/Update timestamp of the person record
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                range:
+                  type: "integer"
+                intensite:
+                  type: "integer"
     delete:
       operationId: capteur.delete
       tags:
