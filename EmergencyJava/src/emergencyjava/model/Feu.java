@@ -14,11 +14,13 @@ public class Feu {
     private static int count = 1;
     private int id;
     private Coord positionCalculee;
+    private int zone;
     private int intensiteCalculee;// entre 1 et 10
 
-    public Feu(Coord position, int intensite) {
+    public Feu(Coord position, int zone, int intensite) {
         this.id = count++;
         this.positionCalculee = position;
+        this.zone = zone;
         this.intensiteCalculee = intensite;
     }
 
@@ -36,6 +38,14 @@ public class Feu {
 
     public void setPositionCalculee(Coord position) {
         this.positionCalculee = position;
+    }
+
+    public int getZone() {
+        return zone;
+    }
+
+    public void setZone(int zone) {
+        this.zone = zone;
     }
 
     public int getIntensiteCalculee() {

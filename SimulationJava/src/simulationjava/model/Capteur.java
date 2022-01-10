@@ -16,7 +16,7 @@ public class Capteur {
     private static int count = 1;
     private int id;
     private Coord position;
-    private int range = 6;// max = 5
+    private int range = 7;// max = 7
     private int intensite;// entre 1 et 10
     
     public Capteur(Coord position, int intensite) {
