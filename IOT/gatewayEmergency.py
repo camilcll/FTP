@@ -1,27 +1,30 @@
-# Program to control passerelle between Android application
-# and micro-controller through USB tty
+# python 3.6
+from ctypes import c_char_p
 import time
-import argparse
-import signal
 import sys
-import socket
-import socketserver
 import serial
 import threading
+import random
+from paho.mqtt import client as mqtt_client
+import requests
+import ast
 
-HOST = "0.0.0.0"
-UDP_PORT = 10000
-MICRO_COMMANDS = ["TL", "LT"]
-FILENAME = "values.txt"
-LAST_VALUE = ""
-# dict that holds subsriber's list
-SUBSCRIBERS = {}
+import json
 
 # send serial message
-SERIALPORT = "COM4"
+SERIALPORT = "/dev/ttyACM0"
 BAUDRATE = 115200
 ser = serial.Serial()
 
+HOST = "http://localhost:5000" #API HOST
+
+broker = '127.0.0.1'
+port = 1883
+topic = "python/mqtt"
+# generate client ID with pub prefix randomly
+client_id = f'python-mqtt-{random.randint(0, 1000)}'
+username = 'passerelle'
+password = 'passerelle'
 
 def initUART():
     # ser = serial.Serial(SERIALPORT, BAUDRATE)
@@ -46,22 +49,76 @@ def initUART():
         exit()
 
 
+def connect_mqtt():
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
+
+    client = mqtt_client.Client(client_id)
+    client.username_pw_set(username, password)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
+
+
+def publish(client, message):
+    result = client.publish(topic, message)
+    # result: [0, 1]
+    status = result[0]
+    if status == 0:
+        print(f"Send `{message}` to topic `{topic}`")
+    else:
+        print(f"Failed to send message to topic {topic}")
+
+def TransformMatrixData(matrix):
+    capteurs = matrix[:-1].split(';')
+    jsonData = []
+
+    for capteur in capteurs:
+        capteurTuple = ast.literal_eval(capteur)
+        jsonstring = { "id": capteurTuple[0],
+                        "position" : 
+                        {"x": capteurTuple[1],
+                        "y": capteurTuple[2]},
+                        "intensite": capteurTuple[3],
+                        "range": capteurTuple[4]}
+        jsonData.append(jsonstring)
+
+    return json.dumps(jsonData)
+
+
+
+
 # Main program logic follows:
 if __name__ == '__main__':
     initUART()
-    f = open(FILENAME, "a")
-    print('Press Ctrl-C to quit.')
+    client = connect_mqtt()
+    client.loop_start()
+
+    capteurs = ""
 
     try:
         while ser.isOpen():
             # time.sleep(100)
-            if (ser.inWaiting() > 0):  # if incoming bytes are waiting
+            if (ser.inWaiting() > 0):  # if incoming bytes are waiting                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                 # According to the simple protocol temperatureValue;lightValue*, we wait until the stop character '*'
                 data_str = ser.read_until(';').decode('utf-8').replace('\n', "").replace('\r', "")
-                f.write(data_str)
+                capteurs += data_str
+                if("(60") in data_str:
+                    headers = {"Content-Type": "application/json"}
+                    dataJson = TransformMatrixData(capteurs)
+                    publish(client, dataJson)
+                    url = HOST+"/api/emergency/capteur"
+                    r = requests.put(url, data=dataJson, headers=headers)
+                    capteurs = ""
                 print(data_str)
+                
 
     except (KeyboardInterrupt, SystemExit):
-        f.close()
         ser.close()
         exit()
+
+
+

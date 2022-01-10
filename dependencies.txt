@@ -1,4 +1,11 @@
+---Serveur
 pip install flask
 pip install connexion[swagger-ui]
 pip install Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow
 pip install psycopg2
+
+
+---Gateway
+pip install requests
+pip install pyserial
+pip install paho-mqtt
