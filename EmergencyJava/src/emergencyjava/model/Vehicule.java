@@ -14,10 +14,14 @@ public class Vehicule {
     private static int count = 1;
     private int id;
     private String type;
+    private int idcaserne;
+    private boolean disponible;
 
-    public Vehicule(String taille) {
+    public Vehicule(String type, int idcaserne, boolean disponible) {
         this.id = count++;
-        this.type = taille;
+        this.type = type;
+        this.idcaserne = idcaserne;
+        this.disponible = disponible;
     }
 
     public int getId() {
@@ -36,10 +40,20 @@ public class Vehicule {
         this.type = type;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
     @Override
     public String toString() {
-        return "Vehicule{" + "id=" + id + ", type=" + type + '}';
+        return "Vehicule{" + "id=" + id + ", type=" + type + ", disponible=" + disponible + '}';
     }
+
+   
     
     
     

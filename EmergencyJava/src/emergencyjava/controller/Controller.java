@@ -12,6 +12,8 @@ import emergencyjava.model.Capteur;
 import emergencyjava.model.Caserne;
 import emergencyjava.model.Coord;
 import emergencyjava.model.Feu;
+import emergencyjava.model.Intervention;
+import emergencyjava.model.Vehicule;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -235,6 +237,8 @@ public class Controller {
                 
             }
             
+            System.out.println(feu.toString());
+            
             if(checkFeu(feu)){
                 creerIntervention(feu, listcaserne);
             }
@@ -299,6 +303,89 @@ public class Controller {
     }
     
     public static void creerIntervention(Feu feu, ArrayList<Caserne> listcaserne){
+        int xFeu = feu.getPositionCalculee().getX();
+        int yFeu = feu.getPositionCalculee().getY();
+        int nbcamion = 0;
+        int nbvoiture = 0;
+        int intensite = feu.getIntensiteCalculee();
+        Caserne caserne = null;
+        
+        ArrayList listcasernevoisin;
+        listcasernevoisin = new ArrayList();
+        
+        ArrayList listvehicule;
+        listvehicule = new ArrayList<Vehicule>();
+        
+        for (int i = 0; i<4; i++){
+            int d = (xFeu-listcaserne.get(i).getPosition().getX())*(xFeu-listcaserne.get(i).getPosition().getX()) 
+                + (yFeu-listcaserne.get(i).getPosition().getY())*(yFeu-listcaserne.get(i).getPosition().getY());
+            listcasernevoisin.add(d);
+        }
+        
+        int index = 0;
+        int numcaserne = 0;
+        int etat = 0; // etat = 0 -> en cours , 1 -> en attente, 2 -> terminé
+        
+        boolean temp = false;
+        while (!temp){
+            index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
+            if(intensite <= 3){
+                System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
+                if(listcaserne.get(index).checkVehiculeDispo(1, 0)){
+                    numcaserne = index;
+                    nbcamion = 1;
+                    temp = true;
+                }else if(listcaserne.get(index).checkVehiculeDispo(0, 2)){
+                    numcaserne = index;
+                    nbvoiture = 2;
+                    temp = true;
+                }else{
+                    listcasernevoisin.remove(index);
+                }
+            }else if(intensite > 3 && intensite <= 6){
+                System.out.println("Moyen Feu -> 1 camion et une voiture");
+                if(listcaserne.get(index).checkVehiculeDispo(1, 1)){
+                    numcaserne = index;
+                    nbcamion = 1;
+                    nbvoiture = 1;
+                    temp = true;
+                }else{
+                    listcasernevoisin.remove(index);
+                }
+            }else{
+                System.out.println("Gros Feu -> 2 camions et 1 voiture");
+                if(listcaserne.get(index).checkVehiculeDispo(2, 1)){
+                    numcaserne = index;
+                    nbcamion = 2;
+                    nbvoiture = 1;
+                    temp = true;
+                }else{
+                    listcasernevoisin.remove(index);
+                }
+            }
+            if(listcasernevoisin.isEmpty()){
+                System.out.println("Aucune caserne dispo");
+                etat = 1;
+                temp = true;
+            }
+        }
+        
+        for(Vehicule vehicule : listcaserne.get(numcaserne).getListeVehicule()){
+            if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){
+                vehicule.setDisponible(false);
+                listvehicule.add(vehicule);
+                nbcamion--;
+            }
+            
+            if(vehicule.isDisponible() && vehicule.getType() == "Voiture" && nbvoiture > 0){
+                vehicule.setDisponible(false);
+                listvehicule.add(vehicule);
+                nbvoiture--;
+            }
+        }
+        
+        Intervention inter = new Intervention(feu, listvehicule, etat);
+        
         
     }
     

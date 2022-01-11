@@ -36,23 +36,23 @@ public class EmergencyJava {
         Vehicule vehicule = null;
        
         for(int i = 0; i<5; i++){
-            vehicule = new Vehicule("Camion");
+            vehicule = new Vehicule("Camion", 1, true);
             listvehicule1.add(vehicule);
-            vehicule = new Vehicule("Camion");
+            vehicule = new Vehicule("Camion", 2, true);
             listvehicule2.add(vehicule);
-            vehicule = new Vehicule("Camion");
+            vehicule = new Vehicule("Camion", 3, true);
             listvehicule3.add(vehicule);
-            vehicule = new Vehicule("Camion");
+            vehicule = new Vehicule("Camion", 4, true);
             listvehicule4.add(vehicule);
         }
         for(int i = 0; i<3; i++){
-            vehicule = new Vehicule("Voiture");
+            vehicule = new Vehicule("Voiture", 1, true);
             listvehicule1.add(vehicule);
-            vehicule = new Vehicule("Voiture");
+            vehicule = new Vehicule("Voiture", 2, true);
             listvehicule2.add(vehicule);
-            vehicule = new Vehicule("Voiture");
+            vehicule = new Vehicule("Voiture", 3, true);
             listvehicule3.add(vehicule);
-            vehicule = new Vehicule("Voiture");
+            vehicule = new Vehicule("Voiture", 4, true);
             listvehicule4.add(vehicule);
             
         }
