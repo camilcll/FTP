@@ -16,15 +16,15 @@ public class Capteur {
     private static int count = 1;
     private int id;
     private Coord position;
-    private static int range = 6;// max = 5
+    private int range;// max = 5
     private int intensite;// entre 1 et 10
     
     public Capteur(){
         super();
     }
     
-    public Capteur(int id, Coord position, int intensite) {
-        this.id = id;
+    public Capteur(Coord position, int intensite, int range) {
+        this.id = count++;
         this.position = position;
         this.intensite = intensite;
     }
@@ -37,7 +37,7 @@ public class Capteur {
         return position;
     }
 
-    public static int getRange() {
+    public int getRange() {
         return range;
     }
 
@@ -53,8 +53,8 @@ public class Capteur {
         this.position = position;
     }
 
-    public static void setRange(int range) {
-        Capteur.range = range;
+    public void setRange(int range) {
+        this.range = range;
     }
 
     public void setIntensite(int intensite) {
