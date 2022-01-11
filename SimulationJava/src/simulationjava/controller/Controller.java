@@ -6,14 +6,18 @@
 package simulationjava.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,14 +37,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(17, 13);
+        Coord position = new Coord(15, 15);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position,8);
+        Feu feu = new Feu(position, 4);
         
         System.out.println(feu.toString());
         
@@ -188,5 +192,63 @@ public class Controller {
             }
             
         }, 5000, 20000);
+    }
+    
+    public static void recevoirIntervention(String data){
+        
+        Timer timer = new Timer();
+        
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                try {
+                    System.out.println("debut requete");
+                    URL url = new URL("http://localhost:5000/api/emergency/intervention");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP Error code : "
+                                + conn.getResponseCode());
+                    }
+                    InputStreamReader in = new InputStreamReader(conn.getInputStream());
+                    System.out.println(in);
+                    BufferedReader br = new BufferedReader(in);
+                    System.out.println(br);
+                    String output;
+                    String data = "";
+                    
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                        data += output;
+                    }
+                    
+                    System.out.println(data);
+                    TraiterIntervention(data);
+                    
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("ask data");
+            }
+            
+        }, 5000, 20000);
+    }
+    
+    public static void TraiterIntervention(String data){
+        ObjectMapper mapper = new ObjectMapper();
+        
+        /*try {
+            List<Intervention> listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
+            
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 }

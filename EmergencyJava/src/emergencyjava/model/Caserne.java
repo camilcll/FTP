@@ -53,7 +53,24 @@ public class Caserne {
         return "Caserne{" + "id=" + id + ", position=" + position + ", listeVehicule=" + listeVehicule + '}';
     }
     
-    
-    
+    public boolean checkVehiculeDispo(int nbcamion, int nbvoiture) {
+        int nbcamiondispo = 0;
+        int nbvoituredispo = 0;
+        
+        for(Vehicule vehicule : this.listeVehicule){
+            if(vehicule.isDisponible() && vehicule.getType() == "Camion"){
+                nbcamiondispo++;
+            }
+            if(vehicule.isDisponible() && vehicule.getType() == "Voiture"){
+                nbvoituredispo++;
+            }
+        }
+        
+        if(nbcamiondispo > nbcamion && nbvoituredispo > nbvoiture){
+            return true;
+        }
+        
+        return false;
+    }
     
 }
