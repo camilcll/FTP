@@ -240,9 +240,47 @@ public class Controller {
             System.out.println(feu.toString());
             
             if(checkFeu(feu)){
+                sauvegarderFeu(feu);
                 creerIntervention(feu, listcaserne);
             }
         }
+    }
+    
+    public static void sauvegarderFeu(Feu feu) {
+        class OneShotTask implements Runnable {
+            Feu str;
+            OneShotTask(Feu feu) { str = feu; }
+            public void run() {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://localhost:5000/api/simulation/feu");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("send data");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(feu));
+        t.start();
     }
     
     public static float checkCercle(int xFeu, int yFeu, float rangeFeu, int x, int y, int range){
@@ -385,8 +423,44 @@ public class Controller {
         }
         
         Intervention inter = new Intervention(feu, listvehicule, etat);
-        
-        
+        //EnvoyerIntervention(inter);
+    }
+    
+    public static void EnvoyerIntervention(Intervention intervention) {
+        class OneShotTask implements Runnable {
+            Intervention str;
+            OneShotTask(Intervention intervention) { str = intervention; }
+            public void run() {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://localhost:5000/api/simulation/intervention");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("send data");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(intervention));
+        t.start();
     }
     
     

@@ -40,6 +40,14 @@ public class Vehicule {
         this.type = type;
     }
 
+    public int getIdcaserne() {
+        return idcaserne;
+    }
+
+    public void setIdcaserne(int idcaserne) {
+        this.idcaserne = idcaserne;
+    }
+
     public boolean isDisponible() {
         return disponible;
     }
@@ -50,8 +58,10 @@ public class Vehicule {
 
     @Override
     public String toString() {
-        return "Vehicule{" + "id=" + id + ", type=" + type + ", disponible=" + disponible + '}';
+        return "Vehicule{" + "id=" + id + ", type=" + type + ", idcaserne=" + idcaserne + ", disponible=" + disponible + '}';
     }
+
+    
 
    
     
