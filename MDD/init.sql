@@ -74,3 +74,12 @@ insert into Capteur(id,intensite,position,range) values (58, 0, '{"x":75,"y":55}
 insert into Capteur(id,intensite,position,range) values (59, 0, '{"x":85,"y":55}', 5);
 insert into Capteur(id,intensite,position,range) values (60, 0, '{"x":95,"y":55}', 5);
 
+
+
+CREATE TABLE Feu(
+	id int not null,
+	positionCalculee json not null,
+	zone int not null,
+	intensiteCalculee int not null,
+	PRIMARY KEY (id)
+)
