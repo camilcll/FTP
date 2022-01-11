@@ -5,8 +5,9 @@ from marshmallow import Schema
 class Feu(db.Model):
     __tablename__ = 'feu'
     id = db.Column(db.Integer, primary_key=True)
-    position = db.Column(JSON)
-    intensite = db.Column(db.Integer)
+    positioncalculee = db.Column(JSON)
+    zone = db.Column(db.Integer)
+    intensitecalculee = db.Column(db.Integer)
 
 class FeuSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
