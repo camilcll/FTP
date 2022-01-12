@@ -113,7 +113,7 @@ CREATE TABLE Vehicule(
 
 CREATE TABLE Intervention(
 	id int not null,
-	feu json not null,
+	feuCalcule json not null,
 	listeVehicule json not null,
 	etat int not null,
 	PRIMARY KEY (id)
