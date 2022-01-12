@@ -82,7 +82,7 @@ public class Controller {
                 } catch (IOException ex) { 
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Ask to receive data");
+                System.out.println("Ask to receive data debut");
             }
             
         }, 5000, 50000);
@@ -91,6 +91,7 @@ public class Controller {
     public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
         
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println("check capteurs");
         
         ArrayList tabCapteurActif;
         tabCapteurActif = new ArrayList<Capteur>();
@@ -101,7 +102,7 @@ public class Controller {
         try {
             List<Capteur>
                     listCapteur = mapper.readValue(data, new TypeReference<List<Capteur>>(){});
-            //System.out.println(listCapteur.toString());
+                    System.out.println(listCapteur.toString());
             for(Capteur capteur : listCapteur){
                 if (capteur.getIntensite() != 0){
                     tabCapteurActif.add(capteur);
@@ -414,7 +415,7 @@ public class Controller {
             } catch (IOException ex) { 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Ask to receive data");
+            System.out.println("Ask to receive data check feu ");
         return true;
     }
     
