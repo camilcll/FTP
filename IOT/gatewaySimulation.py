@@ -52,7 +52,7 @@ def TransformJsonData(jsonData):
         transformedData = "{0};".format(tuple(objectParse))
         print(transformedData)
         sendUARTMessage(transformedData)
-        time.sleep(0.005)
+        time.sleep(0.05)
         
 
 
