@@ -85,7 +85,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 5000, 50000);
+        }, 5000, 80000);
     }
     
     public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
@@ -335,7 +335,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://164.4.1.5:5000/api/simulation/feu");
+                    URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -386,9 +386,7 @@ public class Controller {
                         + conn.getResponseCode());
             }
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-            System.out.println(in);
             BufferedReader br = new BufferedReader(in);
-            System.out.println(br);
             String output;
             String data = "";
 
@@ -535,7 +533,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data");
+                System.out.println("send data intervention");
             }
         }
         Thread t = new Thread(new OneShotTask(intervention));
