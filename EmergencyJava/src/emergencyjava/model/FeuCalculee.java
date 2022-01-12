@@ -57,7 +57,7 @@ public class FeuCalculee {
     }
     
     public String toString() {
-        return "Feu "+ getId() + " placé en " + getPositionCalculee() + " -> intensité : " + getIntensiteCalculee();
+        return "Feucalculee "+ getId() + " placé en " + getPositionCalculee() + " -> intensité : " + getIntensiteCalculee();
     }
     
 }
