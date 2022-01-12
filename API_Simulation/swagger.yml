@@ -17,7 +17,7 @@ paths:
       operationId: "feu.read_all"
       tags:
         - "Feu"
-      summary: "The feu data structure supported by the server application"
+      summary: "The feu data structure"
       description: "Read the list of feu"
       responses:
         200:
@@ -37,11 +37,13 @@ paths:
                       type: "integer"
                 intensite:
                   type: "integer"
+                detecte:
+                  type: "boolean"
     post:
       operationId: "feu.create"
       tags:
         - "Feu"
-      summary: "The people data structure supported by the server application"
+      summary: "The feu data structure"
       description: "Read the list of feu"
       parameters:
         - name: feu
@@ -65,9 +67,11 @@ paths:
               intensite:
                 type: "integer"
                 description: "Intensite du feu"
+              detecte:
+                  type: "boolean"
       responses:
         201:
-          description: "Successful read feu list operation"
+          description: "Successful created feu list operation"
           schema:
             type: "array"
             items:
@@ -83,6 +87,8 @@ paths:
                       type: "integer"
                 intensite:
                   type: "integer"
+                detecte:
+                  type: "boolean"
     put:
       operationId: feu.update
       tags:
@@ -109,6 +115,8 @@ paths:
                       type: "integer"
                 intensite:
                   type: "integer"
+                detecte:
+                  type: "boolean"
       responses:
         200:
           description: Successfully updated feu
@@ -127,6 +135,8 @@ paths:
                       type: "integer"
                 intensite:
                   type: "integer"
+                detecte:
+                  type: "boolean"
     delete:
       operationId: feu.delete
       tags:
@@ -137,7 +147,34 @@ paths:
         200:
           description: Successfully deleted a feu
 
-    
+  /feunonDetecte:
+    get:
+      operationId: "feu.readnonDetecte"
+      tags:
+        - "Feu"
+      summary: "The feu data structure"
+      description: "Read the list of feu non detecte"
+      responses:
+        200:
+          description: "Successful read feu list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                intensite:
+                  type: "integer"
+                detecte:
+                  type: "boolean"
+  
   /capteur:
     get:
       operationId: "capteur.read_all"

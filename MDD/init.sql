@@ -2,6 +2,7 @@ CREATE TABLE Feu(
 	id int not null,
 	position json not null,
 	intensite int not null,
+	detecte boolean not null,
 	PRIMARY KEY (id)
 )
 
