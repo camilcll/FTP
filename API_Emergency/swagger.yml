@@ -613,7 +613,7 @@ paths:
             properties:
               id:
                 type: "integer"
-              feucalcule:
+              feu:
                 type: "object" 
                 properties:
                   id:

@@ -57,7 +57,7 @@ class VehiculeSchema(ma.SQLAlchemyAutoSchema):
 class Intervention(db.Model):
     __tablename__ = 'intervention'
     id = db.Column(db.Integer, primary_key=True)
-    feu = db.Column(JSON)
+    feucalcule = db.Column(JSON)
     listevehicule = db.Column(JSON)
     etat = db.Column(db.Integer)
 
