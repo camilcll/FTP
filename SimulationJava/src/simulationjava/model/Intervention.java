@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emergencyjava.model;
+package simulationjava.model;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * @author Sami
  */
 public class Intervention {
-    
     private static int count = 1;
     private int id;
     private FeuCalculee feu;

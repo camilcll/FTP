@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package emergencyjava.model;
+package simulationjava.model;
 
 /**
  *
  * @author Sami
  */
 public class Vehicule {
-    
-   private static int count = 1;
+    private static int count = 1;
     private int id;
     private Coord position;
     private String type;
@@ -73,9 +72,4 @@ public class Vehicule {
 
     
 
-   
-    
-    
-    
-    
 }
