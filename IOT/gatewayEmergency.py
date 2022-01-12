@@ -16,7 +16,7 @@ SERIALPORT = "/dev/ttyACM0"
 BAUDRATE = 115200
 ser = serial.Serial()
 
-HOST = "http://localhost:5000" #API HOST
+HOST = "http://164.4.1.5:5000" #API HOST
 
 broker = '127.0.0.1'
 port = 1883
