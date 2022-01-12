@@ -6,6 +6,7 @@ class Feu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     position = db.Column(JSON)
     intensite = db.Column(db.Integer)
+    detecte = db.Column(db.Boolean)
 
 class FeuSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

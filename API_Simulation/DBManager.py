@@ -29,7 +29,8 @@ def createFeu():
                         "x": positionX,
                         "y": positionY
                     },
-                    "intensite": intensite
+                    "intensite": intensite,
+                    "detecte": False
                     }
 
             res = feu.create(feuJson)
