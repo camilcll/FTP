@@ -148,7 +148,6 @@ paths:
         200:
           description: Successfully deleted a feu
 
-    
   /capteur:
     get:
       operationId: "capteur.read_all"
@@ -284,3 +283,275 @@ paths:
       responses:
         200:
           description: Successfully deleted all capteur
+
+  /caserne:
+    get:
+      operationId: "caserne.read_all"
+      tags:
+        - "Caserne"
+      summary: "Read the list of caserne"
+      description: "Read the list of caserne"
+      responses:
+        200:
+          description: "Successful read caserne list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+                  
+    post:
+      operationId: "caserne.create"
+      tags:
+        - "Caserne"
+      summary: "Create a caserne"
+      description: "Create a caserne"
+      parameters:
+        - name: caserne
+          in: body
+          description: Caserne to create
+          required: True
+          schema:
+            type: object
+            properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+      responses:
+        201:
+          description: "Successful create caserne"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+    put:
+      operationId: caserne.update
+      tags:
+        - Caserne
+      summary: Update all caserne
+      description: Update all caserne
+      parameters:
+        - name: casernes
+          in: body
+          description: Caserne to update
+          required: True
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+      responses:
+        200:
+          description: Successfully updated capteur
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+
+  /vehicule:
+    get:
+      operationId: "vehicule.read_all"
+      tags:
+        - "Vehicule"
+      summary: "Read the list of vehicule"
+      description: "Read the list of vehicule"
+      responses:
+        200:
+          description: "Successful read vehicule list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                type:
+                  type: "string"
+                idcaserne:
+                  type: "integer"
+                disponible:
+                  type: "boolean"              
+    post:
+      operationId: "vehicule.create"
+      tags:
+        - "Vehicule"
+      summary: "Create a vehicule"
+      description: "Create a vehicule"
+      parameters:
+        - name: vehicule
+          in: body
+          description: Vehicule to create
+          required: True
+          schema:
+            type: object
+            properties:
+              id:
+                type: "integer"
+              type:
+                type: "string"
+              idcaserne:
+                type: "integer"
+              disponible:
+                type: "boolean"
+              
+      responses:
+        201:
+          description: "Successful create vehicule"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                type:
+                  type: "string"
+                idcaserne:
+                  type: "integer"
+                disponible:
+                  type: "boolean"
+    put:
+      operationId: vehicule.update
+      tags:
+        - Vehicule
+      summary: Update all vehicule
+      description: Update all vehicule
+      parameters:
+        - name: vehicules
+          in: body
+          description: Vehicule to update
+          required: True
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                type:
+                  type: "string"
+                idcaserne:
+                  type: "integer"
+                disponible:
+                  type: "boolean"
+      responses:
+        200:
+          description: Successfully updated vehicule
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                type:
+                  type: "string"
+                idcaserne:
+                  type: "integer"
+                disponible:
+                  type: "boolean"
+
+  
+
+
+
+
+
+
+    
