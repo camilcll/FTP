@@ -51,7 +51,7 @@ public class Controller {
             public void run() {
                 try {
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/api/emergency/capteur");
+                    URL url = new URL("http://164.4.1.5:5000/api/emergency/capteur");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -85,7 +85,7 @@ public class Controller {
                 System.out.println("Ask to receive data");
             }
             
-        }, 5000, 10000);
+        }, 5000, 50000);
     }
     
     public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
@@ -334,7 +334,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://localhost:5000/api/simulation/feu");
+                    URL url = new URL("http://164.4.1.5:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -375,7 +375,7 @@ public class Controller {
         ObjectMapper mapper = new ObjectMapper();
         try {
             System.out.println("debut requete");
-            URL url = new URL("http://localhost:5000/api/emergency/feu");
+            URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -501,7 +501,7 @@ public class Controller {
         }
         
         Intervention inter = new Intervention(feu, listvehicule, etat);
-        //EnvoyerIntervention(inter);
+        EnvoyerIntervention(inter);
     }
     
     public static void EnvoyerIntervention(Intervention intervention) {
@@ -514,7 +514,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://localhost:5000/api/simulation/intervention");
+                    URL url = new URL("http://164.4.1.5:5000/api/emergency/intervention");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);

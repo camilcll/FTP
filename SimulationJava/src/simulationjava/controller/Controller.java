@@ -76,7 +76,7 @@ public class Controller {
                     ObjectMapper mapper = new ObjectMapper();
                     List<Feu> listFeu = null;
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/api/simulation/feu");
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -197,7 +197,7 @@ public class Controller {
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
                     
-                    URL url = new URL("http://localhost:5000/api/simulation/feu");
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -249,7 +249,7 @@ public class Controller {
                     }
                     data = Arrays.toString(listeCapteurJson);
                     System.out.println(data);
-                    URL url = new URL("http://localhost:5000/api/simulation/capteur");
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
@@ -286,7 +286,7 @@ public class Controller {
             public void run() {
                 try {
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/api/simulation/intervention");
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/intervention");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -391,7 +391,7 @@ public class Controller {
         List<Feu> listfeu = null;
         try {
             System.out.println("debut requete");
-            URL url = new URL("http://localhost:5000/api/simulation/feu");
+            URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
