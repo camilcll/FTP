@@ -58,7 +58,7 @@ class Intervention(db.Model):
     __tablename__ = 'intervention'
     id = db.Column(db.Integer, primary_key=True)
     feu = db.Column(JSON)
-    listeVehicule = db.Column(JSON)
+    listevehicule = db.Column(JSON)
     etat = db.Column(db.Integer)
 
 class InterventionSchema(ma.SQLAlchemyAutoSchema):
