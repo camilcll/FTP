@@ -116,7 +116,7 @@ public class Controller {
         System.out.println("Capteurs Actifs");
         System.out.println(tabCapteurActif.toString());
         
-        //creerFeu(tabCapteurActif, listecaserne);
+        creerFeu(tabCapteurActif, listcaserne);
     }
     
     public static void creerFeu(ArrayList<Capteur> listcapteur, ArrayList<Caserne> listcaserne){

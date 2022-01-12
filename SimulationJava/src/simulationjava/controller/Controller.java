@@ -145,7 +145,6 @@ public class Controller {
             
             float temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
             if (temp <= 0 ){
-                listcapteuractive.add(capteur);
                 System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
                 if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
                     capteur.setIntensite(8);
@@ -166,6 +165,8 @@ public class Controller {
                 }else if(temp <= -76){
                     capteur.setIntensite(8);
                 }
+                
+                //listcapteuractive.add(capteur);
                 
                 System.out.println(capteur.toString());
             }
