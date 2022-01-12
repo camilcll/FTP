@@ -75,7 +75,7 @@ insert into Capteur(id,intensite,position,range) values (58, 0, '{"x":75,"y":55}
 insert into Capteur(id,intensite,position,range) values (59, 0, '{"x":85,"y":55}', 5);
 insert into Capteur(id,intensite,position,range) values (60, 0, '{"x":95,"y":55}', 5);
 
-
+--Emergency
 
 CREATE TABLE Feu(
 	id int not null,
@@ -84,3 +84,37 @@ CREATE TABLE Feu(
 	intensiteCalculee int not null,
 	PRIMARY KEY (id)
 )
+
+CREATE TABLE Caserne(
+	id int not null,
+	position json not null,
+	listeVehicule json not null,
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE Capteur(
+	id int not null,
+	position json not null,
+	intensite int not null,
+	range int not null,
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE Vehicule(
+	id int not null,
+	type varchar(25) not null,
+	idCaserne int not null,
+	disponible boolean not null,
+	PRIMARY KEY (id),
+	CONSTRAINT FK_Caserne
+		FOREIGN KEY (idCaserne)
+		REFERENCES Caserne(id)
+);
+
+CREATE TABLE Intervention(
+	id int not null,
+	feu json not null,
+	listeVehicule json not null,
+	etat int not null,
+	PRIMARY KEY (id)
+);
