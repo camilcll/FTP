@@ -547,6 +547,240 @@ paths:
                 disponible:
                   type: "boolean"
 
+
+  /intervention:
+    get:
+      operationId: "intervention.read_all"
+      tags:
+        - "Intervention"
+      summary: "Read the list of intervention"
+      description: "Read the list of intervention"
+      responses:
+        200:
+          description: "Successful read intervention list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                feucalcule:
+                  type: "object" 
+                  properties:
+                    id:
+                      type: "integer"
+                      description: Identifiant du feu calcule
+                    positioncalculee:
+                      type: "object"
+                      properties: 
+                        x: 
+                          type: "integer"
+                        y:
+                          type: "integer"
+                      description: Coord du feu calcule
+                    zone:
+                      type: "integer"
+                    intensitecalculee:
+                      type: "integer"
+                      description: "Intensite du feu calcule"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+                etat:
+                  type: "integer"
+    post:
+      operationId: "intervention.create"
+      tags:
+        - "Intervention"
+      summary: "Create an intervention"
+      description: "Create an intervention"
+      parameters:
+        - name: intervention
+          in: body
+          description: Intervention to create
+          required: True
+          schema:
+            type: object
+            properties:
+              id:
+                type: "integer"
+              feucalcule:
+                type: "object" 
+                properties:
+                  id:
+                    type: "integer"
+                    description: Identifiant du feu calcule
+                  positioncalculee:
+                    type: "object"
+                    properties: 
+                      x: 
+                        type: "integer"
+                      y:
+                        type: "integer"
+                    description: Coord du feu calcule
+                  zone:
+                    type: "integer"
+                  intensitecalculee:
+                    type: "integer"
+                    description: "Intensite du feu calcule"
+              listevehicule:
+                type: "array"
+                items: 
+                  properties:
+                    id:
+                      type: "integer"
+                    type:
+                      type: "string"
+                    idcaserne:
+                      type: "integer"
+                    disponible:
+                      type: "boolean"
+              etat:
+                type: "integer"
+      responses:
+        201:
+          description: "Successful create intervention"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                feucalcule:
+                  type: "object" 
+                  properties:
+                    id:
+                      type: "integer"
+                      description: Identifiant du feu calcule
+                    positioncalculee:
+                      type: "object"
+                      properties: 
+                        x: 
+                          type: "integer"
+                        y:
+                          type: "integer"
+                      description: Coord du feu calcule
+                    zone:
+                      type: "integer"
+                    intensitecalculee:
+                      type: "integer"
+                      description: "Intensite du feu calcule"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+                etat:
+                  type: "integer"
+    put:
+      operationId: intervention.update
+      tags:
+        - Intervention
+      summary: Update all intervention
+      description: Update all intervention
+      parameters:
+        - name: interventions
+          in: body
+          description: Intervention to update
+          required: True
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                feucalcule:
+                  type: "object" 
+                  properties:
+                    id:
+                      type: "integer"
+                      description: Identifiant du feu calcule
+                    positioncalculee:
+                      type: "object"
+                      properties: 
+                        x: 
+                          type: "integer"
+                        y:
+                          type: "integer"
+                      description: Coord du feu calcule
+                    zone:
+                      type: "integer"
+                    intensitecalculee:
+                      type: "integer"
+                      description: "Intensite du feu calcule"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+                etat:
+                  type: "integer"
+      responses:
+        200:
+          description: Successfully updated intervention
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: "integer"
+                feucalcule:
+                  type: "object" 
+                  properties:
+                    id:
+                      type: "integer"
+                      description: Identifiant du feu calcule
+                    positioncalculee:
+                      type: "object"
+                      properties: 
+                        x: 
+                          type: "integer"
+                        y:
+                          type: "integer"
+                      description: Coord du feu calcule
+                    zone:
+                      type: "integer"
+                    intensitecalculee:
+                      type: "integer"
+                      description: "Intensite du feu calcule"
+                listevehicule:
+                  type: "array"
+                  items: 
+                    properties:
+                      id:
+                        type: "integer"
+                      type:
+                        type: "string"
+                      idcaserne:
+                        type: "integer"
+                      disponible:
+                        type: "boolean"
+                etat:
+                  type: "integer"
+                
   
 
 
