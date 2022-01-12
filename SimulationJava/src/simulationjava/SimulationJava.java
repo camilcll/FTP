@@ -50,7 +50,7 @@ public class SimulationJava {
             } 
         }
 
-        GenereFeu(tabCapteur);
+        Controller.start(tabCapteur);
         
         
     }

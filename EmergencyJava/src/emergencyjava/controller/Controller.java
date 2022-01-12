@@ -38,6 +38,10 @@ import java.util.logging.Logger;
  */
 public class Controller {
     
+    public static synchronized void start(ArrayList<Caserne> listcaserne){
+        askData(listcaserne);
+    }
+    
     public static void askData(ArrayList<Caserne> listcaserne){
         
         Timer timer = new Timer();
@@ -409,7 +413,7 @@ public class Controller {
         }
         
         for(Vehicule vehicule : listcaserne.get(numcaserne).getListeVehicule()){
-            if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){
+            if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){  
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
                 nbcamion--;

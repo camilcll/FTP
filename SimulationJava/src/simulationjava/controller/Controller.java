@@ -34,39 +34,104 @@ import simulationjava.model.Feu;
  */
 public class Controller {
     
+    public static synchronized void start(Capteur[] tabCapteur){
+        recevoirFeu(tabCapteur);
+        envoyerCapteur(tabCapteur);
+        //recevoirIntervention(tabCapteur);
+    }
+    
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(15, 15);
+        Coord position = new Coord(x, y);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, 4);
+        Feu feu = new Feu(position, intensite, true);
         
         System.out.println(feu.toString());
+        System.out.println("genere feu");
         
-        //sauvegarderFeu(feu);
+        sauvegarderFeu(feu);
        
         CapteurDetecteFeu(feu, tabCapteur);
         
     }
     
+    public static void recevoirFeu(Capteur[] tabCapteur){
+        
+        Timer timer = new Timer();
+        
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    List<Feu> listFeu = null;
+                    System.out.println("debut requete");
+                    URL url = new URL("http://localhost:5000/api/emergency/feu");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP Error code : "
+                                + conn.getResponseCode());
+                    }
+                    InputStreamReader in = new InputStreamReader(conn.getInputStream());
+                    System.out.println(in);
+                    BufferedReader br = new BufferedReader(in);
+                    System.out.println(br);
+                    String output;
+                    String data = "";
+                    
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                        data += output;
+                    }
+                    
+                    System.out.println(data);
+                    
+                    if(data == "[]"){
+                        GenereFeu(tabCapteur);
+                    }else{
+                        try {
+                            listFeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
+                            
+                            for(Feu feu : listFeu){
+                                feu.setDetecte(true);
+                                CapteurDetecteFeu(feu, tabCapteur);
+                            }
+
+                        } catch (JsonProcessingException ex) {
+                            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("receive feu end");
+            }
+            
+        }, 0, 50000);
+    }
+    
     public static void CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
+        System.out.println("capteur detecte feu start");
         Coord positionFeu = feu.getPosition();
         int xFeu = positionFeu.getX();
         int yFeu = positionFeu.getY();  
         int intensiteFeu = feu.getIntensite();
         float range = (float)intensiteFeu / 2;
-        
-        JSONObject jsonCapteur = new JSONObject();
-        ObjectMapper mapper = new ObjectMapper();
-        int i = 0;
-        String capteurJson = "";
-        String[] listeCapteurJson;
-        listeCapteurJson = new String[60];
         
         for(Capteur capteur : tabCapteur){
             
@@ -95,18 +160,8 @@ public class Controller {
                 
                 System.out.println(capteur.toString());
             }
-            
-            try {
-                listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
-                i++;
-            } catch (JsonProcessingException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
         }
-        
-        //envoyerCapteur(Arrays.toString(listeCapteurJson));
-        //System.out.println(Arrays.toString(listeCapteurJson));
+        System.out.println("capteur detecte feu end");
        
     } 
     
@@ -126,6 +181,7 @@ public class Controller {
             OneShotTask(Feu feu) { str = feu; }
             public void run() {
                 try {
+                    System.out.println("save Feu start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -150,7 +206,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data");
+                System.out.println("save Feu end");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
@@ -158,7 +214,7 @@ public class Controller {
     }
     
     
-    public static void envoyerCapteur(String data){
+    public static void envoyerCapteur(Capteur[] tabCapteur){
         
         Timer timer = new Timer();
         
@@ -166,7 +222,23 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://localhost:5000/api/simulaition/capteur");
+                    System.out.println("send capteurs start");
+                    ObjectMapper mapper = new ObjectMapper();
+                    int i = 0;
+                    String data = "";
+                    String[] listeCapteurJson;
+                    listeCapteurJson = new String[60];
+                    for(Capteur capteur : tabCapteur){
+                        try {
+                            listeCapteurJson[i] = mapper.writeValueAsString(capteur).toString();
+                            i++;
+                        } catch (JsonProcessingException ex) {
+                            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    data = Arrays.toString(listeCapteurJson);
+                    System.out.println(data);
+                    URL url = new URL("http://localhost:5000/api/simulation/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
@@ -188,13 +260,13 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data to update");
+                System.out.println("send capteur end");
             }
             
-        }, 5000, 20000);
+        }, 10000, 20000);
     }
     
-    public static void recevoirIntervention(String data){
+    public static void recevoirIntervention(Capteur[] tabCapteur){
         
         Timer timer = new Timer();
         
