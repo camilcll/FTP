@@ -9,7 +9,7 @@ SERIALPORT = "COM3"
 BAUDRATE = 115200
 ser = serial.Serial()
 
-HOST = "http://localhost:5000"
+HOST = "164.4.1.4:5000"
 
 def initUART():
     # ser = serial.Serial(SERIALPORT, BAUDRATE)
