@@ -9,7 +9,7 @@ package emergencyjava.model;
  *
  * @author Sami
  */
-public class Feu {
+public class FeuCalculee {
     
     private static int count = 1;
     private int id;
@@ -17,7 +17,7 @@ public class Feu {
     private int zone;
     private int intensiteCalculee;// entre 1 et 10
 
-    public Feu(Coord position, int zone, int intensite) {
+    public FeuCalculee(Coord position, int zone, int intensite) {
         this.id = count++;
         this.positionCalculee = position;
         this.zone = zone;

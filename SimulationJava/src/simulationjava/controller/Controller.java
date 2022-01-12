@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,9 @@ import org.json.simple.JSONObject;
 import simulationjava.model.Capteur;
 import simulationjava.model.Coord;
 import simulationjava.model.Feu;
+import simulationjava.model.FeuCalculee;
+import simulationjava.model.Intervention;
+import simulationjava.model.Vehicule;
 
 /**
  *
@@ -43,14 +47,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(x, y);
+        Coord position = new Coord(18, 12);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, intensite, true);
+        Feu feu = new Feu(position, 5, true);
         
         System.out.println(feu.toString());
         System.out.println("genere feu");
@@ -72,7 +76,7 @@ public class Controller {
                     ObjectMapper mapper = new ObjectMapper();
                     List<Feu> listFeu = null;
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/api/emergency/feu");
+                    URL url = new URL("http://localhost:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -82,9 +86,7 @@ public class Controller {
                                 + conn.getResponseCode());
                     }
                     InputStreamReader in = new InputStreamReader(conn.getInputStream());
-                    System.out.println(in);
                     BufferedReader br = new BufferedReader(in);
-                    System.out.println(br);
                     String output;
                     String data = "";
                     
@@ -95,7 +97,11 @@ public class Controller {
                     
                     System.out.println(data);
                     
-                    if(data == "[]"){
+                    if(data.equals("[]")){
+                        /*int rand = new Random().nextInt(10);
+                        if(rand == 5){
+                            GenereFeu(tabCapteur);
+                        }*/
                         GenereFeu(tabCapteur);
                     }else{
                         try {
@@ -125,7 +131,9 @@ public class Controller {
         }, 0, 50000);
     }
     
-    public static void CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
+    public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
+        ArrayList<Capteur> listcapteuractive = null;
+        
         System.out.println("capteur detecte feu start");
         Coord positionFeu = feu.getPosition();
         int xFeu = positionFeu.getX();
@@ -137,6 +145,7 @@ public class Controller {
             
             float temp = checkCercle(xFeu, yFeu, range, capteur.getPosition().getX(), capteur.getPosition().getY(), capteur.getRange());
             if (temp <= 0 ){
+                listcapteuractive.add(capteur);
                 System.out.println("Capteur " + capteur.getId()+ " detecte le feu");
                 if ((Math.pow((capteur.getPosition().getX() - xFeu), 2) + Math.pow((capteur.getPosition().getY() - yFeu), 2)) < (Math.pow(range, 2))){
                     capteur.setIntensite(8);
@@ -162,6 +171,8 @@ public class Controller {
             }
         }
         System.out.println("capteur detecte feu end");
+        
+        return listcapteuractive;
        
     } 
     
@@ -275,7 +286,7 @@ public class Controller {
             public void run() {
                 try {
                     System.out.println("debut requete");
-                    URL url = new URL("http://localhost:5000/api/emergency/intervention");
+                    URL url = new URL("http://localhost:5000/api/simulation/intervention");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
@@ -297,7 +308,7 @@ public class Controller {
                     }
                     
                     System.out.println(data);
-                    TraiterIntervention(data);
+                    TraiterIntervention(data, tabCapteur);
                     
                     System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
                     conn.disconnect();
@@ -313,14 +324,106 @@ public class Controller {
         }, 5000, 20000);
     }
     
-    public static void TraiterIntervention(String data){
+    public static void TraiterIntervention(String data, Capteur[] tabCapteur){
         ObjectMapper mapper = new ObjectMapper();
+        List<Intervention> listIntervention = null;
         
-        /*try {
-            List<Intervention> listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
+        ArrayList listfeucal = null;
+        listfeucal = new ArrayList<FeuCalculee>();
+        
+        ArrayList<Feu> listfeu = null;
+        listfeu = new ArrayList<Feu>();
+        
+        List<Vehicule> listvehicule = null;
+        
+        
+        FeuCalculee feucal = null;
+        Feu feuidentifie = null;
+        
+        try {
+            listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
             
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
+        
+        listfeu = recevoirFeu();
+        
+        for(Intervention intervention : listIntervention){
+            feucal = intervention.getFeu();
+            listfeucal.add(feucal);
+            listvehicule = intervention.getListeVehicule();
+            for (Vehicule vehicule : listvehicule){
+                vehicule.setPosition(feucal.getPositionCalculee());
+            }
+            
+            listfeu = recevoirFeu();
+            
+            for(Feu feu : listfeu){
+                if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
+                    for (Vehicule vehicule : listvehicule){
+                        vehicule.setPosition(feuidentifie.getPosition());
+                    }
+
+                    ArrayList<Capteur> listcapteur = CapteurDetecteFeu(feu, tabCapteur);
+                    
+                    for(Capteur capteur : listcapteur){
+                        tabCapteur[capteur.getId()-1].setIntensite(0);
+                    }
+                    
+                    feu.setIntensite(0);
+                    
+                    
+                    
+                }
+                    
+            }
+            
+            
+                
+        }
+        
+                
     }
+    
+    public static ArrayList<Feu> recevoirFeu() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Feu> listfeu = null;
+        try {
+            System.out.println("debut requete");
+            URL url = new URL("http://localhost:5000/api/simulation/feu");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json");
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP Error code : "
+                        + conn.getResponseCode());
+            }
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            System.out.println(in);
+            BufferedReader br = new BufferedReader(in);
+            System.out.println(br);
+            String output;
+            String data = "";
+
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+                data += output;
+            }
+
+            System.out.println(data);
+            
+            listfeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
+
+                System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                conn.disconnect();
+
+            } catch (IOException ex) { 
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Ask to receive feu detecte");
+        return (ArrayList<Feu>) listfeu;
+    }
+    
 }
