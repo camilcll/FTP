@@ -106,7 +106,8 @@ if __name__ == '__main__':
                 # According to the simple protocol temperatureValue;lightValue*, we wait until the stop character '*'
                 data_str = ser.read_until(';').decode('utf-8').replace('\n', "").replace('\r', "")
                 capteurs += data_str
-                if("(59") in data_str:
+                print("CAP:"+capteurs)
+                if("(60") in data_str:
                     headers = {"Content-Type": "application/json"}
                     dataJson = TransformMatrixData(capteurs)
                     publish(client, dataJson)
