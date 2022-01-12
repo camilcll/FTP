@@ -174,6 +174,33 @@ paths:
                   type: "integer"
                 detecte:
                   type: "boolean"
+  /feuDetecte:
+    get:
+      operationId: "feu.readDetecte"
+      tags:
+        - "Feu"
+      summary: "The feu data structure"
+      description: "Read the list of feu detecte"
+      responses:
+        200:
+          description: "Successful read feu list operation"
+          schema:
+            type: "array"
+            items:
+              properties:
+                id:
+                  type: "integer"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
+                intensite:
+                  type: "integer"
+                detecte:
+                  type: "boolean"
   
   /capteur:
     get:

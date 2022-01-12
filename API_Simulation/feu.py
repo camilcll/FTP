@@ -46,6 +46,28 @@ def readnonDetecte():
     return feu_schema.dump(feux)
 
 
+def readDetecte():
+    """
+    This function responds to a request for /api/people
+    with the complete lists of people
+
+    :return:        json string of list of people
+    """
+
+    #print("BD:",db.engine)
+
+    # Create the list of people from our data
+    feux = Feu.query \
+        .order_by(Feu.id) \
+        .filter_by(detecte = True) \
+        .all()
+
+    # Serialize the data for the response
+    feu_schema = FeuSchema(many=True)
+    return feu_schema.dump(feux)
+
+
+
 def create(feu):
     """
     This function creates a new person in the people structure

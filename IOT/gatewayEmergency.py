@@ -16,7 +16,7 @@ SERIALPORT = "/dev/ttyACM0"
 BAUDRATE = 115200
 ser = serial.Serial()
 
-HOST = "http://localhost:5000" #API HOST
+HOST = "http://164.4.1.5:5000" #API HOST
 
 broker = '127.0.0.1'
 port = 1883
@@ -106,6 +106,7 @@ if __name__ == '__main__':
                 # According to the simple protocol temperatureValue;lightValue*, we wait until the stop character '*'
                 data_str = ser.read_until(';').decode('utf-8').replace('\n', "").replace('\r', "")
                 capteurs += data_str
+                print("CAP:"+capteurs)
                 if("(60") in data_str:
                     headers = {"Content-Type": "application/json"}
                     dataJson = TransformMatrixData(capteurs)
