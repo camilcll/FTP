@@ -152,32 +152,32 @@ public class Controller {
                 System.out.println("1 voisin actif");
                 System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin.getId());
                 if(capteurActif.getIntensite() == capteurvoisin.getIntensite()){
-                    xFeuCalculee = (capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2;
-                    yFeuCalculee = (capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2;
+                    xFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2);
+                    yFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2);
                     if(capteurActif.getIntensite() < 6){
                         feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), (capteurActif.getIntensite() - 2)/2, capteurActif.getIntensite() - 2);
                     }else if(capteurActif.getIntensite() == 6){
                         feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 7/2, 7);
                     }else if (capteurActif.getIntensite() == 7 || capteurActif.getIntensite() == 8){
-                        xFeuCalculee = (capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2;
-                        yFeuCalculee = (capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2;
+                        xFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2);
+                        yFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2);
                         feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 4, 8);
                     }
                 } else if(capteurActif.getIntensite() == 8 && capteurvoisin.getIntensite() < 7){
                     if(capteurActif.getPosition().getX() == capteurvoisin.getPosition().getX()){
-                        xFeuCalculee = capteurActif.getPosition().getX();
-                        yFeuCalculee = ((7/10)*capteurActif.getPosition().getY()) + ((3/10)*capteurvoisin.getPosition().getY());
+                        xFeuCalculee = (int) Math.ceil((double)capteurActif.getPosition().getX());
+                        yFeuCalculee = (int) Math.ceil((double)((7/10)*capteurActif.getPosition().getY()) + ((3/10)*capteurvoisin.getPosition().getY()));
                     }else{
-                        xFeuCalculee = ((7/10)*capteurActif.getPosition().getY()) + ((3/10)*capteurvoisin.getPosition().getY());
+                        xFeuCalculee = ((int) Math.ceil((double)(7/10)*capteurActif.getPosition().getY()) + ((3/10)*capteurvoisin.getPosition().getY()));
                         yFeuCalculee = capteurActif.getPosition().getX();
                     }
                     feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);
                 }else if(capteurActif.getIntensite() < 7 && capteurvoisin.getIntensite() == 8){
                     if(capteurActif.getPosition().getX() == capteurvoisin.getPosition().getX()){
-                        xFeuCalculee = capteurActif.getPosition().getX();
-                        yFeuCalculee = ((3/10)*capteurActif.getPosition().getY()) + ((7/10)*capteurvoisin.getPosition().getY());
+                        xFeuCalculee = (int) Math.ceil((double)capteurActif.getPosition().getX());
+                        yFeuCalculee = (int) Math.ceil((double)((3/10)*capteurActif.getPosition().getY()) + ((7/10)*capteurvoisin.getPosition().getY()));
                     }else{
-                        xFeuCalculee = ((3/10)*capteurActif.getPosition().getY()) + ((7/10)*capteurvoisin.getPosition().getY());
+                        xFeuCalculee = (int) Math.ceil((double)((3/10)*capteurActif.getPosition().getY()) + ((7/10)*capteurvoisin.getPosition().getY()));
                         yFeuCalculee = capteurActif.getPosition().getX();
                     }
                     feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);
@@ -185,8 +185,9 @@ public class Controller {
                     listcapteur.removeIf(cap -> cap == capteurvoisin);
                     //listcapteur.remove(capteurvoisin);
                 }else{
-                    xFeuCalculee = (capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2;
-                    yFeuCalculee = (capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2;
+                    xFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getX() + capteurvoisin.getPosition().getX())/2);
+                    System.out.println(xFeuCalculee);
+                    yFeuCalculee = (int) Math.ceil((double)(capteurActif.getPosition().getY() + capteurvoisin.getPosition().getY())/2);
                     feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);
                 }
             }else if(Capteur.estVoisinDe(listcapteur, capteurActif).size() == 2){
@@ -199,30 +200,29 @@ public class Controller {
                 System.out.println("2 voisins actifs");
                 System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin1.getId() + "et le capteur" + capteurvoisin2.getId());
                 
-                double x1 = (((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getX()) 
-                            + (((double)capteurvoisin1.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurvoisin1.getPosition().getX());
-                double y1 = (((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getY()) 
-                        + (((double)capteurvoisin1.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurvoisin1.getPosition().getY());
+                int x1 = (int) Math.ceil((double)(((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getX()) 
+                            + (((double)capteurvoisin1.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurvoisin1.getPosition().getX()));
+                int y1 = (int) Math.ceil((double)(((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getY()) 
+                        + (((double)capteurvoisin1.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurvoisin1.getPosition().getY()));
 
-                double x2 = (((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurActif.getPosition().getX()) 
-                            + (((double)capteurvoisin2.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurvoisin2.getPosition().getX());
-                double y2 = (((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurActif.getPosition().getY()) 
-                        + (((double)capteurvoisin2.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurvoisin2.getPosition().getY());
+                int x2 = (int) Math.ceil((double)(((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurActif.getPosition().getX()) 
+                            + (((double)capteurvoisin2.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurvoisin2.getPosition().getX()));
+                int y2 = (int) Math.ceil((double)(((double)capteurActif.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurActif.getPosition().getY()) 
+                        + (((double)capteurvoisin2.getIntensite()/(double)(capteurActif.getIntensite()+capteurvoisin2.getIntensite()))*capteurvoisin2.getPosition().getY()));
                 
                 System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
                 
-                double a1 = (double)(capteurvoisin2.getPosition().getY()-y1)/(double)(capteurvoisin2.getPosition().getX()-x1);
-                double b1 = y1 - a1*x1 ;
-                double a2 = (double)(capteurvoisin1.getPosition().getY()-y2)/(double)(capteurvoisin1.getPosition().getX()-x2);
-                double b2 = y2 - a2*x2;
+                int a1 = (int) Math.ceil((double)(double)(capteurvoisin2.getPosition().getY()-y1)/(double)(capteurvoisin2.getPosition().getX()-x1));
+                int b1 = y1 - a1*x1 ;
+                int a2 = (int) Math.ceil((double)(double)(capteurvoisin1.getPosition().getY()-y2)/(double)(capteurvoisin1.getPosition().getX()-x2));
+                int b2 = y2 - a2*x2;
                 
                 System.out.println(a1 + " " + b1 + " " + a2 + " " + b2);
                 
-                double xFeuCalcule = (double) (-(b1-b2)/(double)(a1-a2));
-                xFeuCalculee = (int) xFeuCalcule;
+                int xFeuCalcule = (int) Math.ceil((double)(double) (-(b1-b2)/(double)(a1-a2)));
+   
                 System.out.println(xFeuCalculee);
-                double yFeuCalcule = (double) (a1 * xFeuCalculee + b1);
-                yFeuCalculee = (int) yFeuCalcule;
+                int yFeuCalcule = (int) Math.ceil((double)(double) (a1 * xFeuCalculee + b1));
                 
                 feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
                 
