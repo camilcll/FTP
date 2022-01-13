@@ -669,11 +669,15 @@ public class Controller {
             listcasernevoisin.add(d);
         }
         
+        System.out.println(listcasernevoisin);
+        
         int index = 0;
         int numcaserne = 0;
         int etat = 0; // etat = 0 -> en cours , 1 -> en attente, 2 -> terminé
         
-        boolean temp = false;
+        index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
+        
+        /*boolean temp = false;
         while (!temp){
             index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
             if(intensite <= 3){
@@ -712,9 +716,19 @@ public class Controller {
                 }
             }
             
+        }*/
+        
+        if(intensite<=3){
+            nbcamion = 1;
+        }else if(intensite > 3 && intensite <= 6){
+            nbcamion = 1;
+            nbvoiture = 1;
+        }else{
+            nbcamion = 2;
+            nbvoiture = 1;
         }
         
-        for(Vehicule vehicule : listcaserne.get(numcaserne).getListeVehicule()){
+        for(Vehicule vehicule : listcaserne.get(index).getListeVehicule()){
             System.out.println("bcdcoivd " + vehicule.toString());
             if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){  
                 vehicule.setDisponible(false);
