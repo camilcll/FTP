@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for
 import config
 import json
 import feu
+import capteur
 
 
 # Create the application instance
@@ -48,6 +49,7 @@ def createFeu():
 def main():
 
     feux = feu.read_all()
+    capteurs = capteur.read_all()
     listMarker = ""
 
     for f in feux:
@@ -58,7 +60,16 @@ def main():
         coordX = 4.8+(float(position["x"])*0.0012)
         coordY = 45.720+(float(position["y"])*0.0011)
 
-        listMarker += "L.marker([{latitude}, {longitude}]).addTo(map).bindPopup('Id: {id}<br>intensite: {intensite}');".format(latitude=coordY,longitude=coordX,id=idFeu,intensite=intensite)
+        listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconFeu}}).addTo(map).bindPopup('Id: {id}<br>intensite: {intensite}');".format(latitude=coordY,longitude=coordX,id=idFeu,intensite=intensite)
+
+    for c in capteurs:
+
+        position = json.loads(str(c["position"]).replace("'",'"'))
+        coordX = 4.8+(float(position["x"])*0.0012)
+        coordY = 45.720+(float(position["y"])*0.0011)
+
+        listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCapteur}}).addTo(map);".format(latitude=coordY,longitude=coordX)
+
 
         #print("coord:{0},{1}".format(coordX,coordY))
 

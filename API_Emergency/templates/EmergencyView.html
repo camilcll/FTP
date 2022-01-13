@@ -18,40 +18,16 @@
 
 </head>
 <body>
-    <div id="createBar">
-        <p>
-            <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseForm" aria-expanded="false" aria-controls="collapseForm">
-                <i class="fas fa-fire"></i>
-            </button>
-        </p>
-        <div class="collapse" id="collapseForm">
-            <div class="card card-body p-2">
-                <form class="form-inline" method="POST" action="createFeu">
-                    <div class="form-group mb-2">
-                        <label for="id" class="sr-only">Id</label>
-                        <input name="id" type="text" class="form-control-plaintext" id="id" placeholder="Id" required="required">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="positionX" class="sr-only">PositionX</label>
-                        <input name="positionX" type="text" class="form-control-plaintext" id="positionX" placeholder="Position x (0-100)" required="required">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="positionY" class="sr-only">PositionY</label>
-                        <input name="positionY" type="text" class="form-control-plaintext" id="positionY" placeholder="Position y (0-60)" required="required">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="intensite" class="sr-only">Intensite</label>
-                        <input name="intensite" type="text" class="form-control-plaintext" id="intensite" placeholder="Intensite (1-8)" required="required">
-                    </div>
-                    <button type="submit" class="btn btn-danger mb-2">Creer</button>
-                </form>
-            </div>
-        </div>
-    </div>
     <div id="map"></div>
 
     <script>
         //const myIcon = L.icon({iconUrl: "{{ url_for('static', filename='images/marker.png') }}"}, {iconS});
+
+        var iconCamion = L.icon({
+            iconUrl: "{{ url_for('static', filename='images/camion.png') }}",
+            iconSize: [50, 50]
+        });
+
         var iconFeu = L.icon({
             iconUrl: "{{ url_for('static', filename='images/marker.png') }}",
             iconSize: [30, 47]
