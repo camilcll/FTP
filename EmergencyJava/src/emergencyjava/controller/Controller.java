@@ -677,12 +677,13 @@ public class Controller {
         while (!temp){
             index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
             if(intensite <= 3){
-                System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                 if(listcaserne.get(index).checkVehiculeDispo(1, 0, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                     numcaserne = index;
                     nbcamion = 1;
                     temp = true;
                 }else if(listcaserne.get(index).checkVehiculeDispo(0, 2, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                     numcaserne = index;
                     nbvoiture = 2;
                     temp = true;
@@ -690,8 +691,8 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }else if(intensite > 3 && intensite <= 6){
-                System.out.println("Moyen Feu -> 1 camion et une voiture");
                 if(listcaserne.get(index).checkVehiculeDispo(1, 1, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Moyen Feu -> 1 camion et une voiture");
                     numcaserne = index;
                     nbcamion = 1;
                     nbvoiture = 1;
@@ -700,8 +701,8 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }else{
-                System.out.println("Gros Feu -> 2 camions et 1 voiture");
                 if(listcaserne.get(index).checkVehiculeDispo(2, 1, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Gros Feu -> 2 camions et 1 voiture");
                     numcaserne = index;
                     nbcamion = 2;
                     nbvoiture = 1;
@@ -710,14 +711,11 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }
-            if(listcasernevoisin.isEmpty()){
-                System.out.println("Aucune caserne dispo");
-                etat = 1;
-                temp = true;
-            }
+            
         }
         
         for(Vehicule vehicule : listcaserne.get(numcaserne).getListeVehicule()){
+            System.out.println("bcdcoivd " + vehicule.toString());
             if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){  
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
@@ -737,6 +735,8 @@ public class Controller {
             Vehicule v = list.get(1);
             list.add(v);
         }
+        
+        System.out.println(listvehicule.toString());
         
         Intervention inter = new Intervention(feu, listvehicule, etat);
         EnvoyerIntervention(inter);
