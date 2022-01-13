@@ -348,7 +348,7 @@ public class Controller {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        listfeu = recevoirFeu();
+        listfeu = recevoirFeureel();
         
         for(Intervention intervention : listIntervention){
             feucal = intervention.getFeu();
@@ -358,10 +358,11 @@ public class Controller {
                 vehicule.setPosition(feucal.getPositionCalculee());
             }
             
-            listfeu = recevoirFeu();
+            listfeu = recevoirFeureel();
             
             for(Feu feu : listfeu){
                 if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
+                    System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
                     for (Vehicule vehicule : listvehicule){
                         vehicule.setPosition(feuidentifie.getPosition());
                     }
@@ -387,12 +388,50 @@ public class Controller {
                 
     }
     
-    public static ArrayList<Feu> recevoirFeu() {
+    /*public static void MoveVehicule(ArrayList<Vehicule> listvehicule) {
+        class OneShotTask implements Runnable {
+            ArrayList<Vehicule> str;
+            OneShotTask(ArrayList<Vehicule> listvehicule) { str = listvehicule; }
+            public void run() {
+                try {
+                    System.out.println("save vehicule start");
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("save Feu end");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(feu));
+        t.start();
+    }*/
+    
+    public static ArrayList<Feu> recevoirFeureel() {
         ObjectMapper mapper = new ObjectMapper();
         List<Feu> listfeu = null;
         try {
             System.out.println("debut requete");
-            URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
+            URL url = new URL("http://164.4.1.4:5000/api/simulation/feuDetecte");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");

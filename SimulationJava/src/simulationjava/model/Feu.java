@@ -18,7 +18,7 @@ public class Feu {
     private boolean detecte;
     
     public Feu(){
-        
+        super();
     }
 
     public Feu(Coord position, int intensite, boolean detecte) {
