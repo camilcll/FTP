@@ -50,14 +50,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(15, 10);
+        Coord position = new Coord(18, 12);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, 6, true);
+        Feu feu = new Feu(position, 5, true);
         
         System.out.println(feu.toString());
         System.out.println("genere feu");
