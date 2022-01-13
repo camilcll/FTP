@@ -87,7 +87,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 50000, 30000);
+        }, 40000, 30000);
     }
     
     public static void checkCapteur(String data){
@@ -214,7 +214,10 @@ public class Controller {
                 int a2 = (capteurvoisin1.getPosition().getY()-y2)/(capteurvoisin1.getPosition().getX()-x2);
                 int b2 = y2 - a2*x2;
                 
+                System.out.println(a1 + " " + b1 + " " + a2 + " " + b2);
+                
                 xFeuCalculee = -(b1-b2)/(a1-a2);
+                System.out.println(xFeuCalculee);
                 yFeuCalculee = a1 * xFeuCalculee + b1;
                 
                 feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
