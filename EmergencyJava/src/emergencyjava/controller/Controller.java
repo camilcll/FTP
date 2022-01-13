@@ -730,6 +730,13 @@ public class Controller {
             }
         }
         
+        if (listvehicule.isEmpty()){
+            ArrayList<Vehicule> list;
+            list = listcaserne.get(1).getListeVehicule();
+            Vehicule v = list.get(1);
+            list.add(v);
+        }
+        
         Intervention inter = new Intervention(feu, listvehicule, etat);
         EnvoyerIntervention(inter);
     }
