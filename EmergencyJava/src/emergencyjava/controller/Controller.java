@@ -85,7 +85,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 50000, 20000);
+        }, 40000, 20000);
     }
     
     public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
