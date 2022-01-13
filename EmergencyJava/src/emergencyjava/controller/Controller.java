@@ -224,7 +224,7 @@ public class Controller {
                 System.out.println(xFeuCalculee);
                 int yFeuCalcule = (int) Math.ceil((double)(double) (a1 * xFeuCalculee + b1));
                 
-                feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
+                feu = new FeuCalculee(new Coord(xFeuCalcule, yFeuCalcule), 5, 8);// a revoir
                 
                 listcapteur.removeIf(cap -> cap == capteurvoisin1);
                 listcapteur.removeIf(cap -> cap == capteurvoisin2);
