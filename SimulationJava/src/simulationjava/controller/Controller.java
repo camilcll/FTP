@@ -58,7 +58,7 @@ public class Controller {
             intensite++;
         }
         
-        Feu feu = new Feu(position, 8, true);
+        Feu feu = new Feu(position, 4, true);
         
         System.out.println(feu.toString());
         System.out.println("Un feu est apparu");
