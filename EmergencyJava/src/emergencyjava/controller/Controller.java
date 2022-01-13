@@ -52,7 +52,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    System.out.println("debut requete");
+                    System.out.println("debut requete capteurs");
                     URL url = new URL("http://164.4.1.5:5000/api/emergency/capteur");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
@@ -63,14 +63,11 @@ public class Controller {
                                 + conn.getResponseCode());
                     }
                     InputStreamReader in = new InputStreamReader(conn.getInputStream());
-                    System.out.println(in);
                     BufferedReader br = new BufferedReader(in);
-                    System.out.println(br);
                     String output;
                     String data = "";
                     
                     while ((output = br.readLine()) != null) {
-                        System.out.println(output);
                         data += output;
                     }
                     
@@ -87,7 +84,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 60000, 50000);
+        }, 40000, 150000);
     }
     
     public static void checkCapteur(String data){
@@ -224,7 +221,7 @@ public class Controller {
                 System.out.println(xFeuCalculee);
                 int yFeuCalcule = (int) Math.ceil((double)(double) (a1 * xFeuCalculee + b1));
                 
-                feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
+                feu = new FeuCalculee(new Coord(xFeuCalcule, yFeuCalcule), 5, 8);// a revoir
                 
                 listcapteur.removeIf(cap -> cap == capteurvoisin1);
                 listcapteur.removeIf(cap -> cap == capteurvoisin2);
@@ -270,33 +267,33 @@ public class Controller {
                         }
                     }
                     
-                    int x1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getX()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX());
-                    int y1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getY()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY());
+                    int x1 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getX()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX()));
+                    int y1 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getY()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY()));
                     
-                    int x2 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getX()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX());
-                    int y2 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getY()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY());
+                    int x2 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getX()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX()));
+                    int y2 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getY()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY()));
                     
                     
-                    int x3 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getX()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX());
-                    int y3 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getY()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY());
+                    int x3 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getX()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX()));
+                    int y3 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getY()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY()));
                     
-                    int x4 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getX()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX());
-                    int y4 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getY()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY());
+                    int x4 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getX()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX()));
+                    int y4 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getY()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY()));
                     
-                    int a1 = (y2-y1)/(x2-x1);
+                    int a1 = (int) Math.ceil((double)(y2-y1)/(x2-x1));
                     int b1 = y1 - a1*x1 ;
-                    int a2 = (y4-y3)/(x4-x3);
+                    int a2 = (int) Math.ceil((double)(y4-y3)/(x4-x3));
                     int b2 = y3 - a2*x3;
                     
-                    xFeuCalculee = -(b1-b2)/(a1-a2);
+                    xFeuCalculee = (int) Math.ceil((double)-(b1-b2)/(a1-a2));
                     yFeuCalculee = a1 * xFeuCalculee + b1;
 
                    feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
@@ -558,6 +555,7 @@ public class Controller {
             OneShotTask(FeuCalculee feu) { str = feu; }
             public void run() {
                 try {
+                    System.out.println("save data feu start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -582,7 +580,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save data feu");
+                System.out.println("save data feu end");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
@@ -602,7 +600,7 @@ public class Controller {
     public static boolean checkFeu(FeuCalculee feu) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            System.out.println("debut requete");
+            System.out.println("debut check feu");
             URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -618,7 +616,6 @@ public class Controller {
             String data = "";
 
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
                 data += output;
             }
 
@@ -640,7 +637,7 @@ public class Controller {
             } catch (IOException ex) { 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Ask to receive data check feu ");
+            System.out.println("data check feu end");
         return true;
     }
     
@@ -730,6 +727,13 @@ public class Controller {
             }
         }
         
+        if (listvehicule.isEmpty()){
+            ArrayList<Vehicule> list;
+            list = listcaserne.get(1).getListeVehicule();
+            Vehicule v = list.get(1);
+            list.add(v);
+        }
+        
         Intervention inter = new Intervention(feu, listvehicule, etat);
         EnvoyerIntervention(inter);
     }
@@ -740,6 +744,7 @@ public class Controller {
             OneShotTask(Intervention intervention) { str = intervention; }
             public void run() {
                 try {
+                    System.out.println("send data intervention end");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -764,7 +769,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data intervention");
+                System.out.println("send data intervention end");
             }
         }
         Thread t = new Thread(new OneShotTask(intervention));
@@ -777,7 +782,7 @@ public class Controller {
         String data;
         try {
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
-            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
+            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){}); 
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JsonProcessingException ex) {
@@ -790,7 +795,6 @@ public class Controller {
     public static String apiGet(URL url){
         String data = "";
         try {
-            System.out.println("debut requete");
             URL urlApi = url;
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -801,13 +805,10 @@ public class Controller {
                         + conn.getResponseCode());
             }
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-            System.out.println(in);
             BufferedReader br = new BufferedReader(in);
-            System.out.println(br);
             String output;
 
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
                 data += output;
             }
         }   catch (IOException ex) {

@@ -16,6 +16,10 @@ public class Vehicule {
     private String type;
     private int idcaserne;
     private boolean disponible;
+    
+    public Vehicule(){
+        
+    }
 
     public Vehicule(String type, Coord position, int idcaserne, boolean disponible) {
         this.id = count++;
