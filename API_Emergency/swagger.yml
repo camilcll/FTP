@@ -780,7 +780,15 @@ paths:
                         type: "boolean"
                 etat:
                   type: "integer"
-                
+    delete:
+      operationId: intervention.delete
+      tags:
+        - Intervention
+      summary: Delete an intervention from the list
+      description: Delete an intervention
+      responses:
+        200:
+          description: Successfully deleted an intervention            
   
 
 
