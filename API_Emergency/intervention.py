@@ -105,3 +105,26 @@ def update(interventions):
             data.append(schema.dump(update_inter))
 
     return data, 200
+
+def delete():
+    """
+    This function deletes a person from the people structure
+    :param person_id:   Id of the person to delete
+    :return:            200 on successful delete, 404 if not found
+    """
+    # Get the person requested
+    row_delete = Intervention.query.delete()
+
+    # Did we find a person?
+    if row_delete > 0:
+        db.session.commit()
+        return make_response(
+            "Intervention has been deleted", 200
+        )
+
+    # Otherwise, nope, didn't find that person
+    else:
+        abort(
+            409,
+            "Aucun intervention a supprimer",
+        )
