@@ -16,6 +16,12 @@ public class FeuCalculee {
     private Coord positionCalculee;
     private int zone;
     private int intensiteCalculee;// entre 1 et 10
+        
+    
+    public FeuCalculee(){
+        
+    }
+    
 
     public FeuCalculee(Coord position, int zone, int intensite) {
         this.id = count++;

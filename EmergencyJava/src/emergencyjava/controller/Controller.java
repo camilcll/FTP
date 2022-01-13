@@ -85,7 +85,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 50000, 20000);
+        }, 40000, 20000);
     }
     
     public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
@@ -446,11 +446,11 @@ public class Controller {
             index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
             if(intensite <= 3){
                 System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
-                if(listcaserne.get(index).checkVehiculeDispo(1, 0)){
+                if(listcaserne.get(index).checkVehiculeDispo(1, 0, listcaserne.get(numcaserne).getListeVehicule())){
                     numcaserne = index;
                     nbcamion = 1;
                     temp = true;
-                }else if(listcaserne.get(index).checkVehiculeDispo(0, 2)){
+                }else if(listcaserne.get(index).checkVehiculeDispo(0, 2, listcaserne.get(numcaserne).getListeVehicule())){
                     numcaserne = index;
                     nbvoiture = 2;
                     temp = true;
@@ -459,7 +459,7 @@ public class Controller {
                 }
             }else if(intensite > 3 && intensite <= 6){
                 System.out.println("Moyen Feu -> 1 camion et une voiture");
-                if(listcaserne.get(index).checkVehiculeDispo(1, 1)){
+                if(listcaserne.get(index).checkVehiculeDispo(1, 1, listcaserne.get(numcaserne).getListeVehicule())){
                     numcaserne = index;
                     nbcamion = 1;
                     nbvoiture = 1;
@@ -469,7 +469,7 @@ public class Controller {
                 }
             }else{
                 System.out.println("Gros Feu -> 2 camions et 1 voiture");
-                if(listcaserne.get(index).checkVehiculeDispo(2, 1)){
+                if(listcaserne.get(index).checkVehiculeDispo(2, 1, listcaserne.get(numcaserne).getListeVehicule())){
                     numcaserne = index;
                     nbcamion = 2;
                     nbvoiture = 1;
