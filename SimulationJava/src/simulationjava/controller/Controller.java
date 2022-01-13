@@ -51,14 +51,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(x, y);
+        Coord position = new Coord(15, 10);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, intensite, true);
+        Feu feu = new Feu(position, 5, true);
         
         System.out.println(feu.toString());
         System.out.println("Un feu est apparu");
@@ -317,8 +317,12 @@ public class Controller {
                     vehicule.setPosition(feucal.getPositionCalculee());
                     numcaserne = vehicule.getIdcaserne();
                 }
+                
+                System.out.println("avant le mouvement");
 
                 MoveVehicule((ArrayList<Vehicule>) listvehicule);
+                
+                System.out.println("apres le mouvement");
 
                 listfeu = recevoirFeureel();
 
