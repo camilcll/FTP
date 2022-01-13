@@ -659,7 +659,7 @@ public class Controller {
         System.out.println("teseeeeeetstsvhdhdbdb list caserne");
         System.out.println(listcaserne.toString());
         
-        ArrayList listvehicule;
+        ArrayList<Vehicule> listvehicule;
         listvehicule = new ArrayList<Vehicule>();
         
         for (int i = 0; i<4; i++){
@@ -730,24 +730,17 @@ public class Controller {
         
         for(Vehicule vehicule : listcaserne.get(index).getListeVehicule()){
             System.out.println("bcdcoivd " + vehicule.toString());
-            if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){  
+            if(vehicule.isDisponible() && vehicule.getType().equals("Camion") && nbcamion > 0){  
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
                 nbcamion--;
             }
             
-            if(vehicule.isDisponible() && vehicule.getType() == "Voiture" && nbvoiture > 0){
+            if(vehicule.isDisponible() && vehicule.getType().equals("Voiture") && nbvoiture > 0){
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
                 nbvoiture--;
             }
-        }
-        
-        if (listvehicule.isEmpty()){
-            ArrayList<Vehicule> list;
-            list = listcaserne.get(1).getListeVehicule();
-            Vehicule v = list.get(1);
-            list.add(v);
         }
         
         System.out.println(listvehicule.toString());
