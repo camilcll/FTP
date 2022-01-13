@@ -327,7 +327,7 @@ public class Controller {
                         if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
                         System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
                         for (Vehicule vehicule : listvehicule){
-                            vehicule.setPosition(feuidentifie.getPosition());
+                            vehicule.setPosition(feu.getPosition());
                         }
                         
                         try {
