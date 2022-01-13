@@ -41,6 +41,7 @@ import simulationjava.model.Vehicule;
 public class Controller {
     
     public static synchronized void start(Capteur[] tabCapteur){
+        GenereFeu(tabCapteur);
         recevoirFeu(tabCapteur);
         envoyerCapteur(tabCapteur);
         recevoirIntervention(tabCapteur);
@@ -105,7 +106,7 @@ public class Controller {
                 System.out.println("receive feu end");
             }
             
-        }, 0, 20000);
+        }, 0, 50000);
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
@@ -253,7 +254,7 @@ public class Controller {
                 System.out.println("send capteur end");
             }
             
-        }, 30000, 30000);
+        }, 30000, 50000);
     }
     
     public static void recevoirIntervention(Capteur[] tabCapteur){
@@ -270,12 +271,12 @@ public class Controller {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(data);
+                System.out.println("ask data intervention");
                 TraiterIntervention(data, tabCapteur);
-                    
-                System.out.println("ask data");
+
             }
             
-        }, 90000, 30000);
+        }, 90000, 50000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
