@@ -41,6 +41,7 @@ import simulationjava.model.Vehicule;
 public class Controller {
     
     public static synchronized void start(Capteur[] tabCapteur){
+        GenereFeu(tabCapteur);
         recevoirFeu(tabCapteur);
         envoyerCapteur(tabCapteur);
         recevoirIntervention(tabCapteur);
@@ -84,11 +85,10 @@ public class Controller {
                 }
                     
                     if(data.equals("[]")){
-                        /*int rand = new Random().nextInt(10);
+                        int rand = new Random().nextInt(10);
                         if(rand == 5){
                             GenereFeu(tabCapteur);
-                        }*/
-                        GenereFeu(tabCapteur);
+                        }
                     }else{
                         try {
                             listFeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
