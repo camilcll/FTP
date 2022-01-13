@@ -331,7 +331,8 @@ public class Controller {
                         }
                         
                         try {
-                            TimeUnit.SECONDS.sleep(10);
+                            System.out.println("CAMIONNNN");
+                            TimeUnit.SECONDS.sleep(15);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
