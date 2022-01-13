@@ -55,12 +55,13 @@ def main():
     for f in feux:
 
         idFeu = f["id"]
-        intensite = f["intensite"]
-        position = json.loads(str(f["position"]).replace("'",'"'))
-        coordX = 4.8+(float(position["x"])*0.0012)
-        coordY = 45.720+(float(position["y"])*0.0011)
+        intensite = int(f["intensite"])
+        if(intensite != 0):
+            position = json.loads(str(f["position"]).replace("'",'"'))
+            coordX = 4.8+(float(position["x"])*0.0012)
+            coordY = 45.720+(float(position["y"])*0.0011)
 
-        listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconFeu}}).addTo(map).bindPopup('Id: {id}<br>intensite: {intensite}');".format(latitude=coordY,longitude=coordX,id=idFeu,intensite=intensite)
+            listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconFeu}}).addTo(map).bindPopup('Id: {id}<br>intensite: {intensite}');".format(latitude=coordY,longitude=coordX,id=idFeu,intensite=intensite)
 
     for c in capteurs:
 
