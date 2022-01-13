@@ -18,10 +18,10 @@ public class Intervention {
     private ArrayList<Vehicule> listeVehicule;
     private int etat;
 
-    public Intervention(FeuCalculee feu, ArrayList<Vehicule> listeVehicule, int etat) {
+    public Intervention(FeuCalculee feu, ArrayList<Vehicule> listevehicule, int etat) {
         this.id = count++;
         this.feu = feu;
-        this.listeVehicule = listeVehicule;
+        this.listeVehicule = listevehicule;
         this.etat = etat;
     }
 
