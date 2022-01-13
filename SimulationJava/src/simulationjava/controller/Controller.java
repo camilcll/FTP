@@ -335,7 +335,7 @@ public class Controller {
                         
                         try {
                             System.out.println("Le camion est sur le feu");
-                            TimeUnit.SECONDS.sleep(15);
+                            TimeUnit.SECONDS.sleep(30);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }

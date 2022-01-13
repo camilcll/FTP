@@ -800,8 +800,8 @@ public class Controller {
         try {
             System.out.println("recevoir caserne start -------");
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
-            System.out.println(data);
-            System.out.println("retour get caserne");
+            //System.out.println(data);
+            //System.out.println("retour get caserne");
             listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){}); 
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
