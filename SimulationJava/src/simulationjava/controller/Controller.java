@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import simulationjava.model.Capteur;
+import simulationjava.model.Caserne;
 import simulationjava.model.Coord;
 import simulationjava.model.Feu;
 import simulationjava.model.FeuCalculee;
@@ -166,7 +168,7 @@ public class Controller {
                     capteur.setIntensite(8);
                 }
                 
-                //listcapteuractive.add(capteur);
+                listcapteuractive.add(capteur);
                 
                 System.out.println(capteur.toString());
             }
@@ -341,6 +343,8 @@ public class Controller {
         FeuCalculee feucal = null;
         Feu feuidentifie = null;
         
+        int numcaserne = 0;
+        
         try {
             listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
             
@@ -348,7 +352,7 @@ public class Controller {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        listfeu = recevoirFeu();
+        listfeu = recevoirFeureel();
         
         for(Intervention intervention : listIntervention){
             feucal = intervention.getFeu();
@@ -356,16 +360,23 @@ public class Controller {
             listvehicule = intervention.getListeVehicule();
             for (Vehicule vehicule : listvehicule){
                 vehicule.setPosition(feucal.getPositionCalculee());
+                numcaserne = vehicule.getIdcaserne();
             }
             
-            listfeu = recevoirFeu();
+            MoveVehicule((ArrayList<Vehicule>) listvehicule);
+            
+            listfeu = recevoirFeureel();
             
             for(Feu feu : listfeu){
-                if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
+                if (feu.getIntensite() > 0){
+                    if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
+                    System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
                     for (Vehicule vehicule : listvehicule){
                         vehicule.setPosition(feuidentifie.getPosition());
                     }
 
+                    MoveVehicule((ArrayList<Vehicule>) listvehicule);
+                    
                     ArrayList<Capteur> listcapteur = CapteurDetecteFeu(feu, tabCapteur);
                     
                     for(Capteur capteur : listcapteur){
@@ -374,9 +385,27 @@ public class Controller {
                     
                     feu.setIntensite(0);
                     
+                    intervention.setEtat(2);
                     
+                    ArrayList<Caserne> listcaserne = recevoirCaserne();
+                    
+                    for(Caserne caserne : listcaserne){
+                        if(caserne.getId() == numcaserne){
+                            for (Vehicule vehicule : listvehicule){
+                                vehicule.setPosition(caserne.getPosition());
+                                vehicule.setDisponible(true);
+                            }
+                            MoveVehicule((ArrayList<Vehicule>) listvehicule);
+                        }
+                    }
+                    
+                    updateFeu(listfeu);
+                    
+                    updateIntervention((ArrayList<Intervention>) listIntervention);
                     
                 }
+                }
+                
                     
             }
             
@@ -387,12 +416,157 @@ public class Controller {
                 
     }
     
-    public static ArrayList<Feu> recevoirFeu() {
+    public static void MoveVehicule(ArrayList<Vehicule> listvehicule) {
+        class OneShotTask implements Runnable {
+            ArrayList<Vehicule> str;
+            OneShotTask(ArrayList<Vehicule> listvehicule) { str = listvehicule; }
+            public void run() {
+                try {
+                    System.out.println("save vehicule start");
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/vehicule");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("save Feu end");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(listvehicule));
+        t.start();
+    }
+    
+    public static void updateFeu(ArrayList<Feu> listfeu) {
+        class OneShotTask implements Runnable {
+            ArrayList<Feu> str;
+            OneShotTask(ArrayList<Feu> listfeu) { str = listfeu; }
+            public void run() {
+                try {
+                    System.out.println("save vehicule start");
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("save Feu end");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(listfeu));
+        t.start();
+    }
+    
+    public static void updateIntervention(ArrayList<Intervention> listinter) {
+        class OneShotTask implements Runnable {
+            ArrayList<Intervention> str;
+            OneShotTask(ArrayList<Intervention> listinter) { str = listinter; }
+            public void run() {
+                try {
+                    System.out.println("save vehicule start");
+                    ObjectMapper mapper = new ObjectMapper();
+                    String data = mapper.writeValueAsString(str).toString();
+                    System.out.println(data);
+                    
+                    URL url = new URL("http://164.4.1.4:5000/api/simulation/intervention");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+                    OutputStream stream = conn.getOutputStream();
+                    stream.write(out);
+
+                    System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
+                    conn.disconnect();
+                    
+                } catch (ProtocolException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("save Feu end");
+            }
+        }
+        Thread t = new Thread(new OneShotTask(listinter));
+        t.start();
+    }
+    
+    public static ArrayList<Caserne> recevoirCaserne() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Caserne> listcaserne = null;
+        String data;
+        try {
+            data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/caserne"));
+            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Ask to receive feu detecte");
+        return (ArrayList<Caserne>) listcaserne;
+    }
+    
+    public static ArrayList<Feu> recevoirFeureel() {
         ObjectMapper mapper = new ObjectMapper();
         List<Feu> listfeu = null;
+        String data;
+        try {
+            data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/feuDetecte"));
+            listfeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            System.out.println("Ask to receive feu detecte");
+        return (ArrayList<Feu>) listfeu;
+    }
+    
+    public static String apiGet(URL url){
+        String data = "";
         try {
             System.out.println("debut requete");
-            URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
+            URL urlApi = url;
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -406,25 +580,15 @@ public class Controller {
             BufferedReader br = new BufferedReader(in);
             System.out.println(br);
             String output;
-            String data = "";
 
             while ((output = br.readLine()) != null) {
                 System.out.println(output);
                 data += output;
             }
-
-            System.out.println(data);
-            
-            listfeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
-
-                System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
-                conn.disconnect();
-
-            } catch (IOException ex) { 
+        }   catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Ask to receive feu detecte");
-        return (ArrayList<Feu>) listfeu;
+        return data;
     }
-    
+
 }

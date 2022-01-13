@@ -16,6 +16,10 @@ public class Feu {
     private Coord position;
     private int intensite;// entre 1 et 8
     private boolean detecte;
+    
+    public Feu(){
+        super();
+    }
 
     public Feu(Coord position, int intensite, boolean detecte) {
         this.id = count++;

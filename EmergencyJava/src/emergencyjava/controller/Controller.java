@@ -207,7 +207,7 @@ public class Controller {
                 xFeuCalculee = -(b1-b2)/(a1-a2);
                 yFeuCalculee = a1 * xFeuCalculee + b1;
                 
-                //feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), , );
+                feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
                 
                 listcapteur.remove(capteurvoisin1);
                 listcapteur.remove(capteurvoisin2);
@@ -276,7 +276,7 @@ public class Controller {
                     xFeuCalculee = -(b1-b2)/(a1-a2);
                     yFeuCalculee = a1 * xFeuCalculee + b1;
 
-                   //feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), , );
+                   feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
                     
                 }
                 
