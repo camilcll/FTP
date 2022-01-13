@@ -270,9 +270,9 @@ public class Controller {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(data);
+                System.out.println("ask data intervention");
                 TraiterIntervention(data, tabCapteur);
-                    
-                System.out.println("ask data");
+
             }
             
         }, 90000, 30000);
