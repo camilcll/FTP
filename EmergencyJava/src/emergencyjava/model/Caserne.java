@@ -53,11 +53,11 @@ public class Caserne {
         return "Caserne{" + "id=" + id + ", position=" + position + ", listeVehicule=" + listeVehicule + '}';
     }
     
-    public boolean checkVehiculeDispo(int nbcamion, int nbvoiture) {
+    public boolean checkVehiculeDispo(int nbcamion, int nbvoiture, ArrayList<Vehicule> listvehicule) {
         int nbcamiondispo = 0;
         int nbvoituredispo = 0;
         
-        for(Vehicule vehicule : this.listeVehicule){
+        for(Vehicule vehicule : listvehicule){
             if(vehicule.isDisponible() && vehicule.getType() == "Camion"){
                 nbcamiondispo++;
             }
