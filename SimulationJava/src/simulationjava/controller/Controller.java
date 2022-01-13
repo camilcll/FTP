@@ -80,7 +80,7 @@ public class Controller {
                 List<Feu> listFeu = null;
                 String data = null;
                 try {
-                    data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/feu"));
+                    data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/feunonDetecte"));
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -112,7 +112,7 @@ public class Controller {
         ArrayList<Capteur> listcapteuractive;
         listcapteuractive = new ArrayList<Capteur>();
         
-        System.out.println("capteur detecte feu start");
+        System.out.println("capteur detecte feu start ---------");
         Coord positionFeu = feu.getPosition();
         int xFeu = positionFeu.getX();
         int yFeu = positionFeu.getY();  
@@ -146,10 +146,10 @@ public class Controller {
                 
                 listcapteuractive.add(capteur);
                 
-                System.out.println(capteur.toString());
+                //System.out.println(capteur.toString());
             }
         }
-        System.out.println("capteur detecte feu end");
+        System.out.println("capteur detecte feu end ---------");
         
         return listcapteuractive;
        
@@ -171,10 +171,10 @@ public class Controller {
             OneShotTask(Feu feu) { str = feu; }
             public void run() {
                 try {
-                    System.out.println("save Feu start");
+                    System.out.println("Sauvegarde du FEU en base start -------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -196,7 +196,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save Feu end");
+                System.out.println("Sauvegarde du FEU en base end -------------");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
@@ -212,7 +212,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    System.out.println("send capteurs start");
+                    System.out.println("envoi capteurs start -----------------");
                     ObjectMapper mapper = new ObjectMapper();
                     int i = 0;
                     String data = "";
@@ -250,7 +250,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send capteur end");
+                System.out.println("envoi capteur end -------------");
             }
             
         }, 20000, 200000);
@@ -263,6 +263,7 @@ public class Controller {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
+                System.out.println("recevoir intervention ----------------");
                 String data = null;
                 try {
                     data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/intervention"));
@@ -270,7 +271,6 @@ public class Controller {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(data);
-                System.out.println("ask data intervention");
                 TraiterIntervention(data, tabCapteur);
 
             }
@@ -297,7 +297,6 @@ public class Controller {
         int numcaserne = 0;
         
         try {
-            System.out.println("vkdsbvkjbsdj on est la ");
             listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
             
         } catch (JsonProcessingException ex) {
@@ -318,11 +317,11 @@ public class Controller {
                     numcaserne = vehicule.getIdcaserne();
                 }
                 
-                System.out.println("avant le mouvement");
+                System.out.println("avant le mouvement du camion ");
 
                 MoveVehicule((ArrayList<Vehicule>) listvehicule);
                 
-                System.out.println("apres le mouvement");
+                System.out.println("apres le mouvement du camion ");
 
                 listfeu = recevoirFeureel();
 
@@ -335,7 +334,7 @@ public class Controller {
                         }
                         
                         try {
-                            System.out.println("CAMIONNNN");
+                            System.out.println("Le camion est sur le feu");
                             TimeUnit.SECONDS.sleep(15);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -366,8 +365,6 @@ public class Controller {
                         }
 
                         updateFeu(listfeu);
-                        
-                            System.out.println("On voit le bout");
 
                         updateIntervention((ArrayList<Intervention>) listIntervention);
                         
@@ -393,10 +390,10 @@ public class Controller {
             OneShotTask(ArrayList<Vehicule> listvehicule) { str = listvehicule; }
             public void run() {
                 try {
-                    System.out.println("update vehicule start");
+                    System.out.println("update vehicule start -------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/vehicule");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -418,7 +415,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("update vehicule end");
+                System.out.println("update vehicule end -------------");
             }
         }
         Thread t = new Thread(new OneShotTask(listvehicule));
@@ -431,10 +428,10 @@ public class Controller {
             OneShotTask(ArrayList<Feu> listfeu) { str = listfeu; }
             public void run() {
                 try {
-                    System.out.println("update feu start");
+                    System.out.println("update feu start ---------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -456,7 +453,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("unpdate Feu end");
+                System.out.println("unpdate Feu end --------------");
             }
         }
         Thread t = new Thread(new OneShotTask(listfeu));
@@ -469,10 +466,10 @@ public class Controller {
             OneShotTask(ArrayList<Intervention> listinter) { str = listinter; }
             public void run() {
                 try {
-                    System.out.println("update intervention start");
+                    System.out.println("update intervention start ---------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/intervention");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -494,7 +491,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("update intervention end");
+                System.out.println("update intervention end -----------------");
             }
         }
         Thread t = new Thread(new OneShotTask(listinter));
@@ -506,6 +503,7 @@ public class Controller {
         List<Caserne> listcaserne = null;
         String data;
         try {
+            System.out.println("recevoir caserne start ------------");
             data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/caserne"));
             listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
         } catch (MalformedURLException ex) {
@@ -513,7 +511,9 @@ public class Controller {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Ask to receive caserne");
+        
+        System.out.println("recevoir caserne end ------------");
+        
         return (ArrayList<Caserne>) listcaserne;
     }
     
@@ -522,6 +522,7 @@ public class Controller {
         List<Feu> listfeu = null;
         String data;
         try {
+            System.out.println("recevoir feu reel start ------------");
             data = apiGet(new URL("http://164.4.1.4:5000/api/simulation/feuDetecte"));
             listfeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
         } catch (MalformedURLException ex) {
@@ -529,7 +530,7 @@ public class Controller {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println("Ask to receive feu reel");
+            System.out.println("recevoir feu reel end ------------");
         return (ArrayList<Feu>) listfeu;
     }
     
@@ -550,7 +551,7 @@ public class Controller {
             String output;
 
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
+                //System.out.println(output);
                 data += output;
             }
         }   catch (IOException ex) {

@@ -52,7 +52,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    System.out.println("debut requete capteurs");
+                    System.out.println("recevoir capteurs start -----------");
                     URL url = new URL("http://164.4.1.5:5000/api/emergency/capteur");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
@@ -81,7 +81,7 @@ public class Controller {
                 } catch (IOException ex) { 
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Ask to receive data debut");
+                System.out.println("recevoir capteurs end -----------");
             }
             
         }, 40000, 200000);
@@ -90,7 +90,7 @@ public class Controller {
     public static void checkCapteur(String data){
         
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println("check capteurs");
+        //System.out.println("check capteurs");
         
         ArrayList tabCapteurActif;
         tabCapteurActif = new ArrayList<Capteur>();
@@ -113,7 +113,7 @@ public class Controller {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("Capteurs Actifs");
+        System.out.println("Capteurs Actifs --------------");
         System.out.println(tabCapteurActif.toString());
         
         creerFeu(tabCapteurActif);
@@ -556,7 +556,7 @@ public class Controller {
             OneShotTask(FeuCalculee feu) { str = feu; }
             public void run() {
                 try {
-                    System.out.println("save data feu start");
+                    System.out.println("save feu start --------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -581,7 +581,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save data feu end");
+                System.out.println("save feu end -----------");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
@@ -601,7 +601,7 @@ public class Controller {
     public static boolean checkFeu(FeuCalculee feu) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            System.out.println("debut check feu");
+            System.out.println("check feu start ----------");
             URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -620,7 +620,7 @@ public class Controller {
                 data += output;
             }
 
-            System.out.println(data);
+            //System.out.println(data);
 
             List<FeuCalculee> listFeu = mapper.readValue(data, new TypeReference<List<FeuCalculee>>(){});
 
@@ -638,7 +638,7 @@ public class Controller {
             } catch (IOException ex) { 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("data check feu end");
+            System.out.println("check feu end -----------");
         return true;
     }
     
@@ -650,6 +650,8 @@ public class Controller {
         int intensite = feu.getIntensiteCalculee();
         Caserne caserne = null; 
         
+        System.out.println("creer intervention start -------------");
+        
         ArrayList listcasernevoisin;
         listcasernevoisin = new ArrayList();
                 
@@ -657,8 +659,8 @@ public class Controller {
         listcaserne = new ArrayList();
         listcaserne = recevoirCaserne();
         
-        System.out.println("teseeeeeetstsvhdhdbdb list caserne");
-        System.out.println(listcaserne.toString());
+        //System.out.println("teseeeeeetstsvhdhdbdb list caserne");
+        //System.out.println(listcaserne.toString());
         
         ArrayList<Vehicule> listvehicule;
         listvehicule = new ArrayList<Vehicule>();
@@ -670,7 +672,7 @@ public class Controller {
             listcasernevoisin.add(d);
         }
         
-        System.out.println(listcasernevoisin);
+        //System.out.println(listcasernevoisin);
         
         int index = 0;
         int numcaserne = 0;
@@ -730,7 +732,7 @@ public class Controller {
         }
         
         for(Vehicule vehicule : listcaserne.get(index).getListeVehicule()){
-            System.out.println("bcdcoivd " + vehicule.toString());
+            //System.out.println("bcdcoivd " + vehicule.toString());
             if(vehicule.isDisponible() && vehicule.getType().equals("Camion") && nbcamion > 0){  
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
@@ -744,7 +746,9 @@ public class Controller {
             }
         }
         
-        System.out.println(listvehicule.toString());
+        //System.out.println(listvehicule.toString());
+        
+        System.out.println("creer intervention start -------------");
         
         Intervention inter = new Intervention(feu, listvehicule, etat);
         EnvoyerIntervention(inter);
@@ -756,10 +760,10 @@ public class Controller {
             OneShotTask(Intervention intervention) { str = intervention; }
             public void run() {
                 try {
-                    System.out.println("send data intervention end");
+                    System.out.println("sauvegarder intervention start ----------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.5:5000/api/emergency/intervention");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -781,7 +785,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data intervention end");
+                System.out.println("sauvegarder intervention end ----------");
             }
         }
         Thread t = new Thread(new OneShotTask(intervention));
@@ -794,7 +798,7 @@ public class Controller {
         listcaserne = new ArrayList<Caserne>();
         String data;
         try {
-            System.out.println("retour get caserne");
+            System.out.println("recevoir caserne start -------");
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
             System.out.println(data);
             System.out.println("retour get caserne");
@@ -804,7 +808,7 @@ public class Controller {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Ask to caserne");
+        System.out.println("recevoir caserne end -------");
         return (ArrayList<Caserne>) listcaserne;
     }
     
