@@ -52,7 +52,7 @@ public class Controller {
             @Override
             public void run() {
                 try {
-                    System.out.println("debut requete");
+                    System.out.println("debut requete capteurs");
                     URL url = new URL("http://164.4.1.5:5000/api/emergency/capteur");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
@@ -63,14 +63,11 @@ public class Controller {
                                 + conn.getResponseCode());
                     }
                     InputStreamReader in = new InputStreamReader(conn.getInputStream());
-                    System.out.println(in);
                     BufferedReader br = new BufferedReader(in);
-                    System.out.println(br);
                     String output;
                     String data = "";
                     
                     while ((output = br.readLine()) != null) {
-                        System.out.println(output);
                         data += output;
                     }
                     
@@ -558,6 +555,7 @@ public class Controller {
             OneShotTask(FeuCalculee feu) { str = feu; }
             public void run() {
                 try {
+                    System.out.println("save data feu start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -582,7 +580,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save data feu");
+                System.out.println("save data feu end");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
@@ -602,7 +600,7 @@ public class Controller {
     public static boolean checkFeu(FeuCalculee feu) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            System.out.println("debut requete");
+            System.out.println("debut check feu");
             URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -618,7 +616,6 @@ public class Controller {
             String data = "";
 
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
                 data += output;
             }
 
@@ -640,7 +637,7 @@ public class Controller {
             } catch (IOException ex) { 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Ask to receive data check feu ");
+            System.out.println("data check feu end");
         return true;
     }
     
@@ -747,6 +744,7 @@ public class Controller {
             OneShotTask(Intervention intervention) { str = intervention; }
             public void run() {
                 try {
+                    System.out.println("send data intervention end");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -771,7 +769,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data intervention");
+                System.out.println("send data intervention end");
             }
         }
         Thread t = new Thread(new OneShotTask(intervention));
@@ -784,7 +782,7 @@ public class Controller {
         String data;
         try {
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
-            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
+            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){}); 
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JsonProcessingException ex) {
@@ -797,7 +795,6 @@ public class Controller {
     public static String apiGet(URL url){
         String data = "";
         try {
-            System.out.println("debut requete");
             URL urlApi = url;
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -808,13 +805,10 @@ public class Controller {
                         + conn.getResponseCode());
             }
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-            System.out.println(in);
             BufferedReader br = new BufferedReader(in);
-            System.out.println(br);
             String output;
 
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
                 data += output;
             }
         }   catch (IOException ex) {

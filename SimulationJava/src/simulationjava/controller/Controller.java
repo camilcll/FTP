@@ -51,17 +51,17 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(15, 10);
+        Coord position = new Coord(x, y);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, 6, true);
+        Feu feu = new Feu(position, intensite, true);
         
         System.out.println(feu.toString());
-        System.out.println("genere feu");
+        System.out.println("Un feu est apparu");
         
         sauvegarderFeu(feu);
        
@@ -103,8 +103,6 @@ public class Controller {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
-                System.out.println("receive feu end");
             }
             
         }, 0, 150000);
@@ -385,7 +383,7 @@ public class Controller {
             OneShotTask(ArrayList<Vehicule> listvehicule) { str = listvehicule; }
             public void run() {
                 try {
-                    System.out.println("save vehicule start");
+                    System.out.println("update vehicule start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -410,7 +408,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save Feu end");
+                System.out.println("update vehicule end");
             }
         }
         Thread t = new Thread(new OneShotTask(listvehicule));
@@ -423,7 +421,7 @@ public class Controller {
             OneShotTask(ArrayList<Feu> listfeu) { str = listfeu; }
             public void run() {
                 try {
-                    System.out.println("save vehicule start");
+                    System.out.println("update feu start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -448,7 +446,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save Feu end");
+                System.out.println("unpdate Feu end");
             }
         }
         Thread t = new Thread(new OneShotTask(listfeu));
@@ -461,7 +459,7 @@ public class Controller {
             OneShotTask(ArrayList<Intervention> listinter) { str = listinter; }
             public void run() {
                 try {
-                    System.out.println("save vehicule start");
+                    System.out.println("update intervention start");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
                     System.out.println(data);
@@ -486,7 +484,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("save Feu end");
+                System.out.println("update intervention end");
             }
         }
         Thread t = new Thread(new OneShotTask(listinter));
@@ -505,7 +503,7 @@ public class Controller {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Ask to receive feu detecte");
+        System.out.println("Ask to receive caserne");
         return (ArrayList<Caserne>) listcaserne;
     }
     
@@ -521,14 +519,13 @@ public class Controller {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println("Ask to receive feu detecte");
+            System.out.println("Ask to receive feu reel");
         return (ArrayList<Feu>) listfeu;
     }
     
     public static String apiGet(URL url){
         String data = "";
         try {
-            System.out.println("debut requete");
             URL urlApi = url;
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -539,9 +536,7 @@ public class Controller {
                         + conn.getResponseCode());
             }
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-            System.out.println(in);
             BufferedReader br = new BufferedReader(in);
-            System.out.println(br);
             String output;
 
             while ((output = br.readLine()) != null) {
