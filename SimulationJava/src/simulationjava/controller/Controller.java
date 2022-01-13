@@ -106,7 +106,7 @@ public class Controller {
                 System.out.println("receive feu end");
             }
             
-        }, 0, 20000);
+        }, 0, 50000);
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
@@ -254,7 +254,7 @@ public class Controller {
                 System.out.println("send capteur end");
             }
             
-        }, 30000, 30000);
+        }, 30000, 50000);
     }
     
     public static void recevoirIntervention(Capteur[] tabCapteur){
@@ -276,7 +276,7 @@ public class Controller {
 
             }
             
-        }, 90000, 30000);
+        }, 90000, 50000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){

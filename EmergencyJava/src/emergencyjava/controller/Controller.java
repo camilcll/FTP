@@ -87,7 +87,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 40000, 30000);
+        }, 60000, 50000);
     }
     
     public static void checkCapteur(String data){
