@@ -107,17 +107,4 @@ def update(vehicules):
             # return updated person in the response
             data.append(schema.dump(update_vehicule))
 
-    dataJson = json.dumps(data)
-    try:
-        headers = {"Content-Type": "application/json"}
-        r = requests.put(HOST+"/api/simulation/vehicule",data=dataJson, headers=headers)
-        
-        if not r:
-            raise Exception()
-        return data, 200
-
-    except:
-        abort(
-            409,
-            "Failed to update in Simulation",
-        )
+    return data, 200

@@ -112,7 +112,7 @@ def update(vehicules):
     try:
         headers = {"Content-Type": "application/json"}
         r = requests.put(HOST+"/api/emergency/vehicule",data=dataJson, headers=headers)
-        
+        print("REQUEST:{0}".format(r))
         if not r:
             raise Exception()
         return data, 200
