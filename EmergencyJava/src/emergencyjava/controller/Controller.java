@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -38,11 +39,11 @@ import java.util.logging.Logger;
  */
 public class Controller {
     
-    public static synchronized void start(ArrayList<Caserne> listcaserne){
-        askData(listcaserne);
+    public static synchronized void start(){
+        askData();
     }
     
-    public static void askData(ArrayList<Caserne> listcaserne){
+    public static void askData(){
         
         Timer timer = new Timer();
         
@@ -74,7 +75,7 @@ public class Controller {
                     
                     System.out.println(data);
                     
-                    checkCapteur(data, listcaserne);
+                    checkCapteur(data);
                     
                     System.out.println(conn.getResponseCode() + " " + conn.getResponseMessage());
                     conn.disconnect();
@@ -88,7 +89,7 @@ public class Controller {
         }, 40000, 20000);
     }
     
-    public static void checkCapteur(String data, ArrayList<Caserne> listcaserne){
+    public static void checkCapteur(String data){
         
         ObjectMapper mapper = new ObjectMapper();
         System.out.println("check capteurs");
@@ -117,10 +118,10 @@ public class Controller {
         System.out.println("Capteurs Actifs");
         System.out.println(tabCapteurActif.toString());
         
-        creerFeu(tabCapteurActif, listcaserne);
+        creerFeu(tabCapteurActif);
     }
     
-    public static void creerFeu(ArrayList<Capteur> listcapteur, ArrayList<Caserne> listcaserne){
+    public static void creerFeu(ArrayList<Capteur> listcapteur){
         
         ArrayList<Capteur> listcapteurvoisin;
         listcapteurvoisin = new ArrayList<Capteur>();
@@ -320,7 +321,7 @@ public class Controller {
             
             if(checkFeu(feu)){
                 sauvegarderFeu(feu);
-                creerIntervention(feu, listcaserne);
+                creerIntervention(feu);
             }
         }
     }
@@ -417,23 +418,27 @@ public class Controller {
         return true;
     }
     
-    public static void creerIntervention(FeuCalculee feu, ArrayList<Caserne> listcaserne){
+    public static void creerIntervention(FeuCalculee feu){
         int xFeu = feu.getPositionCalculee().getX();
         int yFeu = feu.getPositionCalculee().getY();
         int nbcamion = 0;
         int nbvoiture = 0;
         int intensite = feu.getIntensiteCalculee();
-        Caserne caserne = null;
+        Caserne caserne = null; 
         
         ArrayList listcasernevoisin;
         listcasernevoisin = new ArrayList();
+                
+        ArrayList<Caserne> listcaserne;
+        listcaserne = recevoirCaserne();
         
         ArrayList listvehicule;
         listvehicule = new ArrayList<Vehicule>();
         
         for (int i = 0; i<4; i++){
-            int d = (xFeu-listcaserne.get(i).getPosition().getX())*(xFeu-listcaserne.get(i).getPosition().getX()) 
-                + (yFeu-listcaserne.get(i).getPosition().getY())*(yFeu-listcaserne.get(i).getPosition().getY());
+            Caserne temp = (Caserne) listcaserne.get(i);
+            int d = (xFeu-temp.getPosition().getX())*(xFeu-temp.getPosition().getX()) 
+                + (yFeu-temp.getPosition().getY())*(yFeu-temp.getPosition().getY());
             listcasernevoisin.add(d);
         }
         
@@ -538,6 +543,51 @@ public class Controller {
         }
         Thread t = new Thread(new OneShotTask(intervention));
         t.start();
+    }
+    
+    public static ArrayList<Caserne> recevoirCaserne() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Caserne> listcaserne = null;
+        String data;
+        try {
+            data = apiGet(new URL("http://164.4.1.4:5000/api/emergency/caserne"));
+            listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Ask to caserne");
+        return (ArrayList<Caserne>) listcaserne;
+    }
+    
+    public static String apiGet(URL url){
+        String data = "";
+        try {
+            System.out.println("debut requete");
+            URL urlApi = url;
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json");
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP Error code : "
+                        + conn.getResponseCode());
+            }
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            System.out.println(in);
+            BufferedReader br = new BufferedReader(in);
+            System.out.println(br);
+            String output;
+
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+                data += output;
+            }
+        }   catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return data;
     }
     
     

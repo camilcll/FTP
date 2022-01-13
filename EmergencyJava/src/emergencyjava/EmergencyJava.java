@@ -67,7 +67,7 @@ public class EmergencyJava {
         listcaserne.add(caserne3);
         listcaserne.add(caserne4);
         
-        Controller.askData(listcaserne);
+        Controller.start();
     }
     
 }
