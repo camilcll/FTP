@@ -27,9 +27,9 @@ def main():
     for f in feux:
 
         idFeu = f["id"]
-        intensite = int(f["intensite"])
+        intensite = int(f["intensiteCalculee"])
         if intensite != 0:
-            position = json.loads(str(f["position"]).replace("'",'"'))
+            position = json.loads(str(f["positionCalculee"]).replace("'",'"'))
             coordX = 4.8+(float(position["x"])*0.0012)
             coordY = 45.720+(float(position["y"])*0.0011)
 
