@@ -45,6 +45,7 @@ class Vehicule(db.Model):
     __tablename__ = 'vehicule'
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String)
+    position = db.Column(JSON)
     idcaserne = db.Column(db.Integer)
     disponible = db.Column(db.Boolean)
 

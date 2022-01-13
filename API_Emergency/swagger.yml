@@ -466,6 +466,13 @@ paths:
                   type: "integer"
                 type:
                   type: "string"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 idcaserne:
                   type: "integer"
                 disponible:
@@ -488,6 +495,13 @@ paths:
                 type: "integer"
               type:
                 type: "string"
+              position:
+                type: "object"
+                properties: 
+                  x: 
+                    type: "integer"
+                  y:
+                    type: "integer"
               idcaserne:
                 type: "integer"
               disponible:
@@ -504,6 +518,13 @@ paths:
                   type: "integer"
                 type:
                   type: "string"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 idcaserne:
                   type: "integer"
                 disponible:
@@ -527,6 +548,13 @@ paths:
                   type: "integer"
                 type:
                   type: "string"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 idcaserne:
                   type: "integer"
                 disponible:
@@ -542,6 +570,13 @@ paths:
                   type: "integer"
                 type:
                   type: "string"
+                position:
+                  type: "object"
+                  properties: 
+                    x: 
+                      type: "integer"
+                    y:
+                      type: "integer"
                 idcaserne:
                   type: "integer"
                 disponible:
@@ -591,6 +626,13 @@ paths:
                         type: "integer"
                       type:
                         type: "string"
+                      position:
+                        type: "object"
+                        properties: 
+                          x: 
+                            type: "integer"
+                          y:
+                            type: "integer"
                       idcaserne:
                         type: "integer"
                       disponible:
@@ -642,6 +684,13 @@ paths:
                       type: "string"
                     idcaserne:
                       type: "integer"
+                    position:
+                      type: "object"
+                      properties: 
+                        x: 
+                          type: "integer"
+                        y:
+                          type: "integer"
                     disponible:
                       type: "boolean"
               etat:
@@ -682,6 +731,13 @@ paths:
                         type: "integer"
                       type:
                         type: "string"
+                      position:
+                        type: "object"
+                        properties: 
+                          x: 
+                            type: "integer"
+                          y:
+                            type: "integer"
                       idcaserne:
                         type: "integer"
                       disponible:
@@ -732,6 +788,13 @@ paths:
                         type: "integer"
                       type:
                         type: "string"
+                      position:
+                        type: "object"
+                        properties: 
+                          x: 
+                            type: "integer"
+                          y:
+                            type: "integer"
                       idcaserne:
                         type: "integer"
                       disponible:
@@ -774,6 +837,13 @@ paths:
                         type: "integer"
                       type:
                         type: "string"
+                      position:
+                        type: "object"
+                        properties: 
+                          x: 
+                            type: "integer"
+                          y:
+                            type: "integer"
                       idcaserne:
                         type: "integer"
                       disponible:
