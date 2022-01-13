@@ -84,10 +84,11 @@ public class Controller {
                 }
                     
                     if(data.equals("[]")){
-                        int rand = new Random().nextInt(10);
+                        /*int rand = new Random().nextInt(10);
                         if(rand == 5){
                             GenereFeu(tabCapteur);
-                        }
+                        }*/
+                        GenereFeu(tabCapteur);
                     }else{
                         try {
                             listFeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
