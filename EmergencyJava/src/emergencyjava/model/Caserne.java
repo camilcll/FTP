@@ -18,10 +18,10 @@ public class Caserne {
     private Coord position;
     private ArrayList<Vehicule> listeVehicule;
 
-    public Caserne(Coord position, ArrayList<Vehicule> listeVehicule) {
+    public Caserne(Coord position, ArrayList<Vehicule> listevehicule) {
         this.id = count++;
         this.position = position;
-        this.listeVehicule = listeVehicule;
+        this.listeVehicule = listevehicule;
     }
 
     public int getId() {
