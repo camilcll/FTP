@@ -275,7 +275,7 @@ public class Controller {
 
             }
             
-        }, 60000, 200000);
+        }, 80000, 200000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
@@ -362,6 +362,8 @@ public class Controller {
                         }
 
                         updateFeu(listfeu);
+                        
+                            System.out.println("On voit le bout");
 
                         updateIntervention((ArrayList<Intervention>) listIntervention);
                         
