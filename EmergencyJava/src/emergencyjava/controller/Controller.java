@@ -87,7 +87,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 60000, 30000);
+        }, 50000, 30000);
     }
     
     public static void checkCapteur(String data){
@@ -196,6 +196,9 @@ public class Controller {
                 Capteur capteurvoisin1 = (Capteur) listcapteurvoisin.get(0);
                 Capteur capteurvoisin2 = (Capteur) listcapteurvoisin.get(1);
                 
+                System.out.println("2 voisins actifs");
+                System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin1.getId() + "et le capteur" + capteurvoisin2.getId());
+                
                 int x1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getX()) 
                             + ((capteurvoisin1.getIntensite()/(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurvoisin1.getPosition().getX());
                 int y1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurvoisin1.getIntensite()))*capteurActif.getPosition().getY()) 
@@ -228,6 +231,10 @@ public class Controller {
                 Capteur capteurvoisin1 = (Capteur) listcapteurvoisin.get(0);
                 Capteur capteurvoisin2 = (Capteur) listcapteurvoisin.get(1);
                 Capteur capteurvoisin3 = (Capteur) listcapteurvoisin.get(2);
+                
+                System.out.println("3 voisins actifs");
+                System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin1.getId() + "et le capteur" + capteurvoisin2.getId() + "et le capteur" + capteurvoisin3.getId());
+
                 
                 ArrayList<Capteur> capteurangle = null;
                 Capteur capteuroppose = null;
@@ -298,6 +305,7 @@ public class Controller {
                 //listcapteur.remove(capteurvoisin3);
                 
             }else if(Capteur.estVoisinDe(listcapteur, capteurActif).size() == 4){
+                System.out.println("4 voisins actifs");
                 listcapteurvoisin = Capteur.estVoisinDe(listcapteur, capteurActif);
                 Capteur capteurcentre = null;
                 Capteur capteurvoisin1 = (Capteur) listcapteurvoisin.get(0);
@@ -332,6 +340,7 @@ public class Controller {
                 //listcapteur.remove(capteurvoisin4);
                 
             }
+            System.out.println("feu calculee : ");
             
             System.out.println(feu.toString());
             
@@ -566,7 +575,7 @@ public class Controller {
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("send data");
+                System.out.println("save data feu");
             }
         }
         Thread t = new Thread(new OneShotTask(feu));
