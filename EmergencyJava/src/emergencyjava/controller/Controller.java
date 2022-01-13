@@ -296,7 +296,7 @@ public class Controller {
                     int a2 = (int) Math.ceil((double)(y4-y3)/(x4-x3));
                     int b2 = y3 - a2*x3;
                     
-                    xFeuCalculee = -(b1-b2)/(a1-a2);
+                    xFeuCalculee = (int) Math.ceil((double)-(b1-b2)/(a1-a2));
                     yFeuCalculee = a1 * xFeuCalculee + b1;
 
                    feu = new FeuCalculee(new Coord(xFeuCalculee, yFeuCalculee), 5, 8);// a revoir
