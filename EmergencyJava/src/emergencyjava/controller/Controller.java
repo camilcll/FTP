@@ -87,7 +87,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 60000, 50000);
+        }, 40000, 150000);
     }
     
     public static void checkCapteur(String data){
@@ -270,30 +270,30 @@ public class Controller {
                         }
                     }
                     
-                    int x1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getX()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX());
-                    int y1 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getY()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY());
+                    int x1 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getX()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX()));
+                    int y1 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurActif.getPosition().getY()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY()));
                     
-                    int x2 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getX()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX());
-                    int y2 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getY()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY());
+                    int x2 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getX()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX()));
+                    int y2 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteuroppose.getPosition().getY()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY()));
                     
                     
-                    int x3 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getX()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX());
-                    int y3 = ((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getY()) 
-                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY());
+                    int x3 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getX()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getX()));
+                    int y3 = (int) Math.ceil((double)((capteurActif.getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurActif.getPosition().getY()) 
+                            + ((capteurangle.get(1).getIntensite()/(capteurActif.getIntensite()+capteurangle.get(1).getIntensite()))*capteurangle.get(1).getPosition().getY()));
                     
-                    int x4 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getX()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX());
-                    int y4 = ((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getY()) 
-                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY());
+                    int x4 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getX()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getX()));
+                    int y4 = (int) Math.ceil((double)((capteuroppose.getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteuroppose.getPosition().getY()) 
+                            + ((capteurangle.get(0).getIntensite()/(capteuroppose.getIntensite()+capteurangle.get(0).getIntensite()))*capteurangle.get(0).getPosition().getY()));
                     
-                    int a1 = (y2-y1)/(x2-x1);
+                    int a1 = (int) Math.ceil((double)(y2-y1)/(x2-x1));
                     int b1 = y1 - a1*x1 ;
-                    int a2 = (y4-y3)/(x4-x3);
+                    int a2 = (int) Math.ceil((double)(y4-y3)/(x4-x3));
                     int b2 = y3 - a2*x3;
                     
                     xFeuCalculee = -(b1-b2)/(a1-a2);

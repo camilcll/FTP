@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONObject;
@@ -50,14 +51,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(18, 12);
+        Coord position = new Coord(x, y);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, 5, true);
+        Feu feu = new Feu(position, intensite, true);
         
         System.out.println(feu.toString());
         System.out.println("genere feu");
@@ -106,7 +107,7 @@ public class Controller {
                 System.out.println("receive feu end");
             }
             
-        }, 0, 50000);
+        }, 0, 150000);
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
@@ -254,7 +255,7 @@ public class Controller {
                 System.out.println("send capteur end");
             }
             
-        }, 30000, 50000);
+        }, 20000, 150000);
     }
     
     public static void recevoirIntervention(Capteur[] tabCapteur){
@@ -276,7 +277,7 @@ public class Controller {
 
             }
             
-        }, 90000, 50000);
+        }, 60000, 150000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
@@ -328,6 +329,12 @@ public class Controller {
                         System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
                         for (Vehicule vehicule : listvehicule){
                             vehicule.setPosition(feuidentifie.getPosition());
+                        }
+                        
+                        try {
+                            TimeUnit.SECONDS.sleep(10);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                         MoveVehicule((ArrayList<Vehicule>) listvehicule);
