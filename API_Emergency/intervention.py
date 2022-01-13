@@ -6,6 +6,8 @@ from config import db
 from models import Intervention, InterventionSchema
 import requests
 
+import json
+
 HOST = "http://164.4.1.4:5000"
 
 
@@ -34,9 +36,11 @@ def create(intervention):
         # Serialize and return the newly created person in the response
         data = schema.dump(new_inter)
 
+        dataJson = json.dumps(data)
+
         try:
             headers = {"Content-Type": "application/json"}
-            r = requests.post(HOST+"/api/simulation/intervention",data=data, headers=headers)
+            r = requests.post(HOST+"/api/simulation/intervention",data=dataJson, headers=headers)
             
             if not r:
                 raise Exception()

@@ -5,6 +5,7 @@ from flask import (
 from config import db
 from models import Intervention, InterventionSchema
 import requests
+import json
 
 HOST = "http://164.4.1.5:5000"
 
@@ -106,9 +107,11 @@ def update(interventions):
             # return updated person in the response
             data.append(schema.dump(update_inter))
 
+    dataJson = json.dumps(data)
+
     try:
         headers = {"Content-Type": "application/json"}
-        r = requests.put(HOST+"/api/emergency/intervention",data=data, headers=headers)
+        r = requests.put(HOST+"/api/emergency/intervention",data=dataJson, headers=headers)
         
         if not r:
             raise Exception()
