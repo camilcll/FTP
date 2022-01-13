@@ -550,7 +550,7 @@ public class Controller {
         List<Caserne> listcaserne = null;
         String data;
         try {
-            data = apiGet(new URL("http://164.4.1.4:5000/api/emergency/caserne"));
+            data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
             listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){});
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
