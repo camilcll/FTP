@@ -653,7 +653,11 @@ public class Controller {
         listcasernevoisin = new ArrayList();
                 
         ArrayList<Caserne> listcaserne;
+        listcaserne = new ArrayList();
         listcaserne = recevoirCaserne();
+        
+        System.out.println("teseeeeeetstsvhdhdbdb list caserne");
+        System.out.println(listcaserne.toString());
         
         ArrayList listvehicule;
         listvehicule = new ArrayList<Vehicule>();
@@ -778,12 +782,14 @@ public class Controller {
     
     public static ArrayList<Caserne> recevoirCaserne() {
         ObjectMapper mapper = new ObjectMapper();
-        List<Caserne> listcaserne = null;
+        List<Caserne> listcaserne;
+        listcaserne = new ArrayList<Caserne>();
         String data;
         try {
             System.out.println("retour get caserne");
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
             System.out.println(data);
+            System.out.println("retour get caserne");
             listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){}); 
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
