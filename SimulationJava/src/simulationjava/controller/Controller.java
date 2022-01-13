@@ -51,14 +51,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(x, y);
+        Coord position = new Coord(15, 15);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, intensite, true);
+        Feu feu = new Feu(position, 8, true);
         
         System.out.println(feu.toString());
         System.out.println("Un feu est apparu");
@@ -105,7 +105,7 @@ public class Controller {
                     }
             }
             
-        }, 0, 150000);
+        }, 0, 200000);
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
@@ -253,7 +253,7 @@ public class Controller {
                 System.out.println("send capteur end");
             }
             
-        }, 20000, 150000);
+        }, 20000, 200000);
     }
     
     public static void recevoirIntervention(Capteur[] tabCapteur){
@@ -275,7 +275,7 @@ public class Controller {
 
             }
             
-        }, 60000, 150000);
+        }, 80000, 200000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
@@ -297,6 +297,7 @@ public class Controller {
         int numcaserne = 0;
         
         try {
+            System.out.println("vkdsbvkjbsdj on est la ");
             listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
             
         } catch (JsonProcessingException ex) {
@@ -316,8 +317,12 @@ public class Controller {
                     vehicule.setPosition(feucal.getPositionCalculee());
                     numcaserne = vehicule.getIdcaserne();
                 }
+                
+                System.out.println("avant le mouvement");
 
                 MoveVehicule((ArrayList<Vehicule>) listvehicule);
+                
+                System.out.println("apres le mouvement");
 
                 listfeu = recevoirFeureel();
 
@@ -326,11 +331,12 @@ public class Controller {
                         if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
                         System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
                         for (Vehicule vehicule : listvehicule){
-                            vehicule.setPosition(feuidentifie.getPosition());
+                            vehicule.setPosition(feu.getPosition());
                         }
                         
                         try {
-                            TimeUnit.SECONDS.sleep(10);
+                            System.out.println("CAMIONNNN");
+                            TimeUnit.SECONDS.sleep(15);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -360,8 +366,12 @@ public class Controller {
                         }
 
                         updateFeu(listfeu);
+                        
+                            System.out.println("On voit le bout");
 
                         updateIntervention((ArrayList<Intervention>) listIntervention);
+                        
+                        System.out.println("FEUUUUUUUUU ETTTTTEINNNNNT");
 
                     }
                     }

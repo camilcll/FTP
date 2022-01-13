@@ -84,7 +84,7 @@ public class Controller {
                 System.out.println("Ask to receive data debut");
             }
             
-        }, 40000, 150000);
+        }, 40000, 200000);
     }
     
     public static void checkCapteur(String data){
@@ -240,7 +240,8 @@ public class Controller {
                 System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin1.getId() + "et le capteur" + capteurvoisin2.getId() + "et le capteur" + capteurvoisin3.getId());
 
                 
-                ArrayList<Capteur> capteurangle = null;
+                ArrayList<Capteur> capteurangle;
+                capteurangle = new ArrayList<Capteur>();
                 Capteur capteuroppose = null;
                 
                 
@@ -653,9 +654,13 @@ public class Controller {
         listcasernevoisin = new ArrayList();
                 
         ArrayList<Caserne> listcaserne;
+        listcaserne = new ArrayList();
         listcaserne = recevoirCaserne();
         
-        ArrayList listvehicule;
+        System.out.println("teseeeeeetstsvhdhdbdb list caserne");
+        System.out.println(listcaserne.toString());
+        
+        ArrayList<Vehicule> listvehicule;
         listvehicule = new ArrayList<Vehicule>();
         
         for (int i = 0; i<4; i++){
@@ -665,20 +670,25 @@ public class Controller {
             listcasernevoisin.add(d);
         }
         
+        System.out.println(listcasernevoisin);
+        
         int index = 0;
         int numcaserne = 0;
         int etat = 0; // etat = 0 -> en cours , 1 -> en attente, 2 -> terminé
         
-        boolean temp = false;
+        index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
+        
+        /*boolean temp = false;
         while (!temp){
             index = listcasernevoisin.indexOf(Collections.min(listcasernevoisin));
             if(intensite <= 3){
-                System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                 if(listcaserne.get(index).checkVehiculeDispo(1, 0, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                     numcaserne = index;
                     nbcamion = 1;
                     temp = true;
                 }else if(listcaserne.get(index).checkVehiculeDispo(0, 2, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Petit Feu -> 1 Camion ou 2 voitures");
                     numcaserne = index;
                     nbvoiture = 2;
                     temp = true;
@@ -686,8 +696,8 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }else if(intensite > 3 && intensite <= 6){
-                System.out.println("Moyen Feu -> 1 camion et une voiture");
                 if(listcaserne.get(index).checkVehiculeDispo(1, 1, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Moyen Feu -> 1 camion et une voiture");
                     numcaserne = index;
                     nbcamion = 1;
                     nbvoiture = 1;
@@ -696,8 +706,8 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }else{
-                System.out.println("Gros Feu -> 2 camions et 1 voiture");
                 if(listcaserne.get(index).checkVehiculeDispo(2, 1, listcaserne.get(numcaserne).getListeVehicule())){
+                    System.out.println("Gros Feu -> 2 camions et 1 voiture");
                     numcaserne = index;
                     nbcamion = 2;
                     nbvoiture = 1;
@@ -706,33 +716,35 @@ public class Controller {
                     listcasernevoisin.remove(index);
                 }
             }
-            if(listcasernevoisin.isEmpty()){
-                System.out.println("Aucune caserne dispo");
-                etat = 1;
-                temp = true;
-            }
+            
+        }*/
+        
+        if(intensite<=3){
+            nbcamion = 1;
+        }else if(intensite > 3 && intensite <= 6){
+            nbcamion = 1;
+            nbvoiture = 1;
+        }else{
+            nbcamion = 2;
+            nbvoiture = 1;
         }
         
-        for(Vehicule vehicule : listcaserne.get(numcaserne).getListeVehicule()){
-            if(vehicule.isDisponible() && vehicule.getType() == "Camion" && nbcamion > 0){  
+        for(Vehicule vehicule : listcaserne.get(index).getListeVehicule()){
+            System.out.println("bcdcoivd " + vehicule.toString());
+            if(vehicule.isDisponible() && vehicule.getType().equals("Camion") && nbcamion > 0){  
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
                 nbcamion--;
             }
             
-            if(vehicule.isDisponible() && vehicule.getType() == "Voiture" && nbvoiture > 0){
+            if(vehicule.isDisponible() && vehicule.getType().equals("Voiture") && nbvoiture > 0){
                 vehicule.setDisponible(false);
                 listvehicule.add(vehicule);
                 nbvoiture--;
             }
         }
         
-        if (listvehicule.isEmpty()){
-            ArrayList<Vehicule> list;
-            list = listcaserne.get(1).getListeVehicule();
-            Vehicule v = list.get(1);
-            list.add(v);
-        }
+        System.out.println(listvehicule.toString());
         
         Intervention inter = new Intervention(feu, listvehicule, etat);
         EnvoyerIntervention(inter);
@@ -778,10 +790,14 @@ public class Controller {
     
     public static ArrayList<Caserne> recevoirCaserne() {
         ObjectMapper mapper = new ObjectMapper();
-        List<Caserne> listcaserne = null;
+        List<Caserne> listcaserne;
+        listcaserne = new ArrayList<Caserne>();
         String data;
         try {
+            System.out.println("retour get caserne");
             data = apiGet(new URL("http://164.4.1.5:5000/api/emergency/caserne"));
+            System.out.println(data);
+            System.out.println("retour get caserne");
             listcaserne = mapper.readValue(data, new TypeReference<List<Caserne>>(){}); 
         } catch (MalformedURLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

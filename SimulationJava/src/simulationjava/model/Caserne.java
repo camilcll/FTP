@@ -17,6 +17,10 @@ public class Caserne {
     private int id;
     private Coord position;
     private ArrayList<Vehicule> listeVehicule;
+    
+    public Caserne(){
+        
+    }
 
     public Caserne(Coord position, ArrayList<Vehicule> listeVehicule) {
         this.id = count++;
