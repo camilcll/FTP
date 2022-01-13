@@ -78,43 +78,43 @@ insert into Capteur(id,intensite,position,range) values (60, 0, '{"x":95,"y":55}
 --Emergency
 
 CREATE TABLE Feu(
-	id int not null,
-	positionCalculee json not null,
-	zone int not null,
-	intensiteCalculee int not null,
+	"id" int not null,
+	"positionCalculee" json not null,
+	"zone" int not null,
+	"intensiteCalculee" int not null,
 	PRIMARY KEY (id)
 )
 
 CREATE TABLE Caserne(
-	id int not null,
-	position json not null,
-	listeVehicule json not null,
+	"id" int not null,
+	"position" json not null,
+	"listeVehicule" json not null,
 	PRIMARY KEY (id)
 )
 
 CREATE TABLE Capteur(
-	id int not null,
-	position json not null,
-	intensite int not null,
-	range int not null,
+	"id" int not null,
+	"position" json not null,
+	"intensite" int not null,
+	"range" int not null,
 	PRIMARY KEY (id)
 )
 
 CREATE TABLE Vehicule(
-	id int not null,
-	type varchar(25) not null,
-	idCaserne int not null,
-	disponible boolean not null,
+	"id" int not null,
+	"type" varchar(25) not null,
+	"idcaserne" int not null,
+	"disponible" boolean not null,
 	PRIMARY KEY (id),
 	CONSTRAINT FK_Caserne
-		FOREIGN KEY (idCaserne)
+		FOREIGN KEY ("idcaserne")
 		REFERENCES Caserne(id)
 );
 
 CREATE TABLE Intervention(
-	id int not null,
-	feuCalcule json not null,
-	listeVehicule json not null,
-	etat int not null,
+	"id" int not null,
+	"feu" json not null,
+	"listeVehicule" json not null,
+	"etat" int not null,
 	PRIMARY KEY (id)
 );
