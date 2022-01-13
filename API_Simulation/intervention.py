@@ -6,8 +6,7 @@ from config import db
 from models import Intervention, InterventionSchema
 import requests
 
-HOST = "http://164.4.1.4:5000"
-
+HOST = "http://164.4.1.5:5000"
 
 def create(intervention):
 
@@ -34,19 +33,8 @@ def create(intervention):
         # Serialize and return the newly created person in the response
         data = schema.dump(new_inter)
 
-        try:
-            headers = {"Content-Type": "application/json"}
-            r = requests.post(HOST+"/api/simulation/intervention",data=data, headers=headers)
-            
-            if not r:
-                raise Exception()
-            return data, 201
+        return data, 201
 
-        except:
-            abort(
-                409,
-                "Failed to create in Simulation",
-            )
     # Otherwise, nope, person exists already
     else:
         abort(
@@ -118,7 +106,21 @@ def update(interventions):
             # return updated person in the response
             data.append(schema.dump(update_inter))
 
-    return data, 200
+    try:
+        headers = {"Content-Type": "application/json"}
+        r = requests.put(HOST+"/api/emergency/intervention",data=data, headers=headers)
+        
+        if not r:
+            raise Exception()
+        return data, 200
+
+    except:
+        abort(
+            409,
+            "Failed to update in Emergency",
+        )
+
+    
 
 def delete():
     """
