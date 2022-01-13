@@ -17,8 +17,8 @@ public class Vehicule {
     private int idcaserne;
     private boolean disponible;
     
+    
     public Vehicule(){
-        
     }
 
     public Vehicule(String type, Coord position, int idcaserne, boolean disponible) {

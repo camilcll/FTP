@@ -297,6 +297,7 @@ public class Controller {
         int numcaserne = 0;
         
         try {
+            System.out.println("vkdsbvkjbsdj on est la ");
             listIntervention = mapper.readValue(data, new TypeReference<List<Intervention>>(){});
             
         } catch (JsonProcessingException ex) {
