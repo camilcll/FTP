@@ -28,7 +28,7 @@ paths:
               properties:
                 id:
                   type: "integer"
-                positioncalculee:
+                positionCalculee:
                   type: "object"
                   properties: 
                     x: 
@@ -37,7 +37,7 @@ paths:
                       type: "integer"
                 zone:
                   type: "integer"
-                intensitecalculee:
+                intensiteCalculee:
                   type: "integer"
     post:
       operationId: "feu.create"
@@ -56,7 +56,7 @@ paths:
               id:
                 type: "integer"
                 description: Identifiant du feu calcule
-              positioncalculee:
+              positionCalculee:
                 type: "object"
                 properties: 
                   x: 
@@ -66,7 +66,7 @@ paths:
                 description: Coord du feu calcule
               zone:
                 type: "integer"
-              intensitecalculee:
+              intensiteCalculee:
                 type: "integer"
                 description: "Intensite du feu calcule"
       responses:
@@ -78,7 +78,7 @@ paths:
               properties:
                 id:
                   type: "integer"
-                positioncalculee:
+                positionCalculee:
                   type: "object"
                   properties: 
                     x: 
@@ -87,7 +87,7 @@ paths:
                       type: "integer"
                 zone:
                   type: "integer"
-                intensitecalculee:
+                intensiteCalculee:
                   type: "integer"
     put:
       operationId: feu.update
@@ -106,7 +106,7 @@ paths:
               properties:
                 id:
                   type: "integer"
-                positioncalculee:
+                positionCalculee:
                   type: "object"
                   properties: 
                     x: 
@@ -115,7 +115,7 @@ paths:
                       type: "integer"
                 zone:
                   type: "integer"
-                intensitecalculee:
+                intensiteCalculee:
                   type: "integer"
       responses:
         200:
@@ -126,7 +126,7 @@ paths:
               properties:
                 id:
                   type: "integer"
-                positioncalculee:
+                positionCalculee:
                   type: "object"
                   properties: 
                     x: 
@@ -135,7 +135,7 @@ paths:
                       type: "integer"
                 zone:
                   type: "integer"
-                intensitecalculee:
+                intensiteCalculee:
                   type: "integer"
 
     delete:
@@ -307,7 +307,7 @@ paths:
                       type: "integer"
                     y:
                       type: "integer"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -343,7 +343,7 @@ paths:
                       type: "integer"
                     y:
                       type: "integer"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -371,7 +371,7 @@ paths:
                       type: "integer"
                     y:
                       type: "integer"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -407,7 +407,7 @@ paths:
                       type: "integer"
                     y:
                       type: "integer"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -435,7 +435,7 @@ paths:
                       type: "integer"
                     y:
                       type: "integer"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -564,13 +564,13 @@ paths:
               properties:
                 id:
                   type: "integer"
-                feucalcule:
+                feu:
                   type: "object" 
                   properties:
                     id:
                       type: "integer"
                       description: Identifiant du feu calcule
-                    positioncalculee:
+                    positionCalculee:
                       type: "object"
                       properties: 
                         x: 
@@ -580,10 +580,10 @@ paths:
                       description: Coord du feu calcule
                     zone:
                       type: "integer"
-                    intensitecalculee:
+                    intensiteCalculee:
                       type: "integer"
                       description: "Intensite du feu calcule"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -619,7 +619,7 @@ paths:
                   id:
                     type: "integer"
                     description: Identifiant du feu calcule
-                  positioncalculee:
+                  positionCalculee:
                     type: "object"
                     properties: 
                       x: 
@@ -629,10 +629,10 @@ paths:
                     description: Coord du feu calcule
                   zone:
                     type: "integer"
-                  intensitecalculee:
+                  intensiteCalculee:
                     type: "integer"
                     description: "Intensite du feu calcule"
-              listevehicule:
+              listeVehicule:
                 type: "array"
                 items: 
                   properties:
@@ -655,13 +655,13 @@ paths:
               properties:
                 id:
                   type: "integer"
-                feucalcule:
+                feu:
                   type: "object" 
                   properties:
                     id:
                       type: "integer"
                       description: Identifiant du feu calcule
-                    positioncalculee:
+                    positionCalculee:
                       type: "object"
                       properties: 
                         x: 
@@ -671,10 +671,10 @@ paths:
                       description: Coord du feu calcule
                     zone:
                       type: "integer"
-                    intensitecalculee:
+                    intensiteCalculee:
                       type: "integer"
                       description: "Intensite du feu calcule"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -705,13 +705,13 @@ paths:
               properties:
                 id:
                   type: "integer"
-                feucalcule:
+                feu:
                   type: "object" 
                   properties:
                     id:
                       type: "integer"
                       description: Identifiant du feu calcule
-                    positioncalculee:
+                    positionCalculee:
                       type: "object"
                       properties: 
                         x: 
@@ -721,10 +721,10 @@ paths:
                       description: Coord du feu calcule
                     zone:
                       type: "integer"
-                    intensitecalculee:
+                    intensiteCalculee:
                       type: "integer"
                       description: "Intensite du feu calcule"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:
@@ -747,13 +747,13 @@ paths:
               properties:
                 id:
                   type: "integer"
-                feucalcule:
+                feu:
                   type: "object" 
                   properties:
                     id:
                       type: "integer"
                       description: Identifiant du feu calcule
-                    positioncalculee:
+                    positionCalculee:
                       type: "object"
                       properties: 
                         x: 
@@ -763,10 +763,10 @@ paths:
                       description: Coord du feu calcule
                     zone:
                       type: "integer"
-                    intensitecalculee:
+                    intensiteCalculee:
                       type: "integer"
                       description: "Intensite du feu calcule"
-                listevehicule:
+                listeVehicule:
                   type: "array"
                   items: 
                     properties:

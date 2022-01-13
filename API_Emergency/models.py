@@ -5,9 +5,9 @@ from marshmallow import Schema
 class Feu(db.Model):
     __tablename__ = 'feu'
     id = db.Column(db.Integer, primary_key=True)
-    positioncalculee = db.Column(JSON)
+    positionCalculee = db.Column(JSON)
     zone = db.Column(db.Integer)
-    intensitecalculee = db.Column(db.Integer)
+    intensiteCalculee = db.Column(db.Integer)
 
 class FeuSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -33,7 +33,7 @@ class Caserne(db.Model):
     __tablename__ = 'caserne'
     id = db.Column(db.Integer, primary_key=True)
     position = db.Column(JSON)
-    listevehicule = db.Column(JSON)
+    listeVehicule = db.Column(JSON)
 
 class CaserneSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -57,8 +57,8 @@ class VehiculeSchema(ma.SQLAlchemyAutoSchema):
 class Intervention(db.Model):
     __tablename__ = 'intervention'
     id = db.Column(db.Integer, primary_key=True)
-    feucalcule = db.Column(JSON)
-    listevehicule = db.Column(JSON)
+    feu = db.Column(JSON)
+    listeVehicule = db.Column(JSON)
     etat = db.Column(db.Integer)
 
 class InterventionSchema(ma.SQLAlchemyAutoSchema):
