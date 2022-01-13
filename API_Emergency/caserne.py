@@ -5,6 +5,10 @@ from flask import (
 from config import db
 from models import Caserne, CaserneSchema
 
+import requests
+import json
+
+HOST = "http://164.4.1.4:5000"
 
 def create(caserne):
 
@@ -103,5 +107,17 @@ def update(casernes):
 
             # return updated person in the response
             data.append(schema.dump(update_caserne))
+    dataJson = json.dumps(data)
+    try:
+        headers = {"Content-Type": "application/json"}
+        r = requests.put(HOST+"/api/simulation/caserne",data=dataJson, headers=headers)
+        
+        if not r:
+            raise Exception()
+        return data, 200
 
-    return data, 200
+    except:
+        abort(
+            409,
+            "Failed to update in Simulation",
+        )
