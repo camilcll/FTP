@@ -110,7 +110,8 @@ public class Controller {
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
-        ArrayList<Capteur> listcapteuractive = null;
+        ArrayList<Capteur> listcapteuractive;
+        listcapteuractive = new ArrayList<Capteur>();
         
         System.out.println("capteur detecte feu start");
         Coord positionFeu = feu.getPosition();
