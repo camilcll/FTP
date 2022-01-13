@@ -240,7 +240,8 @@ public class Controller {
                 System.out.println("le feu est dans la zone entre le capteur" + capteurActif.getId() + "et le capteur" + capteurvoisin1.getId() + "et le capteur" + capteurvoisin2.getId() + "et le capteur" + capteurvoisin3.getId());
 
                 
-                ArrayList<Capteur> capteurangle = null;
+                ArrayList<Capteur> capteurangle;
+                capteurangle = new ArrayList<Capteur>();
                 Capteur capteuroppose = null;
                 
                 
