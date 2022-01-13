@@ -84,11 +84,10 @@ public class Controller {
                 }
                     
                     if(data.equals("[]")){
-                        /*int rand = new Random().nextInt(10);
+                        int rand = new Random().nextInt(10);
                         if(rand == 5){
                             GenereFeu(tabCapteur);
-                        }*/
-                        GenereFeu(tabCapteur);
+                        }
                     }else{
                         try {
                             listFeu = mapper.readValue(data, new TypeReference<List<Feu>>(){});
@@ -110,7 +109,8 @@ public class Controller {
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
-        ArrayList<Capteur> listcapteuractive = null;
+        ArrayList<Capteur> listcapteuractive;
+        listcapteuractive = new ArrayList<Capteur>();
         
         System.out.println("capteur detecte feu start");
         Coord positionFeu = feu.getPosition();
@@ -306,60 +306,64 @@ public class Controller {
         listfeu = recevoirFeureel();
         
         for(Intervention intervention : listIntervention){
-            feucal = intervention.getFeu();
-            listfeucal.add(feucal);
-            listvehicule = intervention.getListeVehicule();
-            for (Vehicule vehicule : listvehicule){
-                vehicule.setPosition(feucal.getPositionCalculee());
-                numcaserne = vehicule.getIdcaserne();
-            }
             
-            MoveVehicule((ArrayList<Vehicule>) listvehicule);
-            
-            listfeu = recevoirFeureel();
-            
-            for(Feu feu : listfeu){
-                if (feu.getIntensite() > 0){
-                    if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
-                    System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
-                    for (Vehicule vehicule : listvehicule){
-                        vehicule.setPosition(feuidentifie.getPosition());
+            if(intervention.getEtat() == 0){
+                
+                feucal = intervention.getFeu();
+                listfeucal.add(feucal);
+                listvehicule = intervention.getListeVehicule();
+                for (Vehicule vehicule : listvehicule){
+                    vehicule.setPosition(feucal.getPositionCalculee());
+                    numcaserne = vehicule.getIdcaserne();
+                }
+
+                MoveVehicule((ArrayList<Vehicule>) listvehicule);
+
+                listfeu = recevoirFeureel();
+
+                for(Feu feu : listfeu){
+                    if (feu.getIntensite() > 0){
+                        if(checkCercle(feu.getPosition().getX(), feu.getPosition().getY(), feu.getIntensite()/2, feucal.getPositionCalculee().getX(), feucal.getPositionCalculee().getY(), feucal.getZone())<=0){
+                        System.out.println("le feu calcule" + feucal.toString() + " correspondau feu réel" + feu.toString());
+                        for (Vehicule vehicule : listvehicule){
+                            vehicule.setPosition(feuidentifie.getPosition());
+                        }
+
+                        MoveVehicule((ArrayList<Vehicule>) listvehicule);
+
+                        ArrayList<Capteur> listcapteur = CapteurDetecteFeu(feu, tabCapteur);
+
+                        for(Capteur capteur : listcapteur){
+                            tabCapteur[capteur.getId()-1].setIntensite(0);
+                        }
+
+                        feu.setIntensite(0);
+
+                        intervention.setEtat(2);
+
+                        ArrayList<Caserne> listcaserne = recevoirCaserne();
+
+                        for(Caserne caserne : listcaserne){
+                            if(caserne.getId() == numcaserne){
+                                for (Vehicule vehicule : listvehicule){
+                                    vehicule.setPosition(caserne.getPosition());
+                                    vehicule.setDisponible(true);
+                                }
+                                MoveVehicule((ArrayList<Vehicule>) listvehicule);
+                            }
+                        }
+
+                        updateFeu(listfeu);
+
+                        updateIntervention((ArrayList<Intervention>) listIntervention);
+
+                    }
                     }
 
-                    MoveVehicule((ArrayList<Vehicule>) listvehicule);
-                    
-                    ArrayList<Capteur> listcapteur = CapteurDetecteFeu(feu, tabCapteur);
-                    
-                    for(Capteur capteur : listcapteur){
-                        tabCapteur[capteur.getId()-1].setIntensite(0);
-                    }
-                    
-                    feu.setIntensite(0);
-                    
-                    intervention.setEtat(2);
-                    
-                    ArrayList<Caserne> listcaserne = recevoirCaserne();
-                    
-                    for(Caserne caserne : listcaserne){
-                        if(caserne.getId() == numcaserne){
-                            for (Vehicule vehicule : listvehicule){
-                                vehicule.setPosition(caserne.getPosition());
-                                vehicule.setDisponible(true);
-                            }
-                            MoveVehicule((ArrayList<Vehicule>) listvehicule);
-                        }
-                    }
-                    
-                    updateFeu(listfeu);
-                    
-                    updateIntervention((ArrayList<Intervention>) listIntervention);
-                    
+
                 }
+
                 }
-                
-                    
-            }
-            
             
                 
         }
@@ -380,7 +384,7 @@ public class Controller {
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/vehicule");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setRequestMethod("POST");
+                    conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setRequestProperty("Content-Type", "application/json");
@@ -418,7 +422,7 @@ public class Controller {
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setRequestMethod("POST");
+                    conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setRequestProperty("Content-Type", "application/json");
@@ -456,7 +460,7 @@ public class Controller {
                     
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/intervention");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setRequestMethod("POST");
+                    conn.setRequestMethod("PUT");
                     conn.setDoOutput(true);
                     conn.setRequestProperty("Accept", "application/json");
                     conn.setRequestProperty("Content-Type", "application/json");
