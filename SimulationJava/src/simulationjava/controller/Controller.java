@@ -51,14 +51,14 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(15, 15);
+        Coord position = new Coord(30, 30);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
             intensite++;
         }
         
-        Feu feu = new Feu(position, 4, true);
+        Feu feu = new Feu(position, 5, true);
         
         System.out.println(feu.toString());
         System.out.println("Un feu est apparu");
@@ -105,7 +105,7 @@ public class Controller {
                     }
             }
             
-        }, 0, 200000);
+        }, 0, 220000);
     }
     
     public static ArrayList<Capteur> CapteurDetecteFeu(Feu feu, Capteur[] tabCapteur){
@@ -254,7 +254,7 @@ public class Controller {
                 System.out.println("envoi capteur end -------------");
             }
             
-        }, 20000, 200000);
+        }, 20000, 220000);
     }
     
     public static void recevoirIntervention(Capteur[] tabCapteur){
@@ -276,7 +276,7 @@ public class Controller {
 
             }
             
-        }, 80000, 200000);
+        }, 80000, 220000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
