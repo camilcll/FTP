@@ -85,7 +85,7 @@ public class Controller {
                 System.out.println("recevoir capteurs end -----------");
             }
             
-        }, 40000, 250000);
+        }, 10000, 40000);
     }
     
     public static void checkCapteur(String data){
