@@ -76,12 +76,12 @@ public class Capteur {
         for(Capteur capteur : Listecapteurs){
             if ((capteur.getPosition().getX() <= capteurRecherche.getPosition().getX() + 10) && (capteur.getPosition().getX() >= capteurRecherche.getPosition().getX() - 10)
                     && (capteur.getPosition().getY() <= capteurRecherche.getPosition().getY() + 10) && (capteur.getPosition().getY() >= capteurRecherche.getPosition().getY() - 10)){
-                System.out.println("voisin detecte");
+                //System.out.println("voisin detecte");
                 Voisins.add(capteur);
             }
         }
         Voisins.remove(capteurRecherche);
-        System.out.println(Voisins.toString());
+        //System.out.println(Voisins.toString());
         return Voisins;
     }
     
