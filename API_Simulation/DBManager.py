@@ -85,10 +85,11 @@ def main():
             lstVehicule = json.loads(json.dumps(i["listeVehicule"]))
             print(lstVehicule)    
             if (lstVehicule[0]):
-                coordX = 4.8+(float(lstVehicule[0]["position"]["x"])*0.0012)
-                coordY = 45.720+(float(lstVehicule[0]["position"]["y"])*0.0011)
+                if not (bool(lstVehicule[0]["disponible"])):
+                    coordX = 4.8+(float(lstVehicule[0]["position"]["x"])*0.0012)
+                    coordY = 45.720+(float(lstVehicule[0]["position"]["y"])*0.0011)
 
-                listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCamion}}).addTo(map);".format(latitude=coordY,longitude=coordX)
+                    listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCamion}}).addTo(map);".format(latitude=coordY,longitude=coordX)
 
     for v in vehicules:
 
