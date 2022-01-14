@@ -51,7 +51,7 @@ public class Controller {
     public static void GenereFeu(Capteur[] tabCapteur){
         int x = new Random().nextInt(101);
         int y = new Random().nextInt(61);
-        Coord position = new Coord(30, 30);
+        Coord position = new Coord(15, 15);
         
         int intensite = new Random().nextInt(9);
         if (intensite == 0){
