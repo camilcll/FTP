@@ -71,7 +71,8 @@ public class Controller {
                         data += output;
                     }
                     
-                    System.out.println(data);
+                    //System.out.println(data);
+                    System.out.println("Capteurs reçus");
                     
                     checkCapteur(data);
                     
@@ -559,7 +560,7 @@ public class Controller {
                     System.out.println("save feu start --------------");
                     ObjectMapper mapper = new ObjectMapper();
                     String data = mapper.writeValueAsString(str).toString();
-                    System.out.println(data);
+                    //System.out.println(data);
                     
                     URL url = new URL("http://164.4.1.5:5000/api/emergency/feu");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();

@@ -227,7 +227,8 @@ public class Controller {
                         }
                     }
                     data = Arrays.toString(listeCapteurJson);
-                    System.out.println(data);
+                    //System.out.println(data);
+                    System.out.println("Capteurs envoyés");
                     URL url = new URL("http://164.4.1.4:5000/api/simulation/capteur");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("PUT");
