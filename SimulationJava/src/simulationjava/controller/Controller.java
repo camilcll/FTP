@@ -276,7 +276,7 @@ public class Controller {
 
             }
             
-        }, 80000, 220000);
+        }, 60000, 220000);
     }
     
     public static void TraiterIntervention(String data, Capteur[] tabCapteur){
