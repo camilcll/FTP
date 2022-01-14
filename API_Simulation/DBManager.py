@@ -5,6 +5,7 @@ import feu
 import capteur
 
 import intervention
+import vehicule
 
 
 # Create the application instance
@@ -53,6 +54,7 @@ def main():
     feux = feu.read_all()
     capteurs = capteur.read_all()
     inter = intervention.read_all()
+    vehicules = vehicule.read_all()
     listMarker = ""
 
     for f in feux:
@@ -83,10 +85,22 @@ def main():
             lstVehicule = json.loads(json.dumps(i["listeVehicule"]))
             print(lstVehicule)    
             if (lstVehicule[0]):
-                coordX = 4.8+(float(lstVehicule[0]["position"]["x"])*0.0012)
-                coordY = 45.720+(float(lstVehicule[0]["position"]["y"])*0.0011)
+                if not (bool(lstVehicule[0]["disponible"])):
+                    coordX = 4.8+(float(lstVehicule[0]["position"]["x"])*0.0012)
+                    coordY = 45.720+(float(lstVehicule[0]["position"]["y"])*0.0011)
 
-                listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCamion}}).addTo(map);".format(latitude=coordY,longitude=coordX)
+                    listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCamion}}).addTo(map);".format(latitude=coordY,longitude=coordX)
+
+    for v in vehicules:
+
+        dispo = bool(v["disponible"])
+
+        if dispo == False:
+            position = json.loads(str(v["position"]).replace("'",'"'))
+            coordX = 4.8+(float(position["x"])*0.0012)
+            coordY = 45.720+(float(position["y"])*0.0011)
+
+            listMarker += "L.marker([{latitude}, {longitude}],{{icon: iconCamion}}).addTo(map);".format(latitude=coordY,longitude=coordX)
 
 
         #print("coord:{0},{1}".format(coordX,coordY))
